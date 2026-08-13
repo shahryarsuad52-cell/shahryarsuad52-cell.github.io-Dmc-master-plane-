@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMC Master Plan - Medical Admission Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Hind Siliguri', sans-serif;
+            user-select: none;
+        }
+
+        /* Glassmorphism */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Pulsing Glow Animation */
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(220, 38, 38, 0.5); }
+            50% { transform: scale(1.1); box-shadow: 0 0 45px rgba(220, 38, 38, 0.8); }
+        }
+
+        .animate-pulse-glow {
+            animation: pulseGlow 1.8s infinite ease-in-out;
+        }
+
+        /* Shake Animation for Wrong Answer */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+
+        .shake-effect {
+            animation: shake 0.4s ease-in-out;
+        }
+
+        /* Toast Popup Fade Animation */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -20px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0) scale(1);
+            }
+        }
+
+        .toast-animate {
+            animation: fadeInDown 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between overflow-x-hidden relative">
+
+    <!-- FLOATING FEEDBACK TOAST (POPUP DIALOGUE) -->
+    <div id="feedback-toast" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 hidden px-6 py-3 rounded-2xl text-center font-bold text-sm md:text-base shadow-2xl backdrop-blur-md border transition-all duration-300 pointer-events-none">
+        <span id="toast-text"></span>
+    </div>
+
+    <!-- 1. INTRO ANIMATION SCREEN -->
+    <div id="intro-screen" class="fixed inset-0 bg-slate-950 z-[100] flex flex-col items-center justify-center transition-opacity duration-700">
+        <div class="relative flex items-center justify-center mb-6">
+            <div class="w-28 h-28 bg-gradient-to-tr from-red-600 to-rose-500 rounded-full flex items-center justify-center text-white text-5xl shadow-2xl animate-pulse-glow">
+                <i class="fa-solid fa-stethoscope"></i>
+            </div>
+        </div>
+        <h1 class="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-rose-400 to-amber-300 tracking-wider mb-2">
+            DMC MASTER PLAN
+        </h1>
+        <p class="text-slate-400 text-sm md:text-base font-medium tracking-wide">ঢাকা মেডিকেল কলেজ ক্র্যাক করার মিশন</p>
+        <div class="mt-8 flex gap-2">
+            <div class="w-3 h-3 bg-red-500 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+            <div class="w-3 h-3 bg-red-500 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+            <div class="w-3 h-3 bg-red-500 rounded-full animate-bounce" style="animation-delay: 0.3s"></div>
+        </div>
+    </div>
+
+    <!-- 2. HEADER -->
+    <header class="bg-slate-900/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="showSubjects()">
+                <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center text-white text-xl shadow-lg shadow-red-900/40">
+                    <i class="fa-solid fa-stethoscope"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-red-500 leading-none">DMC MASTER PLAN</h1>
+                    <span class="text-[10px] text-slate-400">Medical Preparation Hub</span>
+                </div>
+            </div>
+            
+            <button onclick="openAddModal()" class="bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white px-4 py-2 rounded-xl text-xs md:text-sm font-semibold transition shadow-lg shadow-red-950/50 flex items-center gap-2">
+                <i class="fa-solid fa-plus-circle text-base"></i> <span class="hidden sm:inline">নতুন প্রশ্ন</span> যোগ করুন
+            </button>
+        </div>
+    </header>
+
+    <!-- 3. MAIN DASHBOARD -->
+    <main class="max-w-5xl mx-auto px-4 py-6 flex-grow w-full">
+        
+        <!-- SUBJECT SURFACE VIEW (CIRCULAR BADGES GRID) -->
+        <div id="subject-view" class="transition-all duration-500">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-100 mb-2">বিষয় নির্বাচন করুন</h2>
+                <p class="text-xs md:text-sm text-slate-400">মেডিকেল ভর্তি পরীক্ষার প্রস্তুতি মজবুত করতে নিচে যেকোনো বিষয়ে ট্যাপ করুন</p>
+            </div>
+
+            <!-- Circular Grid System -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 justify-items-center">
+                
+                <!-- Biology -->
+                <div onclick="selectSubject('Biology')" class="group flex flex-col items-center cursor-pointer w-full">
+                    <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-slate-900 border-2 border-emerald-500/40 group-hover:border-emerald-400 group-hover:scale-105 transition-all duration-300 flex items-center justify-center shadow-xl shadow-emerald-950/30 group-hover:shadow-emerald-500/20 relative">
+                        <span class="text-4xl md:text-5xl group-hover:rotate-12 transition-transform duration-300">🧬</span>
+                        <span id="badge-Biology" class="absolute -top-1 -right-1 bg-emerald-500 text-slate-950 text-[10px] font-bold px-2 py-0.5 rounded-full border border-slate-900">0</span>
+                    </div>
+                    <h3 class="mt-3 font-bold text-sm md:text-base text-slate-200 group-hover:text-emerald-400 transition-colors">জীববিজ্ঞান</h3>
+                    <p class="text-[11px] text-slate-500" id="count-Biology">০ টি প্রশ্ন</p>
+                </div>
+
+                <!-- Chemistry -->
+                <div onclick="selectSubject('Chemistry')" class="group flex flex-col items-center cursor-pointer w-full">
+                    <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-slate-900 border-2 border-cyan-500/40 group-hover:border-cyan-400 group-hover:scale-105 transition-all duration-300 flex items-center justify-center shadow-xl shadow-cyan-950/30 group-hover:shadow-cyan-500/20 relative">
+                        <span class="text-4xl md:text-5xl group-hover:rotate-12 transition-transform duration-300">🧪</span>
+                        <span id="badge-Chemistry" class="absolute -top-1 -right-1 bg-cyan-500 text-slate-950 text-[10px] font-bold px-2 py-0.5 rounded-full border border-slate-900">0</span>
+                    </div>
+                    <h3 class="mt-3 font-bold text-sm md:text-base text-slate-200 group-hover:text-cyan-400 transition-colors">রসায়ন</h3>
+                    <p class="text-[11px] text-slate-500" id="count-Chemistry">০ টি প্রশ্ন</p>
+                </div>
+
+                <!-- Physics -->
+                <div onclick="selectSubject('Physics')" class="group flex flex-col items-center cursor-pointer w-full">
+                    <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-slate-900 border-2 border-blue-500/40 group-hover:border-blue-400 group-hover:scale-105 transition-all duration-300 flex items-center justify-center shadow-xl shadow-blue-950/30 group-hover:shadow-blue-500/20 relative">
+                        <span class="text-4xl md:text-5xl group-hover:rotate-12 transition-transform duration-300">⚛️</span>
+                        <span id="badge-Physics" class="absolute -top-1 -right-1 bg-blue-500 text-slate-950 text-[10px] font-bold px-2 py-0.5 rounded-full border border-slate-900">0</span>
+                    </div>
+                    <h3 class="mt-3 font-bold text-sm md:text-base text-slate-200 group-hover:text-blue-400 transition-colors">পদার্থবিজ্ঞান</h3>
+                    <p class="text-[11px] text-slate-500" id="count-Physics">০ টি প্রশ্ন</p>
+                </div>
+
+                <!-- English -->
+                <div onclick="selectSubject('English')" class="group flex flex-col items-center cursor-pointer w-full">
+                    <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-slate-900 border-2 border-amber-500/40 group-hover:border-amber-400 group-hover:scale-105 transition-all duration-300 flex items-center justify-center shadow-xl shadow-amber-950/30 group-hover:shadow-amber-500/20 relative">
+                        <span class="text-4xl md:text-5xl group-hover:rotate-12 transition-transform duration-300">📚</span>
+                        <span id="badge-English" class="absolute -top-1 -right-1 bg-amber-500 text-slate-950 text-[10px] font-bold px-2 py-0.5 rounded-full border border-slate-900">0</span>
+                    </div>
+                    <h3 class="mt-3 font-bold text-sm md:text-base text-slate-200 group-hover:text-amber-400 transition-colors">ইংরেজি</h3>
+                    <p class="text-[11px] text-slate-500" id="count-English">০ টি প্রশ্ন</p>
+                </div>
+
+                <!-- General Knowledge -->
+                <div onclick="selectSubject('GK')" class="group flex flex-col items-center cursor-pointer w-full col-span-2 md:col-span-1">
+                    <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-slate-900 border-2 border-purple-500/40 group-hover:border-purple-400 group-hover:scale-105 transition-all duration-300 flex items-center justify-center shadow-xl shadow-purple-950/30 group-hover:shadow-purple-500/20 relative">
+                        <span class="text-4xl md:text-5xl group-hover:rotate-12 transition-transform duration-300">🧠</span>
+                        <span id="badge-GK" class="absolute -top-1 -right-1 bg-purple-500 text-slate-950 text-[10px] font-bold px-2 py-0.5 rounded-full border border-slate-900">0</span>
+                    </div>
+                    <h3 class="mt-3 font-bold text-sm md:text-base text-slate-200 group-hover:text-purple-400 transition-colors">সাধারণ জ্ঞান</h3>
+                    <p class="text-[11px] text-slate-500" id="count-GK">০ টি প্রশ্ন</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- QUIZ PRACTICE VIEW -->
+        <div id="quiz-view" class="hidden">
+            <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-800">
+                <button onclick="showSubjects()" class="text-xs md:text-sm bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg flex items-center gap-2 transition">
+                    <i class="fa-solid fa-arrow-left"></i> বিষয়ে ফিরুন
+                </button>
+                <div class="flex items-center gap-2">
+                    <span id="active-subject-badge" class="text-xs font-bold px-3 py-1 rounded-full border bg-red-950/60 border-red-800 text-red-400">
+                        Biology
+                    </span>
+                </div>
+            </div>
+
+            <div id="questions-container" class="space-y-6">
+                <!-- Questions dynamically rendered -->
+            </div>
+        </div>
+    </main>
+
+    <!-- 4. MODAL: ADD MCQ -->
+    <div id="add-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl p-6 w-full max-w-lg shadow-2xl relative">
+            <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
+                <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">
+                    <i class="fa-solid fa-pen-to-square text-red-500"></i> নতুন প্রশ্ন যোগ করুন
+                </h3>
+                <button onclick="closeAddModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            
+            <form id="add-mcq-form" onsubmit="saveQuestion(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-400 mb-1">বিষয়</label>
+                    <select id="input-subject" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-red-500">
+                        <option value="Biology">জীববিজ্ঞান (Biology)</option>
+                        <option value="Chemistry">রসায়ন (Chemistry)</option>
+                        <option value="Physics">পদার্থবিজ্ঞান (Physics)</option>
+                        <option value="English">ইংরেজি (English)</option>
+                        <option value="GK">সাধারণ জ্ঞান (GK)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-400 mb-1">প্রশ্ন</label>
+                    <textarea id="input-question" required class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-red-500" rows="2" placeholder="প্রশ্নটি লিখুন..."></textarea>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="text-[10px] text-slate-400">অপশন ১</label>
+                        <input type="text" id="opt-0" required class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-white">
+                    </div>
+                    <div>
+                        <label class="text-[10px] text-slate-400">অপশন ২</label>
+                        <input type="text" id="opt-1" required class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-white">
+                    </div>
+                    <div>
+                        <label class="text-[10px] text-slate-400">অপশন ৩</label>
+                        <input type="text" id="opt-2" required class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-white">
+                    </div>
+                    <div>
+                        <label class="text-[10px] text-slate-400">অপশন ৪</label>
+                        <input type="text" id="opt-3" required class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-white">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-400 mb-1">সঠিক উত্তর</label>
+                    <select id="input-correct" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-sm text-white">
+                        <option value="0">অপশন ১</option>
+                        <option value="1">অপশন ২</option>
+                        <option value="2">অপশন ৩</option>
+                        <option value="3">অপশন ৪</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-400 mb-1">সংক্ষিপ্ত ব্যাখ্যা (অপショナル)</label>
+                    <input type="text" id="input-explanation" placeholder="উত্তর ব্যাখ্যা করুন..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white">
+                </div>
+
+                <div class="flex justify-end gap-2 pt-3">
+                    <button type="button" onclick="closeAddModal()" class="px-4 py-2 bg-slate-800 rounded-xl text-xs hover:bg-slate-700">বাতিল</button>
+                    <button type="submit" class="px-5 py-2 bg-red-600 hover:bg-red-500 rounded-xl text-xs font-bold shadow-lg shadow-red-950/50">সেভ করুন</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900/50 border-t border-slate-800/80 py-4 text-center text-xs text-slate-500 mt-auto">
+        <p>DMC Master Plan &copy; 2026 - Target Medical Admission</p>
+    </footer>
+
+    <!-- 5. JAVASCRIPT ENGINE -->
+    <script>
+        // WEB AUDIO SYNTHESIZER FOR SOUND EFFECTS
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'correct') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); 
+                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15); 
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            } else {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(180, audioCtx.currentTime);
+                osc.frequency.setValueAtTime(110, audioCtx.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            }
+        }
+
+        // HAPTIC VIBRATION
+        function triggerVibration(type) {
+            if ("vibrate" in navigator) {
+                if (type === 'correct') {
+                    navigator.vibrate(80); 
+                } else {
+                    navigator.vibrate([100, 50, 100]); 
+                }
+            }
+        }
+
+        // SHOW FADE-IN DIALOGUE / TOAST
+        let toastTimeout;
+        function showFeedbackToast(isCorrect) {
+            const toast = document.getElementById('feedback-toast');
+            const toastText = document.getElementById('toast-text');
+
+            clearTimeout(toastTimeout);
+
+            if (isCorrect) {
+                toastText.innerText = "তেরি প্রিপারেশন বহত আচ্ছা হ্যায় তেরি কাসাম 🔥";
+                toast.className = "fixed top-20 left-1/2 -translate-x-1/2 z-50 block px-6 py-3 rounded-2xl text-center font-bold text-sm md:text-base shadow-2xl backdrop-blur-md bg-emerald-950/90 border-emerald-500 text-emerald-300 toast-animate";
+            } else {
+                toastText.innerText = "তু তো গায়া বেটা কাম সে 💀";
+                toast.className = "fixed top-20 left-1/2 -translate-x-1/2 z-50 block px-6 py-3 rounded-2xl text-center font-bold text-sm md:text-base shadow-2xl backdrop-blur-md bg-red-950/90 border-red-500 text-red-300 toast-animate";
+            }
+
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 2500);
+        }
+
+        // SAMPLE INITIAL QUESTIONS
+        const defaultQuestions = [
+            {
+                id: 101,
+                subject: 'Biology',
+                question: 'হৃৎপিণ্ডের কোন কপাটিকা ৩ পাল্লা বিশিষ্ট (Tricuspid)?',
+                options: ['বাইকাসপিড কপাটিকা', 'ট্রাইকাসপিড কপাটিকা', 'অ্যাওর্টিক কপাটিকা', 'পালমোনারি কপাটিকা'],
+                correct: 1,
+                explanation: 'ডান অলিন্দ ও ডান নিলয়ের সংযোগস্থলে ট্রাইকাসপিড কপাটিকা বিদ্যমান।'
+            },
+            {
+                id: 102,
+                subject: 'Chemistry',
+                question: 'কোনটি প্রাইমারি স্ট্যান্ডার্ড পদার্থ?',
+                options: ['NaOH', 'KMnO4', 'K2Cr2O7', 'HCl'],
+                correct: 2,
+                explanation: 'K2Cr2O7 (পটাশিয়াম ডাইক্রোমেট) একটি প্রাইমারি স্ট্যান্ডার্ড পদার্থ।'
+            },
+            {
+                id: 103,
+                subject: 'Physics',
+                question: 'মহাকর্ষীয় ধ্রুবক (G) এর মাত্রা কোনটি?',
+                options: ['[L3 M-1 T-2]', '[L2 M-1 T-2]', '[L3 M-2 T-2]', '[L1 M-1 T-2]'],
+                correct: 0,
+                explanation: 'G = Fr^2 / (m1*m2), যার মাত্রা L3 M-1 T-2।'
+            }
+        ];
+
+        let questions = JSON.parse(localStorage.getItem('dmc_questions_v2')) || defaultQuestions;
+        let activeSubject = '';
+
+        // INITIAL INTRO ANIMATION DISMISSAL
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const intro = document.getElementById('intro-screen');
+                intro.classList.add('opacity-0');
+                setTimeout(() => intro.style.display = 'none', 700);
+            }, 1800);
+
+            updateSubjectCounts();
+        });
+
+        // COUNT UPDATER
+        function updateSubjectCounts() {
+            const subs = ['Biology', 'Chemistry', 'Physics', 'English', 'GK'];
+            subs.forEach(sub => {
+                const count = questions.filter(q => q.subject === sub).length;
+                const countEl = document.getElementById(`count-${sub}`);
+                const badgeEl = document.getElementById(`badge-${sub}`);
+                
+                if(countEl) countEl.innerText = `${count} টি প্রশ্ন`;
+                if(badgeEl) badgeEl.innerText = count;
+            });
+        }
+
+        // NAVIGATION
+        function showSubjects() {
+            document.getElementById('subject-view').classList.remove('hidden');
+            document.getElementById('quiz-view').classList.add('hidden');
+            updateSubjectCounts();
+        }
+
+        function selectSubject(sub) {
+            activeSubject = sub;
+            document.getElementById('subject-view').classList.add('hidden');
+            document.getElementById('quiz-view').classList.remove('hidden');
+            document.getElementById('active-subject-badge').innerText = sub;
+            renderQuiz();
+        }
+
+        // RENDER MCQ LIST
+        function renderQuiz() {
+            const container = document.getElementById('questions-container');
+            const list = questions.filter(q => q.subject === activeSubject);
+
+            if (list.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-16 text-slate-500 glass-card rounded-2xl">
+                        <i class="fa-solid fa-box-open text-5xl mb-3 text-slate-600"></i>
+                        <p class="text-sm">এই বিষয়ে এখনো কোনো প্রশ্ন যোগ করা হয়নি!</p>
+                        <p class="text-xs text-slate-600 mt-1">উপরে 'নতুন প্রশ্ন যোগ করুন' বাটনে চাপ দিয়ে প্রশ্ন ইনপুট দিন।</p>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = list.map((q, idx) => `
+                <div id="q-card-${q.id}" class="glass-card rounded-2xl p-5 md:p-6 transition-all duration-300">
+                    <h4 class="text-base md:text-lg font-bold mb-4 text-slate-100 flex items-start gap-2">
+                        <span class="text-red-500 font-extrabold">${idx + 1}.</span>
+                        <span>${q.question}</span>
+                    </h4>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        ${q.options.map((opt, oIdx) => `
+                            <button onclick="handleAnswer(${q.id}, ${oIdx})" id="opt-${q.id}-${oIdx}" class="w-full text-left p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-slate-600 transition duration-200 text-xs md:text-sm font-medium flex justify-between items-center text-slate-300">
+                                <span>${opt}</span>
+                                <span class="status-icon"></span>
+                            </button>
+                        `).join('')}
+                    </div>
+
+                    <div id="exp-${q.id}" class="hidden mt-4 p-3.5 bg-slate-950/80 rounded-xl border-l-4 border-emerald-500 text-xs md:text-sm text-slate-300">
+                        <span class="font-bold text-emerald-400">ব্যাখ্যা:</span> ${q.explanation || 'কোনো ব্যাখ্যা দেওয়া নেই।'}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // HANDLE MCQ ANSWER CLICK
+        function handleAnswer(qId, selectedIdx) {
+            const q = questions.find(item => item.id === qId);
+            if (!q) return;
+
+            const isCorrect = selectedIdx === q.correct;
+            const card = document.getElementById(`q-card-${qId}`);
+
+            // Sound, Vibration & Toast Dialogue
+            if (isCorrect) {
+                playSound('correct');
+                triggerVibration('correct');
+                showFeedbackToast(true);
+                confetti({ particleCount: 40, spread: 60, origin: { y: 0.8 } });
+            } else {
+                playSound('wrong');
+                triggerVibration('wrong');
+                showFeedbackToast(false);
+                card.classList.add('shake-effect');
+                setTimeout(() => card.classList.remove('shake-effect'), 500);
+            }
+
+            // UI Color Change (Green for Correct, Red for Wrong)
+            for (let i = 0; i < 4; i++) {
+                const btn = document.getElementById(`opt-${qId}-${i}`);
+                btn.disabled = true;
+
+                if (i === q.correct) {
+                    btn.className = "w-full text-left p-3.5 rounded-xl bg-emerald-950/80 border-2 border-emerald-500 text-emerald-200 font-semibold text-xs md:text-sm flex justify-between items-center shadow-lg shadow-emerald-950/50";
+                    btn.querySelector('.status-icon').innerHTML = '<i class="fa-solid fa-circle-check text-emerald-400 text-base"></i>';
+                } else if (i === selectedIdx && !isCorrect) {
+                    btn.className = "w-full text-left p-3.5 rounded-xl bg-red-950/80 border-2 border-red-500 text-red-200 font-semibold text-xs md:text-sm flex justify-between items-center shadow-lg shadow-red-950/50";
+                    btn.querySelector('.status-icon').innerHTML = '<i class="fa-solid fa-circle-xmark text-red-400 text-base"></i>';
+                }
+            }
+
+            // Show Explanation
+            document.getElementById(`exp-${qId}`).classList.remove('hidden');
+        }
+
+        // MODAL LOGIC
+        function openAddModal() {
+            document.getElementById('add-modal').classList.remove('hidden');
+            document.getElementById('add-modal').classList.add('flex');
+        }
+
+        function closeAddModal() {
+            document.getElementById('add-modal').classList.add('hidden');
+            document.getElementById('add-modal').classList.remove('flex');
+        }
+
+        // SAVE NEW MCQ
+        function saveQuestion(e) {
+            e.preventDefault();
+            const newQ = {
+                id: Date.now(),
+                subject: document.getElementById('input-subject').value,
+                question: document.getElementById('input-question').value,
+                options: [
+                    document.getElementById('opt-0').value,
+                    document.getElementById('opt-1').value,
+                    document.getElementById('opt-2').value,
+                    document.getElementById('opt-3').value
+                ],
+                correct: parseInt(document.getElementById('input-correct').value),
+                explanation: document.getElementById('input-explanation').value
+            };
+
+            questions.push(newQ);
+            localStorage.setItem('dmc_questions_v2', JSON.stringify(questions));
+            document.getElementById('add-mcq-form').reset();
+            closeAddModal();
+            updateSubjectCounts();
+
+            if (activeSubject === newQ.subject) {
+                renderQuiz();
+            }
+        }
+    </script>
+</body>
+</html>
