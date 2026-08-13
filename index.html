@@ -3,14 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DMC Master Plan ⚡ Medical Admission Prep (Global Live)</title>
+    <title>DMC Master Plan ⚡ Medical Admission Prep (Global Live Engine)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    
-    <!-- FIREBASE REALTIME DATABASE CDN -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <!-- FIREBASE SDKs (Realtime Database & App) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, set, push, onValue, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // ফায়ারবেজ রিয়েলটাইম ডাটাবেজ কনফিগারেশন
+        const firebaseConfig = {
+            apiKey: "AIzaSyDummyKeyForDMCMasterPlan2026",
+            authDomain: "dmc-master-plan-2026.firebaseapp.com",
+            databaseURL: "https://dmc-master-plan-2026-default-rtdb.firebaseio.com/",
+            projectId: "dmc-master-plan-2026",
+            storageBucket: "dmc-master-plan-2026.appspot.com",
+            messagingSenderId: "1234567890",
+            appId: "1:1234567890:web:abcdef"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // গ্লোবাল উইন্ডোতে ফায়ারবেজ ফাংশনগুলো এক্সপোর্ট করা যাতে পুরো কোড থেকে কল করা যায়
+        window.FB_DB = db;
+        window.FB_Ref = ref;
+        window.FB_Set = set;
+        window.FB_Push = push;
+        window.FB_OnValue = onValue;
+        window.FB_Update = update;
+
+        // অ্যাপ লোড হওয়ার পর ফায়ারবেজ থেকে লাইভ ডাটা সিনক্রোনাইজ শুরু করা
+        window.dispatchEvent(new Event('firebase-ready'));
+    </script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700;800&family=Outfit:wght@400;600;800;900&display=swap');
@@ -135,7 +162,7 @@
         <div class="text-center px-4">
             <div class="text-6xl mb-3 animate-pulse">🩺</div>
             <h1 class="netflix-title md:text-6xl">DMC MASTER PLAN</h1>
-            <p class="text-rose-400 font-bold text-sm tracking-widest mt-2 animate-pulse">MISSION MEDICAL ADMISSION 2026 (GLOBAL REALTIME)</p>
+            <p class="text-rose-400 font-bold text-sm tracking-widest mt-2 animate-pulse">MISSION MEDICAL ADMISSION 2026</p>
         </div>
     </div>
 
@@ -165,11 +192,11 @@
                 DMC MASTER PLAN
             </h1>
             <p class="text-rose-300 text-xs md:text-sm font-black tracking-widest uppercase mt-2 drop-shadow flex items-center justify-center gap-2">
-                <i class="fa-solid fa-stethoscope"></i> Created by Rauha Shahryar Suad
+                <i class="fa-solid fa-stethoscope"></i> Global Live Engine by Suad
             </p>
             <div class="mt-5 p-4 rounded-2xl bg-slate-900/90 border border-slate-700/80 backdrop-blur-md max-w-md mx-auto shadow-xl">
                 <p class="text-xs text-amber-200 font-bold italic">
-                    "ঢাকা মেডিকেল তোকে ডাকছে! আজকে না পড়লে কালকে ডাক্তার হবে কে?" 🩺✨
+                    "সবার সাথে মিলে লাইভ প্রিপারেশন নাও! ঢাকা মেডিকেল তোকে ডাকছে! 🩺✨"
                 </p>
             </div>
         </div>
@@ -178,7 +205,7 @@
             <button onclick="goToAuthScreen()" class="w-11/12 md:w-auto bg-gradient-to-r from-rose-600 via-red-600 to-amber-500 hover:from-rose-500 hover:to-amber-400 text-white font-black px-10 py-4 md:py-5 rounded-full shadow-2xl shadow-rose-900/80 text-lg md:text-xl transition transform hover:scale-105 active:scale-95 flex items-center justify-center gap-3 mx-auto animate-pulse-glow border-2 border-rose-300/40">
                 <i class="fa-solid fa-play text-xl md:text-2xl"></i> START MISSION 🚀
             </button>
-            <p class="text-[11px] text-slate-400 mt-3 font-semibold">🎵 ক্লিক করলেই ব্যাকগ্রাউন্ডে Believer মোড প্লে হবে!</p>
+            <p class="text-[11px] text-slate-400 mt-3 font-semibold">🎵 রিয়েল-টাইম ক্লাউড সিস্টেমে স্বাগতম!</p>
         </div>
     </div>
 
@@ -190,22 +217,14 @@
             <div class="w-16 h-16 mx-auto mb-3 rounded-full border-2 border-amber-400 p-1 bg-slate-900 shadow-xl flex items-center justify-center text-3xl animate-float">
                 🩺
             </div>
-            <h2 class="text-2xl font-black text-slate-100 mb-1">গ্লোবাল অ্যাকাউন্ট সাইন-ইন</h2>
-            <p class="text-xs text-rose-300 font-semibold mb-5">লাইভ গ্লোবাল লিডারবোর্ডে যুক্ত হতে নাম দিন</p>
+            <h2 class="text-2xl font-black text-slate-100 mb-1">প্রোফাইল নেম যুক্ত করুন</h2>
+            <p class="text-xs text-rose-300 font-semibold mb-5">সবার সাথে লিডারবোর্ডে যুক্ত হওয়ার জন্য নাম দিন</p>
             
             <div class="space-y-3">
-                <button onclick="loginWithGoogle()" class="w-full bg-white text-slate-900 font-bold py-3 rounded-xl shadow-lg flex items-center justify-center gap-2 hover:bg-slate-100 text-xs transition transform hover:scale-[1.02]">
-                    <i class="fa-brands fa-google text-rose-500 text-base"></i> Google অ্যাকাউন্ট দিয়ে প্রবেশ করুন
-                </button>
+                <input type="text" id="user-name-input" placeholder="আপনার নাম (যেমন: Suad)..." class="w-full bg-slate-900/90 border-2 border-slate-700 rounded-xl px-4 py-3 text-xs font-bold text-white focus:outline-none focus:border-rose-500 transition">
                 
-                <div class="text-[10px] text-slate-400 font-black my-2">অথবা ইউনিক নাম ও সিক্রেট কী দিয়ে লগইন করুন</div>
-
-                <input type="text" id="user-name-input" placeholder="আপনার নাম (যেমন: Suad)..." class="w-full bg-slate-900/90 border-2 border-slate-700 rounded-xl px-4 py-2.5 text-xs font-bold text-white focus:outline-none focus:border-rose-500 transition">
-                <input type="text" id="user-phone-input" placeholder="ইউনিক আইডি/ফোন নম্বর/ইমেইল..." class="w-full bg-slate-900/90 border-2 border-slate-700 rounded-xl px-4 py-2.5 text-xs font-bold text-white focus:outline-none focus:border-rose-500 transition">
-                <input type="password" id="user-pass-input" placeholder="সিক্রেট পাসওয়ার্ড..." class="w-full bg-slate-900/90 border-2 border-slate-700 rounded-xl px-4 py-2.5 text-xs font-bold text-white focus:outline-none focus:border-rose-500 transition">
-                
-                <button onclick="handleAccountLogin()" class="w-full bg-gradient-to-r from-rose-600 to-amber-500 hover:from-rose-500 hover:to-amber-400 text-white font-extrabold py-3 rounded-xl shadow-lg transition transform hover:scale-[1.02] text-xs flex items-center justify-center gap-2 mt-2">
-                    গ্লোবাল প্রোফাইলে প্রবেশ করুন 🔓
+                <button onclick="handleAccountLogin()" class="w-full bg-gradient-to-r from-rose-600 to-amber-500 hover:from-rose-500 hover:to-amber-400 text-white font-extrabold py-3.5 rounded-xl shadow-lg transition transform hover:scale-[1.02] text-xs flex items-center justify-center gap-2 mt-2">
+                    মিশনে প্রবেশ করুন 🔓
                 </button>
             </div>
         </div>
@@ -230,7 +249,7 @@
                     </div>
                     <div>
                         <h1 class="text-base md:text-lg font-black text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-amber-300 leading-none">DMC MASTER PLAN</h1>
-                        <span id="user-display-name" class="text-[11px] text-emerald-400 font-bold">👤 Suad</span>
+                        <span id="user-display-name" class="text-[11px] text-emerald-400 font-bold">👤 Suad (Live)</span>
                     </div>
                 </div>
 
@@ -241,7 +260,7 @@
                     </div>
 
                     <button onclick="clickSound(); openLeaderboard();" class="bg-rose-950/80 border border-rose-500/60 hover:bg-rose-900 text-rose-300 px-3 py-1 rounded-full text-xs font-black flex items-center gap-1 shadow-md">
-                        🏆 Global Board
+                        🏆 Leaderboard
                     </button>
 
                     <div class="relative">
@@ -251,10 +270,10 @@
                         
                         <div id="dropdown-menu" class="hidden absolute right-0 mt-2 w-56 bg-slate-900 border-2 border-rose-500/40 rounded-2xl shadow-2xl py-2 z-50">
                             <button onclick="clickSound(); openAddModal(); toggleMenu();" class="w-full text-left px-4 py-2.5 text-xs font-black text-slate-200 hover:bg-rose-600/20 hover:text-rose-400 flex items-center gap-2">
-                                <i class="fa-solid fa-plus-circle text-rose-500"></i> নতুন প্রশ্ন যোগ (Global)
+                                <i class="fa-solid fa-plus-circle text-rose-500"></i> নতুন প্রশ্ন যোগ করুন (Live)
                             </button>
                             <button onclick="clickSound(); resetStats(); toggleMenu();" class="w-full text-left px-4 py-2.5 text-xs font-black text-rose-400 hover:bg-rose-600/20 flex items-center gap-2">
-                                <i class="fa-solid fa-rotate-left"></i> লোকাল ক্যাশ রিসেট
+                                <i class="fa-solid fa-rotate-left"></i> স্কোর রিসেট
                             </button>
                         </div>
                     </div>
@@ -271,15 +290,15 @@
                     <img id="slideshow-img" src="https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover transition-all duration-1000 group-hover:scale-105">
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent"></div>
                     <div class="absolute bottom-5 left-6 right-6 text-left">
-                        <span class="bg-gradient-to-r from-rose-600 to-amber-500 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase shadow-lg border border-white/20">Medical Admission 2026</span>
-                        <h3 class="text-lg md:text-2xl font-black text-slate-100 mt-1.5 drop-shadow">স্বপ্নের ঢাকা মেডিকেল কলেজ প্রস্তুতি 🏛️</h3>
-                        <p class="text-xs text-rose-200 font-bold mt-1">সবাই গ্লোবালি রিয়েল-টাইমে যুক্ত আছো! প্রতিটি সঠিক উত্তরের জন্য ১০ XP ⚡</p>
+                        <span class="bg-gradient-to-r from-rose-600 to-amber-500 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase shadow-lg border border-white/20">Live Medical Admission 2026</span>
+                        <h3 class="text-lg md:text-2xl font-black text-slate-100 mt-1.5 drop-shadow">স্বপ্নের ঢাকা মেডিকেল কলেজ প্রস্তুতি (Cloud Sync) 🏛️</h3>
+                        <p class="text-xs text-rose-200 font-bold mt-1">সবার প্রশ্ন ও লিডারবোর্ড এখন রিয়েল-টাইম লাইভ! ⚡</p>
                     </div>
                 </div>
 
                 <div class="text-center mb-6">
                     <h2 class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-amber-300">বিষয় নির্বাচন করো 🎯</h2>
-                    <p class="text-xs text-slate-400 mt-1 font-semibold">সবাই মিলে তৈরি গ্লোবাল কোশ্চেন ব্যাংক থেকে অনুশীলন করো!</p>
+                    <p class="text-xs text-slate-400 mt-1 font-semibold">ফ্রেন্ডদের যোগ করা প্রশ্নসহ অনুশীলন শুরু করো!</p>
                 </div>
 
                 <!-- SUBJECT GRID -->
@@ -319,18 +338,6 @@
                         <h3 class="mt-2.5 font-extrabold text-xs md:text-sm text-slate-200 group-hover:text-purple-400">সাধারণ জ্ঞান (BCS)</h3>
                     </div>
                 </div>
-
-                <!-- 1-VS-1 BATTLE BANNER -->
-                <div class="glass-card rounded-3xl p-6 border-2 border-rose-500/40 text-center relative overflow-hidden">
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <span class="text-3xl animate-bounce">⚔️</span>
-                        <h3 class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-amber-300">Live 1-vs-1 Online Multiplayer Battle</h3>
-                    </div>
-                    <p class="text-xs text-slate-300 mb-5 font-semibold">বন্ধুকে লিংক পাঠাও এবং সরাসরি অনলাইনে ফেস-টু-ফেস ফাইট করো! 🔥</p>
-                    <button onclick="clickSound(); openBattleModal();" class="bg-gradient-to-r from-rose-600 via-red-600 to-amber-500 hover:from-rose-500 hover:to-amber-400 text-white text-xs font-black px-8 py-3 rounded-xl shadow-xl transition transform hover:scale-105 active:scale-95 border border-white/20">
-                        অনলাইন ব্যাটল ক্রিয়েট কর 🚀
-                    </button>
-                </div>
             </div>
 
             <!-- QUIZ PRACTICE VIEW -->
@@ -359,36 +366,10 @@
                 </div>
             </div>
 
-            <!-- LIVE 1v1 BATTLE ARENA VIEW -->
-            <div id="battle-arena-view" class="hidden">
-                <div class="glass-card rounded-3xl p-4 md:p-6 mb-6 border-2 border-amber-500/50 flex items-center justify-between">
-                    <div class="text-center w-5/12">
-                        <span class="text-[10px] text-rose-400 font-extrabold uppercase">You (Player 1)</span>
-                        <h4 id="battle-p1-name" class="text-sm md:text-base font-black text-slate-100 truncate">Loading...</h4>
-                        <div id="battle-p1-score" class="text-xl md:text-3xl font-black text-amber-400 mt-1">0 Pts</div>
-                    </div>
-
-                    <div class="text-center w-2/12">
-                        <span class="text-2xl md:text-4xl animate-pulse">⚔️</span>
-                        <span class="block text-[10px] font-black text-rose-500">LIVE</span>
-                    </div>
-
-                    <div class="text-center w-5/12">
-                        <span class="text-[10px] text-cyan-400 font-extrabold uppercase">Opponent (Player 2)</span>
-                        <h4 id="battle-p2-name" class="text-sm md:text-base font-black text-slate-100 truncate">Waiting...</h4>
-                        <div id="battle-p2-score" class="text-xl md:text-3xl font-black text-cyan-400 mt-1">0 Pts</div>
-                    </div>
-                </div>
-
-                <div id="battle-question-card" class="glass-card rounded-3xl p-6 md:p-8 border-2 border-rose-500/30 shadow-2xl">
-                    <p class="text-center text-xs text-amber-300 font-bold">অপেক্ষা করা হচ্ছে... প্রতিদ্বন্দ্বী যুক্ত হলেই খেলা শুরু হবে!</p>
-                </div>
-            </div>
-
         </main>
 
         <footer class="bg-slate-900/60 border-t border-slate-800 py-3.5 text-center text-[11px] text-slate-400 font-bold mt-auto relative z-10">
-            DMC Master Plan &copy; 2026 • Live Global Realtime Platform
+            DMC Master Plan (Global Live) &copy; 2026 • Medical Admission Prep Platform
         </footer>
     </div>
 
@@ -399,13 +380,12 @@
         <div class="bg-slate-900 border-2 border-rose-500/40 rounded-3xl p-6 w-full max-w-md shadow-2xl relative">
             <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
                 <h3 class="text-base font-black text-amber-400 flex items-center gap-2">
-                    🏆 Global Realtime Leaderboard
+                    🏆 Global Live Leaderboard
                 </h3>
                 <button onclick="clickSound(); closeLeaderboard();" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
             </div>
             
             <div id="leaderboard-list" class="space-y-2 max-h-80 overflow-y-auto pr-1">
-                <p class="text-center text-xs text-slate-400 py-4">গ্লোবাল ডাটা লোড হচ্ছে...</p>
             </div>
         </div>
     </div>
@@ -415,12 +395,12 @@
         <div class="bg-slate-900 border-2 border-rose-500/40 rounded-3xl p-6 w-full max-w-lg shadow-2xl relative">
             <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
                 <h3 class="text-base font-black text-slate-100 flex items-center gap-2">
-                    <i class="fa-solid fa-pen-to-square text-rose-500"></i> গ্লোবাল ডাটাবেজে প্রশ্ন যোগ করুন
+                    <i class="fa-solid fa-pen-to-square text-rose-500"></i> নতুন প্রশ্ন যোগ করুন (সবার জন্য লাইভ)
                 </h3>
                 <button onclick="clickSound(); closeAddModal();" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
             </div>
             
-            <form id="add-mcq-form" onsubmit="saveQuestion(event)" class="space-y-3">
+            <form id="add-mcq-form" onsubmit="saveQuestionToCloud(event)" class="space-y-3">
                 <div>
                     <label class="block text-xs font-bold text-slate-300 mb-1">বিষয়</label>
                     <select id="input-subject" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs font-bold text-white">
@@ -433,7 +413,7 @@
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-300 mb-1">প্রশ্ন</label>
-                    <textarea id="input-question" required class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white font-bold" rows="2"></textarea>
+                    <textarea id="input-question" required class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white font-bold" rows="2" placeholder="প্রশ্ন লিখুন..."></textarea>
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                     <input type="text" id="opt-0" placeholder="অপশন ১" required class="bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-white">
@@ -455,80 +435,16 @@
                 </div>
                 <div class="flex justify-end gap-2 pt-2">
                     <button type="button" onclick="clickSound(); closeAddModal();" class="px-4 py-2 bg-slate-800 rounded-xl text-xs font-bold">বাতিল</button>
-                    <button type="submit" class="px-5 py-2 bg-rose-600 hover:bg-rose-500 rounded-xl text-xs font-black">গ্লোবালি সেভ করুন</button>
+                    <button type="submit" class="px-5 py-2 bg-rose-600 hover:bg-rose-500 rounded-xl text-xs font-black">ক্লাউডে সেভ করুন</button>
                 </div>
             </form>
-        </div>
-    </div>
-
-    <!-- BATTLE MODAL -->
-    <div id="battle-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 z-50">
-        <div class="bg-slate-900 border-2 border-rose-500/40 rounded-3xl p-6 w-full max-w-md shadow-2xl">
-            <h3 class="text-xl font-black text-slate-100 mb-1 text-center">⚔️ Create Live Battle Room</h3>
-            <p class="text-xs text-slate-400 mb-5 text-center">বিষয় ও প্রশ্ন সংখ্যা সিলেক্ট করে ফ্রেন্ডকে লিংক পাঠাও</p>
-            
-            <div class="space-y-4 mb-5">
-                <div>
-                    <label class="block text-xs font-bold text-slate-300 mb-1">বিষয় নির্বাচন করো</label>
-                    <select id="battle-subject-select" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs font-bold text-white">
-                        <option value="Biology">জীববিজ্ঞান</option>
-                        <option value="Chemistry">রসায়ন</option>
-                        <option value="Physics">পদার্থবিজ্ঞান</option>
-                        <option value="English">ইংরেজি (BCS)</option>
-                        <option value="GK">সাধারণ জ্ঞান (BCS)</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold text-slate-300 mb-1">প্রশ্ন সংখ্যা</label>
-                    <div class="grid grid-cols-2 gap-3">
-                        <button type="button" onclick="clickSound(); setBattleQCount(5)" id="q-btn-5" class="battle-q-btn bg-rose-600 border border-rose-500 text-white font-black py-2.5 rounded-xl text-xs">
-                            ৫ টি প্রশ্ন
-                        </button>
-                        <button type="button" onclick="clickSound(); setBattleQCount(10)" id="q-btn-10" class="battle-q-btn bg-slate-800 border border-slate-700 text-slate-300 font-black py-2.5 rounded-xl text-xs">
-                            ১০ টি প্রশ্ন
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <button onclick="clickSound(); generateBattleLink()" class="w-full bg-gradient-to-r from-rose-600 to-amber-500 hover:from-rose-500 hover:to-amber-400 text-white font-black py-3 rounded-xl text-xs mb-3 shadow-lg">
-                অনলাইন রুম তৈরি কর 🔗
-            </button>
-
-            <div id="battle-link-box" class="hidden mb-4">
-                <input type="text" id="battle-url-input" readonly class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-xs text-center text-rose-300 font-bold mb-2">
-                <button onclick="clickSound(); copyBattleLink()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-2 rounded-lg text-xs">
-                    লিংক কপি করো 📋
-                </button>
-            </div>
-
-            <div class="text-center">
-                <button onclick="clickSound(); closeBattleModal()" class="text-xs font-bold text-slate-400 hover:text-slate-200">বন্ধ করুন</button>
-            </div>
         </div>
     </div>
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
         /* ----------------------------------------------------
-           0. FIREBASE REALTIME DATABASE SETUP
-        ---------------------------------------------------- */
-        // পাবলিক রিয়েল-টাইম ডাটাবেজ ইন্টিগ্রেশন (সবাই যেন ইনস্ট্যান্ট শেয়ারিং সুবিধা পায়)
-        const firebaseConfig = {
-            databaseURL: "https://dmc-master-plan-default-rtdb.firebaseio.com"
-        };
-        
-        let db = null;
-        try {
-            firebase.initializeApp(firebaseConfig);
-            db = firebase.database();
-        } catch (e) {
-            console.log("Firebase initialized");
-        }
-
-        /* ----------------------------------------------------
-           1. BELIEVER AUDIO ENGINE
+           1. AUDIO ENGINE
         ---------------------------------------------------- */
         let audioCtx = null;
         let isMusicPlaying = false;
@@ -568,23 +484,6 @@
             osc.start(now);
             osc.stop(now + 0.3);
 
-            if (bStep % 2 === 0) {
-                const bassOsc = ctx.createOscillator();
-                const bassGain = ctx.createGain();
-                bassOsc.type = 'sine';
-                bassOsc.frequency.setValueAtTime(80, now);
-                bassOsc.frequency.exponentialRampToValueAtTime(30, now + 0.15);
-
-                bassGain.gain.setValueAtTime(0.08, now);
-                bassGain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
-
-                bassOsc.connect(bassGain);
-                bassGain.connect(ctx.destination);
-
-                bassOsc.start(now);
-                bassOsc.stop(now + 0.2);
-            }
-
             bStep++;
         }
 
@@ -606,7 +505,7 @@
                 synthInterval = setInterval(playBelieverMelody, 260);
                 statusText.innerText = "Believer Audio: ON 🎵";
                 musicIcon.classList.add('fa-spin');
-                showFeedbackToast(true, "Believer ব্যাকগ্রাউন্ড টিউন চালু হয়েছে! 🔥");
+                showFeedbackToast(true, "Believer ব্যাকগ্রাউন্ড টিউন चालू হয়েছে! 🔥");
             }
         }
 
@@ -651,18 +550,54 @@
         }
 
         /* ----------------------------------------------------
-           2. GLOBAL ACCOUNT, REALTIME LEADERBOARD & XP SYSTEM
+           2. REAL-TIME CLOUD SYNC ENGINE (FIREBASE)
         ---------------------------------------------------- */
         let currentUser = JSON.parse(localStorage.getItem('dmc_logged_user')) || null;
         let globalLeaderboard = [];
+        let cloudCustomQuestions = [];
+
+        const defaultQuestions = [
+            { id: 1, subject: 'Biology', question: 'হৃৎপিণ্ডের কোন কপাটিকা ৩ পাল্লা বিশিষ্ট (Tricuspid)?', options: ['বাইকাসপিড', 'ট্রাইকাসপিড', 'অ্যাওর্টিক', 'পালমোনারি'], correct: 1, explanation: 'ডান অলিন্দ ও ডান নিলয়ের সংযোগস্থলে এটি অবস্থিত।' },
+            { id: 2, subject: 'Chemistry', question: 'কোনটি প্রাইমারি স্ট্যান্ডার্ড পদার্থ?', options: ['NaOH', 'K2Cr2O7', 'KMnO4', 'HCl'], correct: 1, explanation: 'K2Cr2O7 বায়ুর উপাদানের সাথে সহজে বিক্রিয়া করে না।' },
+            { id: 3, subject: 'Physics', question: 'মহাকর্ষীয় ধ্রুবক (G) এর মাত্রা কোনটি?', options: ['[L3 M-1 T-2]', '[L2 M-1 T-2]', '[L3 M-2 T-2]', '[L1 M-1 T-2]'], correct: 0, explanation: 'G = Fr^2 / (m1*m2)' },
+            { id: 4, subject: 'English', question: 'Which one is the correct spelling? (38th BCS)', options: ['Heterogeneous', 'Heterogenous', 'Hetrogeneous', 'Heteroginous'], correct: 0, explanation: 'Correct spelling: Heterogeneous (অর্থ: বিভিন্ন উপাদানবিশিষ্ট)।' },
+            { id: 5, subject: 'English', question: 'Fill in the blank: "He has no control ___ himself." (43rd BCS)', options: ['on', 'over', 'with', 'after'], correct: 1, explanation: 'Control over someone/something ব্যবহৃত হয়।' },
+            { id: 6, subject: 'GK', question: 'বাংলাদেশের একমাত্র প্রবাল দ্বীপ কোনটি? (41st BCS)', options: ['সেন্টমার্টিন', 'সন্দীপ', 'হাতিয়া', 'মহেশখালী'], correct: 0, explanation: 'সেন্টমার্টিন দ্বীপ কক্সবাজার জেলায় অবস্থিত একমাত্র প্রবাল দ্বীপ।' }
+        ];
+        let questions = [...defaultQuestions];
+
+        window.addEventListener('firebase-ready', () => {
+            const db = window.FB_DB;
+            const ref = window.FB_Ref;
+            const onValue = window.FB_OnValue;
+
+            // 1. Listen to Leaderboard live changes
+            onValue(ref(db, 'leaderboard'), (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    globalLeaderboard = Object.values(data);
+                } else {
+                    globalLeaderboard = [{ name: "Suad (Doctor)", xp: 120 }];
+                }
+                renderLeaderboardUI();
+            });
+
+            // 2. Listen to Custom Questions live changes
+            onValue(ref(db, 'questions'), (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    cloudCustomQuestions = Object.values(data);
+                } else {
+                    cloudCustomQuestions = [];
+                }
+                questions = [...defaultQuestions, ...cloudCustomQuestions];
+                updateSubjectCounts();
+            });
+        });
 
         function goToAuthScreen() {
             getAudioContext();
             clickSound();
-            
-            if (!isMusicPlaying) {
-                isMusicPlaying = false; // toggle easily if needed
-            }
 
             document.getElementById('intro-screen').classList.add('hidden');
             
@@ -674,47 +609,27 @@
             }
         }
 
-        function loginWithGoogle() {
+        function handleAccountLogin() {
             clickSound();
-            handleAccountLogin("Suad (Doctor)", "user_suad_001");
-        }
-
-        function handleAccountLogin(defaultName = null, defaultPhone = null) {
-            clickSound();
-            const nameInput = defaultName || document.getElementById('user-name-input').value.trim() || "Aspirant Suad";
-            const phoneInput = defaultPhone || document.getElementById('user-phone-input').value.trim() || ("user_" + Math.floor(Math.random()*100000));
-
-            // Clean sanitized ID for Firebase path
-            const safeId = phoneInput.replace(/[^a-zA-Z0-9_]/g, "_");
+            const nameInput = document.getElementById('user-name-input').value.trim() || "Aspirant Suad";
 
             currentUser = {
-                id: safeId,
                 name: nameInput,
-                phone: phoneInput,
-                xp: 0
+                xp: currentUser ? currentUser.xp : 0
             };
 
             localStorage.setItem('dmc_logged_user', JSON.stringify(currentUser));
             
-            // Sync to Global DB
-            if (db) {
-                db.ref('users/' + currentUser.id).once('value', (snapshot) => {
-                    if (snapshot.exists()) {
-                        const data = snapshot.val();
-                        currentUser.xp = data.xp || 0;
-                        localStorage.setItem('dmc_logged_user', JSON.stringify(currentUser));
-                    } else {
-                        db.ref('users/' + currentUser.id).set({
-                            name: currentUser.name,
-                            xp: 0,
-                            phone: currentUser.phone
-                        });
-                    }
-                    updateHeaderProfile();
-                });
+            // Sync user to Firebase Leaderboard
+            if (window.FB_DB) {
+                const db = window.FB_DB;
+                const set = window.FB_Set;
+                const ref = window.FB_Ref;
+                const safeKey = currentUser.name.replace(/[.#$\/\[\]]/g, "_");
+                set(ref(db, `leaderboard/${safeKey}`), currentUser);
             }
 
-            showFeedbackToast(true, `স্বাগতম ${currentUser.name}! গ্লোবাল প্রোফাইল অ্যাক্টিভ।`);
+            showFeedbackToast(true, `স্বাগতম ${currentUser.name}! ক্লাউড লাইভ কানেক্ট হয়েছে।`);
             document.getElementById('auth-screen').classList.add('hidden');
             document.getElementById('auth-screen').classList.remove('flex');
             launchMainApp();
@@ -736,8 +651,7 @@
             startSlideshow();
             startBackgroundSlideshow();
             initCanvasParticles();
-            initGlobalSync();
-            checkUrlForBattle();
+            updateSubjectCounts();
         }
 
         function addXP(amount = 10) {
@@ -746,56 +660,28 @@
             document.getElementById('user-xp-display').innerText = `${currentUser.xp} XP`;
             localStorage.setItem('dmc_logged_user', JSON.stringify(currentUser));
 
-            if (db && currentUser.id) {
-                db.ref('users/' + currentUser.id).update({
-                    name: currentUser.name,
-                    xp: currentUser.xp
-                });
+            // Push to Firebase Realtime Database
+            if (window.FB_DB) {
+                const db = window.FB_DB;
+                const set = window.FB_Set;
+                const ref = window.FB_Ref;
+                const safeKey = currentUser.name.replace(/[.#$\/\[\]]/g, "_");
+                set(ref(db, `leaderboard/${safeKey}`), currentUser);
             }
-        }
-
-        /* Listen to Global Leaderboard changes real-time */
-        function initGlobalSync() {
-            if (!db) return;
-
-            // 1. Leaderboard Realtime Sync
-            db.ref('users').on('value', (snapshot) => {
-                const data = snapshot.val() || {};
-                globalLeaderboard = Object.values(data);
-                globalLeaderboard.sort((a, b) => b.xp - a.xp);
-                renderLeaderboardUI();
-            });
-
-            // 2. Global Question Bank Realtime Sync
-            db.ref('questions').on('value', (snapshot) => {
-                const data = snapshot.val();
-                if (data) {
-                    questions = Object.values(data);
-                } else {
-                    // Seed default questions if empty
-                    defaultQuestions.forEach(q => {
-                        db.ref('questions/q_' + q.id).set(q);
-                    });
-                    questions = defaultQuestions;
-                }
-                updateSubjectCounts();
-            });
         }
 
         function renderLeaderboardUI() {
             const list = document.getElementById('leaderboard-list');
             if (!list) return;
 
-            if (globalLeaderboard.length === 0) {
-                list.innerHTML = `<p class="text-center text-xs text-slate-400 py-4">কোনো ডাটা পাওয়া যায়নি!</p>`;
-                return;
-            }
+            // Sort by XP descending
+            globalLeaderboard.sort((a, b) => b.xp - a.xp);
 
             list.innerHTML = globalLeaderboard.map((usr, idx) => `
                 <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800 ${usr.name === currentUser?.name ? 'border-amber-500 bg-amber-950/20' : ''}">
                     <div class="flex items-center gap-3">
                         <span class="font-black text-xs ${idx === 0 ? 'text-amber-400 text-sm' : 'text-slate-400'}">#${idx + 1}</span>
-                        <span class="font-bold text-xs text-slate-100">${usr.name}</span>
+                        <span class="font-bold text-xs text-slate-100">${usr.name} ${usr.name === currentUser?.name ? ' (You)' : ''}</span>
                     </div>
                     <span class="text-xs font-black text-amber-300 bg-amber-950/80 px-2.5 py-1 rounded-full border border-amber-600/50">${usr.xp} XP</span>
                 </div>
@@ -815,192 +701,7 @@
         }
 
         /* ----------------------------------------------------
-           3. LIVE ONLINE MULTIPLAYER 1-VS-1 BATTLE SYSTEM
-        ---------------------------------------------------- */
-        let battleQCount = 5;
-        let activeBattleId = null;
-        let isHost = false;
-        let battleQuestions = [];
-        let currentBattleQIndex = 0;
-        let myBattleScore = 0;
-
-        function openBattleModal() {
-            document.getElementById('battle-modal').classList.remove('hidden');
-            document.getElementById('battle-modal').classList.add('flex');
-            document.getElementById('battle-link-box').classList.add('hidden');
-        }
-
-        function closeBattleModal() {
-            document.getElementById('battle-modal').classList.add('hidden');
-            document.getElementById('battle-modal').classList.remove('flex');
-        }
-
-        function setBattleQCount(count) {
-            battleQCount = count;
-            document.querySelectorAll('.battle-q-btn').forEach(btn => {
-                btn.className = "battle-q-btn bg-slate-800 border border-slate-700 text-slate-300 font-black py-2.5 rounded-xl text-xs";
-            });
-            const selectedBtn = document.getElementById(`q-btn-${count}`);
-            if (selectedBtn) {
-                selectedBtn.className = "battle-q-btn bg-rose-600 border border-rose-500 text-white font-black py-2.5 rounded-xl text-xs";
-            }
-        }
-
-        function generateBattleLink() {
-            const sub = document.getElementById('battle-subject-select').value;
-            const subQuestions = questions.filter(q => q.subject === sub);
-
-            if (subQuestions.length === 0) {
-                showFeedbackToast(false, "এই বিষয়ে কোনো প্রশ্ন নেই!");
-                return;
-            }
-
-            const chosenQuestions = subQuestions.slice(0, battleQCount);
-            activeBattleId = "room_" + Date.now();
-            isHost = true;
-
-            const roomData = {
-                id: activeBattleId,
-                subject: sub,
-                questions: chosenQuestions,
-                status: 'waiting',
-                p1_name: currentUser ? currentUser.name : "Suad",
-                p1_score: 0,
-                p2_name: "Waiting...",
-                p2_score: 0
-            };
-
-            if (db) {
-                db.ref('battles/' + activeBattleId).set(roomData);
-            }
-
-            const baseUrl = window.location.href.split('?')[0];
-            const challengeUrl = `${baseUrl}?battleId=${activeBattleId}`;
-            
-            const linkInput = document.getElementById('battle-url-input');
-            linkInput.value = challengeUrl;
-            document.getElementById('battle-link-box').classList.remove('hidden');
-            showFeedbackToast(true, "অনলাইন রুম তৈরি হয়েছে! লিংক শেয়ার কর।");
-
-            // Start listening to this room
-            listenToBattleRoom(activeBattleId);
-        }
-
-        function copyBattleLink() {
-            const linkInput = document.getElementById('battle-url-input');
-            linkInput.select();
-            navigator.clipboard.writeText(linkInput.value);
-            showFeedbackToast(true, "লিংক কপি হয়েছে! বন্ধুকে পাঠাও 📋");
-            closeBattleModal();
-            startBattleArenaUI();
-        }
-
-        function checkUrlForBattle() {
-            const params = new URLSearchParams(window.location.search);
-            const bId = params.get('battleId');
-            if (bId && db) {
-                activeBattleId = bId;
-                isHost = false;
-
-                // Join room as Player 2
-                db.ref('battles/' + bId).once('value', (snapshot) => {
-                    if (snapshot.exists()) {
-                        const room = snapshot.val();
-                        db.ref('battles/' + bId).update({
-                            p2_name: currentUser ? currentUser.name : "Opponent",
-                            status: 'active'
-                        });
-                        listenToBattleRoom(bId);
-                        startBattleArenaUI();
-                        showFeedbackToast(true, "অনলাইন ব্যাটল রুমে যুক্ত হয়েছো! 🔥");
-                    }
-                });
-            }
-        }
-
-        function listenToBattleRoom(bId) {
-            if (!db) return;
-            db.ref('battles/' + bId).on('value', (snapshot) => {
-                const room = snapshot.val();
-                if (!room) return;
-
-                battleQuestions = room.questions || [];
-                
-                // Update live scores
-                document.getElementById('battle-p1-name').innerText = room.p1_name;
-                document.getElementById('battle-p1-score').innerText = room.p1_score + " Pts";
-                
-                document.getElementById('battle-p2-name').innerText = room.p2_name;
-                document.getElementById('battle-p2-score').innerText = room.p2_score + " Pts";
-
-                if (room.status === 'active' && currentBattleQIndex === 0) {
-                    renderBattleQuestion();
-                }
-            });
-        }
-
-        function startBattleArenaUI() {
-            document.getElementById('subject-view').classList.add('hidden');
-            document.getElementById('quiz-view').classList.add('hidden');
-            document.getElementById('battle-arena-view').classList.remove('hidden');
-        }
-
-        function renderBattleQuestion() {
-            const card = document.getElementById('battle-question-card');
-            
-            if (currentBattleQIndex >= battleQuestions.length) {
-                card.innerHTML = `
-                    <div class="text-center py-6">
-                        <h3 class="text-2xl font-black text-amber-400 mb-2">⚔️ BATTLE FINISHED!</h3>
-                        <p class="text-xs text-slate-300">চ্যালেঞ্জ সমাপ্ত হয়েছে! লাইভ স্কোরবোর্ড উপরে দেখে নাও।</p>
-                        <button onclick="location.href=window.location.pathname" class="mt-5 bg-rose-600 hover:bg-rose-500 px-6 py-2.5 rounded-xl text-xs font-black text-white">হোমে ফিরুন</button>
-                    </div>
-                `;
-                return;
-            }
-
-            const q = battleQuestions[currentBattleQIndex];
-            card.innerHTML = `
-                <h4 class="text-base font-black mb-4 text-slate-100">
-                    <span class="text-rose-500">${currentBattleQIndex + 1}.</span> ${q.question}
-                </h4>
-                <div class="space-y-2.5">
-                    ${q.options.map((opt, idx) => `
-                        <button onclick="handleBattleAnswer(${idx})" id="b-opt-${idx}" class="w-full text-left p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-200 font-bold hover:border-amber-500 transition">
-                            ${opt}
-                        </button>
-                    `).join('')}
-                </div>
-            `;
-        }
-
-        function handleBattleAnswer(selectedIdx) {
-            const q = battleQuestions[currentBattleQIndex];
-            const isCorrect = selectedIdx === q.correct;
-
-            if (isCorrect) {
-                playSound('correct');
-                myBattleScore += 10;
-                addXP(10);
-            } else {
-                playSound('wrong');
-            }
-
-            // Sync score live
-            if (db && activeBattleId) {
-                if (isHost) {
-                    db.ref(`battles/${activeBattleId}`).update({ p1_score: myBattleScore });
-                } else {
-                    db.ref(`battles/${activeBattleId}`).update({ p2_score: myBattleScore });
-                }
-            }
-
-            currentBattleQIndex++;
-            setTimeout(renderBattleQuestion, 800);
-        }
-
-        /* ----------------------------------------------------
-           4. NETFLIX INTRO & SCREEN TRANSITIONS
+           3. NETFLIX INTRO & SCREEN TRANSITIONS
         ---------------------------------------------------- */
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
@@ -1113,17 +814,9 @@
             toastTimeout = setTimeout(() => toast.classList.add('hidden'), 2600);
         }
 
-        /* DEFAULT QUESTION BANK (GLOBAL FALLBACK) */
-        const defaultQuestions = [
-            { id: 1, subject: 'Biology', question: 'হৃৎপিণ্ডের কোন কপাটিকা ৩ পাল্লা বিশিষ্ট (Tricuspid)?', options: ['বাইকাসপিড', 'ট্রাইকাসপিড', 'অ্যাওর্টিক', 'পালমোনারি'], correct: 1, explanation: 'ডান অলিন্দ ও ডান নিলয়ের সংযোগস্থলে এটি অবস্থিত।' },
-            { id: 2, subject: 'Chemistry', question: 'কোনটি প্রাইমারি স্ট্যান্ডার্ড পদার্থ?', options: ['NaOH', 'K2Cr2O7', 'KMnO4', 'HCl'], correct: 1, explanation: 'K2Cr2O7 বায়ুর উপাদানের সাথে সহজে বিক্রিয়া করে না।' },
-            { id: 3, subject: 'Physics', question: 'মহাকর্ষীয় ধ্রুবক (G) এর মাত্রা কোনটি?', options: ['[L3 M-1 T-2]', '[L2 M-1 T-2]', '[L3 M-2 T-2]', '[L1 M-1 T-2]'], correct: 0, explanation: 'G = Fr^2 / (m1*m2)' },
-            { id: 4, subject: 'English', question: 'Which one is the correct spelling? (38th BCS)', options: ['Heterogeneous', 'Heterogenous', 'Hetrogeneous', 'Heteroginous'], correct: 0, explanation: 'Correct spelling: Heterogeneous (অর্থ: বিভিন্ন উপাদানবিশিষ্ট)।' },
-            { id: 5, subject: 'English', question: 'Fill in the blank: "He has no control ___ himself." (43rd BCS)', options: ['on', 'over', 'with', 'after'], correct: 1, explanation: 'Control over someone/something ব্যবহৃত হয়।' },
-            { id: 6, subject: 'GK', question: 'বাংলাদেশের একমাত্র প্রবাল দ্বীপ কোনটি? (41st BCS)', options: ['সেন্টমার্টিন', 'সন্দীপ', 'হাতিয়া', 'মহেশখালী'], correct: 0, explanation: 'সেন্টমার্টিন দ্বীপ কক্সবাজার জেলায় অবস্থিত একমাত্র প্রবাল দ্বীপ।' }
-        ];
-
-        let questions = defaultQuestions;
+        /* ----------------------------------------------------
+           4. QUIZ ENGINE & CLOUD QUESTION INJECTION
+        ---------------------------------------------------- */
         let activeSubject = '';
         let currentSubjectQuestions = [];
         let questionIndex = 0;
@@ -1140,7 +833,6 @@
         function showSubjects() {
             document.getElementById('subject-view').classList.remove('hidden');
             document.getElementById('quiz-view').classList.add('hidden');
-            document.getElementById('battle-arena-view').classList.add('hidden');
             updateSubjectCounts();
         }
 
@@ -1246,11 +938,10 @@
         function openAddModal() { document.getElementById('add-modal').classList.remove('hidden'); document.getElementById('add-modal').classList.add('flex'); }
         function closeAddModal() { document.getElementById('add-modal').classList.add('hidden'); document.getElementById('add-modal').classList.remove('flex'); }
 
-        function saveQuestion(e) {
+        function saveQuestionToCloud(e) {
             e.preventDefault();
-            const newId = Date.now();
             const newQ = {
-                id: newId,
+                id: Date.now(),
                 subject: document.getElementById('input-subject').value,
                 question: document.getElementById('input-question').value,
                 options: [document.getElementById('opt-0').value, document.getElementById('opt-1').value, document.getElementById('opt-2').value, document.getElementById('opt-3').value],
@@ -1258,18 +949,29 @@
                 explanation: document.getElementById('input-explanation').value
             };
 
-            // Push to Global Firebase Realtime Database
-            if (db) {
-                db.ref('questions/q_' + newId).set(newQ);
+            // Push to Firebase Realtime Database
+            if (window.FB_DB) {
+                const db = window.FB_DB;
+                const push = window.FB_Push;
+                const ref = window.FB_Ref;
+                const set = window.FB_Set;
+
+                const newRef = push(ref(db, 'questions'));
+                set(newRef, newQ);
             }
 
             document.getElementById('add-mcq-form').reset();
             closeAddModal();
-            showFeedbackToast(true, "নতুন প্রশ্ন গ্লোবাল ক্লাউড ডাটাবেজে সেভ হয়েছে!");
+            showFeedbackToast(true, "নতুন প্রশ্ন ক্লাউডে সফলভাবে সেভ হয়েছে! ⚡");
         }
 
         function resetStats() {
-            showFeedbackToast(true, "লোকাল ক্যাশ রিসেট সম্পন্ন হয়েছে!");
+            if (currentUser) {
+                currentUser.xp = 0;
+                localStorage.setItem('dmc_logged_user', JSON.stringify(currentUser));
+                addXP(0);
+            }
+            showFeedbackToast(true, "স্কোর রিসেট করা হয়েছে!");
         }
     </script>
 </body>
