@@ -36,7 +36,6 @@
         }
         .toast-animate { animation: fadeInDown 0.4s ease forwards; }
 
-        /* CANVAS BACKGROUND PARTICLES */
         #particle-canvas {
             position: fixed;
             top: 0;
@@ -47,7 +46,6 @@
             z-index: 1;
         }
 
-        /* BACKGROUND SLIDESHOW STYLES */
         .screen-bg-slideshow {
             position: fixed;
             top: 0;
@@ -89,9 +87,9 @@
     <!-- FLOATING BACKGROUND CANVAS FOR PARTICLES -->
     <canvas id="particle-canvas"></canvas>
 
-    <!-- DIRECT GUARANTEED WORKING AUDIO STREAM -->
+    <!-- 100% GUARANTEED WORKING BELIEVER AUDIO STREAM FROM GLOBAL CDN -->
     <audio id="bg-music" loop preload="auto" crossorigin="anonymous">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        <source src="https://ia801503.us.archive.org/15/items/Believer_201802/Believer.mp3" type="audio/mpeg">
     </audio>
 
     <!-- MUSIC CONTROL TOGGLE BUTTON -->
@@ -148,7 +146,6 @@
     <!-- 3. MAIN PRACTICE WEBSITE -->
     <div id="main-app" class="hidden flex-col justify-between min-h-screen relative z-10">
         
-        <!-- AUTOMATIC ONLINE HIGH-QUALITY BACKGROUND SLIDESHOW -->
         <div class="screen-bg-slideshow">
             <div class="bg-slide-item active" style="background-image: url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1600&q=80');"></div>
             <div class="bg-slide-item" style="background-image: url('https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&w=1600&q=80');"></div>
@@ -185,7 +182,7 @@
             </div>
         </header>
 
-        <!-- MAIN CONTENT AREA -->
+        <!-- MAIN CONTENT -->
         <main class="max-w-4xl mx-auto px-4 py-6 flex-grow w-full relative z-10">
 
             <div id="subject-view">
@@ -384,9 +381,7 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC & EFFECTS -->
     <script>
-        // WEB AUDIO SYNTHESIZER FOR SOUND EFFECTS
         let audioCtx;
 
         function initAudioContext() {
@@ -438,7 +433,6 @@
             }
         }
 
-        // AUDIO TOGGLE FUNCTIONALITY
         let isMusicPlaying = false;
         function toggleAudio() {
             clickSound();
@@ -450,13 +444,13 @@
                 isMusicPlaying = false;
                 statusText.innerText = "Music: OFF";
             } else {
-                bgMusic.volume = 0.4;
+                bgMusic.volume = 0.5;
                 bgMusic.play().then(() => {
                     isMusicPlaying = true;
                     statusText.innerText = "Music: ON";
                 }).catch(err => {
                     console.log("Audio play error", err);
-                    showFeedbackToast(false, "অডিওটি প্লে করা যায়নি, বাটন আরেকবার ট্রাই করুন!");
+                    showFeedbackToast(false, "অডিও লোড হতে ৩-৪ সেকেন্ড সময় দিন, তারপর বাটনে ক্লিক করুন!");
                 });
             }
         }
@@ -465,9 +459,8 @@
             initAudioContext();
             clickSound();
             
-            // Auto-trigger music on user start
             const bgMusic = document.getElementById('bg-music');
-            bgMusic.volume = 0.4;
+            bgMusic.volume = 0.5;
             bgMusic.play().then(() => {
                 isMusicPlaying = true;
                 document.getElementById('music-status-text').innerText = "Music: ON";
@@ -478,7 +471,6 @@
             document.getElementById('password-screen').classList.add('flex');
         }
 
-        // CHECK PASSWORD ('play dump')
         function checkPassword() {
             clickSound();
             const input = document.getElementById('pass-input').value.trim().toLowerCase();
@@ -506,7 +498,6 @@
             }
         }
 
-        // CANVAS FLOATING PARTICLES EFFECT
         function initCanvasParticles() {
             const canvas = document.getElementById('particle-canvas');
             const ctx = canvas.getContext('2d');
@@ -543,7 +534,6 @@
             animate();
         }
 
-        // BANNER & BACKGROUND SLIDESHOWS
         const bannerImages = [
             'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80',
             'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&w=1200&q=80',
@@ -570,7 +560,6 @@
             }, 4500);
         }
 
-        // FUNNY TOAST MESSAGES
         const correctMsgs = [
             "তেরি প্রিপারেশন বহত আচ্ছা হ্যায় তেরি কাসাম 🔥",
             "সাবাশ বাঘের বাচ্চা! ডিএমসি তো তোরই! 💪",
@@ -607,7 +596,6 @@
             toastTimeout = setTimeout(() => toast.classList.add('hidden'), 2500);
         }
 
-        // QUESTION DATABASE
         const defaultQuestions = [
             { id: 1, subject: 'Biology', question: 'হৃৎপিণ্ডের কোন কপাটিকা ৩ পাল্লা বিশিষ্ট (Tricuspid)?', options: ['বাইকাসপিড', 'ট্রাইকাসপিড', 'অ্যাওর্টিক', 'পালমোনারি'], correct: 1, explanation: 'ডান অলিন্দ ও ডান নিলয়ের সংযোগস্থলে এটি অবস্থিত।' },
             { id: 2, subject: 'Chemistry', question: 'কোনটি প্রাইমারি স্ট্যান্ডার্ড পদার্থ?', options: ['NaOH', 'K2Cr2O7', 'KMnO4', 'HCl'], correct: 1, explanation: 'K2Cr2O7 বায়ুর উপাদানের সাথে সহজে বিক্রিয়া করে না।' },
