@@ -89,9 +89,9 @@
     <!-- FLOATING BACKGROUND CANVAS FOR PARTICLES -->
     <canvas id="particle-canvas"></canvas>
 
-    <!-- DIRECT WORKING MOTIVATIONAL AUDIO STREAM -->
-    <audio id="bg-music" loop preload="auto">
-        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=motivational-epic-112333.mp3" type="audio/mpeg">
+    <!-- DIRECT GUARANTEED WORKING AUDIO STREAM -->
+    <audio id="bg-music" loop preload="auto" crossorigin="anonymous">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
 
     <!-- MUSIC CONTROL TOGGLE BUTTON -->
@@ -386,11 +386,20 @@
 
     <!-- JAVASCRIPT LOGIC & EFFECTS -->
     <script>
-        // 1. WEB AUDIO SYNTHESIZER FOR SOUND EFFECTS
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        // WEB AUDIO SYNTHESIZER FOR SOUND EFFECTS
+        let audioCtx;
+
+        function initAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
 
         function clickSound() {
-            if (audioCtx.state === 'suspended') audioCtx.resume();
+            initAudioContext();
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.connect(gain);
@@ -404,7 +413,7 @@
         }
 
         function playSound(type) {
-            if (audioCtx.state === 'suspended') audioCtx.resume();
+            initAudioContext();
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.connect(gain);
@@ -429,7 +438,7 @@
             }
         }
 
-        // 2. AUDIO TOGGLE FUNCTIONALITY
+        // AUDIO TOGGLE FUNCTIONALITY
         let isMusicPlaying = false;
         function toggleAudio() {
             clickSound();
@@ -441,23 +450,35 @@
                 isMusicPlaying = false;
                 statusText.innerText = "Music: OFF";
             } else {
-                bgMusic.volume = 0.35;
+                bgMusic.volume = 0.4;
                 bgMusic.play().then(() => {
                     isMusicPlaying = true;
                     statusText.innerText = "Music: ON";
-                }).catch(err => console.log("Audio play blocked", err));
+                }).catch(err => {
+                    console.log("Audio play error", err);
+                    showFeedbackToast(false, "অডিওটি প্লে করা যায়নি, বাটন আরেকবার ট্রাই করুন!");
+                });
             }
         }
 
         function goToPasswordScreen() {
+            initAudioContext();
             clickSound();
-            toggleAudio(); // Auto start audio on user click
+            
+            // Auto-trigger music on user start
+            const bgMusic = document.getElementById('bg-music');
+            bgMusic.volume = 0.4;
+            bgMusic.play().then(() => {
+                isMusicPlaying = true;
+                document.getElementById('music-status-text').innerText = "Music: ON";
+            }).catch(() => {});
+
             document.getElementById('intro-screen').classList.add('hidden');
             document.getElementById('password-screen').classList.remove('hidden');
             document.getElementById('password-screen').classList.add('flex');
         }
 
-        // 3. CHECK PASSWORD ('play dump')
+        // CHECK PASSWORD ('play dump')
         function checkPassword() {
             clickSound();
             const input = document.getElementById('pass-input').value.trim().toLowerCase();
@@ -485,7 +506,7 @@
             }
         }
 
-        // 4. CANVAS FLOATING PARTICLES EFFECT
+        // CANVAS FLOATING PARTICLES EFFECT
         function initCanvasParticles() {
             const canvas = document.getElementById('particle-canvas');
             const ctx = canvas.getContext('2d');
@@ -522,7 +543,7 @@
             animate();
         }
 
-        // 5. BANNER & BACKGROUND SLIDESHOWS
+        // BANNER & BACKGROUND SLIDESHOWS
         const bannerImages = [
             'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80',
             'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&w=1200&q=80',
@@ -549,7 +570,7 @@
             }, 4500);
         }
 
-        // 6. FUNNY TOAST MESSAGES
+        // FUNNY TOAST MESSAGES
         const correctMsgs = [
             "তেরি প্রিপারেশন বহত আচ্ছা হ্যায় তেরি কাসাম 🔥",
             "সাবাশ বাঘের বাচ্চা! ডিএমসি তো তোরই! 💪",
@@ -586,7 +607,7 @@
             toastTimeout = setTimeout(() => toast.classList.add('hidden'), 2500);
         }
 
-        // 7. QUESTION DATABASE
+        // QUESTION DATABASE
         const defaultQuestions = [
             { id: 1, subject: 'Biology', question: 'হৃৎপিণ্ডের কোন কপাটিকা ৩ পাল্লা বিশিষ্ট (Tricuspid)?', options: ['বাইকাসপিড', 'ট্রাইকাসপিড', 'অ্যাওর্টিক', 'পালমোনারি'], correct: 1, explanation: 'ডান অলিন্দ ও ডান নিলয়ের সংযোগস্থলে এটি অবস্থিত।' },
             { id: 2, subject: 'Chemistry', question: 'কোনটি প্রাইমারি স্ট্যান্ডার্ড পদার্থ?', options: ['NaOH', 'K2Cr2O7', 'KMnO4', 'HCl'], correct: 1, explanation: 'K2Cr2O7 বায়ুর উপাদানের সাথে সহজে বিক্রিয়া করে না।' },
