@@ -47,23 +47,10 @@
         }
 
         @keyframes netflixZoom {
-            0% {
-                transform: scale(0.3) strokeDashoffset(100);
-                opacity: 0;
-                filter: blur(12px) drop-shadow(0 0 5px rgba(225,29,72,0.2));
-            }
-            40% {
-                opacity: 1;
-                filter: blur(0px) drop-shadow(0 0 35px rgba(225,29,72,0.9));
-            }
-            85% {
-                transform: scale(1.15);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(1.3);
-                opacity: 0;
-            }
+            0% { transform: scale(0.3); opacity: 0; filter: blur(12px); }
+            40% { opacity: 1; filter: blur(0px); }
+            85% { transform: scale(1.15); opacity: 1; }
+            100% { transform: scale(1.3); opacity: 0; }
         }
 
         @keyframes pulseGlow {
@@ -139,7 +126,7 @@
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between relative overflow-x-hidden selection:bg-rose-500 selection:text-white">
 
-    <!-- 0. NETFLIX-STYLE INTRO SPLASH SCREEN -->
+    <!-- 0. INTRO SPLASH SCREEN -->
     <div id="netflix-intro-screen">
         <div class="text-center px-4">
             <div class="text-6xl mb-3 animate-pulse">🩺</div>
@@ -148,16 +135,16 @@
         </div>
     </div>
 
-    <!-- FLOATING BACKGROUND CANVAS FOR PARTICLES -->
+    <!-- PARTICLES CANVAS -->
     <canvas id="particle-canvas"></canvas>
 
-    <!-- MUSIC CONTROL TOGGLE BUTTON -->
+    <!-- MUSIC CONTROL BUTTON -->
     <button id="music-toggle-btn" onclick="toggleAudio()" class="fixed bottom-5 right-5 z-[150] bg-slate-900/90 border-2 border-rose-500/70 text-rose-400 hover:text-white px-5 py-2.5 rounded-full text-xs font-black shadow-2xl backdrop-blur-md flex items-center gap-2.5 transition transform hover:scale-110 active:scale-95">
         <i id="music-icon" class="fa-solid fa-compact-disc text-base text-rose-400"></i> 
-        <span id="music-status-text">Music: OFF</span>
+        <span id="music-status-text">Believer Audio: OFF</span>
     </button>
 
-    <!-- FLOATING FEEDBACK TOAST -->
+    <!-- FEEDBACK TOAST -->
     <div id="feedback-toast" class="fixed top-16 left-1/2 -translate-x-1/2 z-[120] hidden px-7 py-3.5 rounded-2xl text-center font-extrabold text-xs md:text-sm shadow-2xl backdrop-blur-xl border-2 transition-all duration-300 pointer-events-none">
         <span id="toast-text"></span>
     </div>
@@ -177,38 +164,47 @@
                 <i class="fa-solid fa-stethoscope"></i> Created by Rauha Shahryar Suad
             </p>
             <div class="mt-5 p-4 rounded-2xl bg-slate-900/90 border border-slate-700/80 backdrop-blur-md max-w-md mx-auto shadow-xl">
-                <p id="quote-text" class="text-xs text-amber-200 font-bold italic">
+                <p class="text-xs text-amber-200 font-bold italic">
                     "ঢাকা মেডিকেল তোকে ডাকছে! আজকে না পড়লে কালকে ডাক্তার হবে কে?" 🩺✨
                 </p>
             </div>
         </div>
 
-        <!-- REPOSITIONED & RE-SPACED START BUTTON -->
         <div class="relative z-10 mb-8 md:mb-12 text-center w-full max-w-md">
-            <button onclick="goToPasswordScreen()" class="w-11/12 md:w-auto bg-gradient-to-r from-rose-600 via-red-600 to-amber-500 hover:from-rose-500 hover:to-amber-400 text-white font-black px-10 py-4 md:py-5 rounded-full shadow-2xl shadow-rose-900/80 text-lg md:text-xl transition transform hover:scale-105 active:scale-95 flex items-center justify-center gap-3 mx-auto animate-pulse-glow border-2 border-rose-300/40">
+            <button onclick="goToAuthScreen()" class="w-11/12 md:w-auto bg-gradient-to-r from-rose-600 via-red-600 to-amber-500 hover:from-rose-500 hover:to-amber-400 text-white font-black px-10 py-4 md:py-5 rounded-full shadow-2xl shadow-rose-900/80 text-lg md:text-xl transition transform hover:scale-105 active:scale-95 flex items-center justify-center gap-3 mx-auto animate-pulse-glow border-2 border-rose-300/40">
                 <i class="fa-solid fa-play text-xl md:text-2xl"></i> START MISSION 🚀
             </button>
-            <p class="text-[11px] text-slate-400 mt-3 font-semibold">🎵 ক্লিক করলেই ব্যাকগ্রাউন্ড ড্রাইভ মিউজিক চালু হবে!</p>
+            <p class="text-[11px] text-slate-400 mt-3 font-semibold">🎵 ক্লিক করলেই ব্যাকগ্রাউন্ডে Believer মোড প্লে হবে!</p>
         </div>
     </div>
 
-    <!-- 2. PASSWORD SCREEN -->
-    <div id="password-screen" class="fixed inset-0 z-[90] hidden flex-col items-center justify-center p-4 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1600&q=80');">
+    <!-- 2. AUTH & ACCOUNT CREATION SCREEN -->
+    <div id="auth-screen" class="fixed inset-0 z-[90] hidden flex-col items-center justify-center p-4 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1600&q=80');">
         <div class="absolute inset-0 bg-slate-950/92 backdrop-blur-md"></div>
 
-        <div id="pass-box-card" class="relative z-10 glass-card p-8 rounded-3xl max-w-md w-full text-center shadow-2xl border-2 border-rose-500/40">
-            <div class="w-20 h-20 mx-auto mb-4 rounded-full border-2 border-amber-400 p-1 bg-slate-900 shadow-xl flex items-center justify-center text-4xl animate-float">
+        <div id="auth-box-card" class="relative z-10 glass-card p-6 md:p-8 rounded-3xl max-w-md w-full text-center shadow-2xl border-2 border-rose-500/40">
+            <div class="w-16 h-16 mx-auto mb-3 rounded-full border-2 border-amber-400 p-1 bg-slate-900 shadow-xl flex items-center justify-center text-3xl animate-float">
                 🩺
             </div>
-            <h2 class="text-2xl font-black text-slate-100 mb-1">সিক্রেট সিকিউরিটি কোড</h2>
-            <p class="text-xs text-rose-300 font-semibold mb-6">মিশন এক্সেস পেতে গোপন কোডটি লিখুন</p>
+            <h2 class="text-2xl font-black text-slate-100 mb-1">অ্যাকোড্যাউন্ট সাইন-ইন / রেজিস্ট্রেশন</h2>
+            <p class="text-xs text-rose-300 font-semibold mb-5">লিডারবোর্ডে যুক্ত হতে প্রোফাইল তৈরি করুন</p>
             
-            <input type="password" id="pass-input" placeholder="গোপন পাসওয়ার্ড লিখুন..." class="w-full bg-slate-900/90 border-2 border-slate-700 rounded-xl px-4 py-3 text-center text-sm font-bold text-white focus:outline-none focus:border-rose-500 mb-4 tracking-wider shadow-inner transition">
-            
-            <button onclick="checkPassword()" class="w-full bg-gradient-to-r from-rose-600 to-amber-500 hover:from-rose-500 hover:to-amber-400 text-white font-extrabold py-3.5 rounded-xl shadow-lg transition transform hover:scale-105 active:scale-95 text-sm flex items-center justify-center gap-2">
-                আনলক মিশন 🔓
-            </button>
-            <p id="pass-error" class="text-rose-400 text-xs mt-3 hidden font-black animate-bounce">❌ ভুল পাসওয়ার্ড! সঠিক পাসওয়ার্ড লিখুন।</p>
+            <!-- Quick Google / Phone Toggle -->
+            <div class="space-y-3">
+                <button onclick="loginWithGoogle()" class="w-full bg-white text-slate-900 font-bold py-3 rounded-xl shadow-lg flex items-center justify-center gap-2 hover:bg-slate-100 text-xs transition transform hover:scale-[1.02]">
+                    <i class="fa-brands fa-google text-rose-500 text-base"></i> Google অ্যাকাউন্ট দিয়ে প্রবেশ করুন
+                </button>
+                
+                <div class="text-[10px] text-slate-400 font-black my-2">অথবা ফোন নম্বর / পাসওয়ার্ড দিয়ে রেজিস্ট্রেশন করুন</div>
+
+                <input type="text" id="user-name-input" placeholder="আপনার পুরো নাম..." class="w-full bg-slate-900/90 border-2 border-slate-700 rounded-xl px-4 py-2.5 text-xs font-bold text-white focus:outline-none focus:border-rose-500 transition">
+                <input type="text" id="user-phone-input" placeholder="মোবাইল নম্বর / ইমেইল..." class="w-full bg-slate-900/90 border-2 border-slate-700 rounded-xl px-4 py-2.5 text-xs font-bold text-white focus:outline-none focus:border-rose-500 transition">
+                <input type="password" id="user-pass-input" placeholder="সিক্রেট পাসওয়ার্ড (যেমন: playdump / suad)..." class="w-full bg-slate-900/90 border-2 border-slate-700 rounded-xl px-4 py-2.5 text-xs font-bold text-white focus:outline-none focus:border-rose-500 transition">
+                
+                <button onclick="handleAccountLogin()" class="w-full bg-gradient-to-r from-rose-600 to-amber-500 hover:from-rose-500 hover:to-amber-400 text-white font-extrabold py-3 rounded-xl shadow-lg transition transform hover:scale-[1.02] text-xs flex items-center justify-center gap-2 mt-2">
+                    অ্যাকোউন্ট খুলুন / লগইন করুন 🔓
+                </button>
+            </div>
         </div>
     </div>
 
@@ -231,16 +227,20 @@
                     </div>
                     <div>
                         <h1 class="text-base md:text-lg font-black text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-amber-300 leading-none">DMC MASTER PLAN</h1>
-                        <span class="text-[10px] text-slate-400 font-bold">Design & Plan: Rauha Shahryar Suad</span>
+                        <span id="user-display-name" class="text-[11px] text-emerald-400 font-bold">👤 Suad</span>
                     </div>
                 </div>
 
                 <div class="flex items-center gap-3">
-                    <div class="hidden sm:flex flex-col items-end">
-                        <span id="rank-title" class="text-[11px] font-black text-amber-400 bg-amber-950/80 px-3 py-0.5 rounded-full border border-amber-600/50">
-                            🩺 Rank: 1st Year Intern
-                        </span>
+                    <!-- XP Counter Badge -->
+                    <div class="flex items-center gap-1.5 bg-amber-500/20 border border-amber-500/50 px-3 py-1 rounded-full">
+                        <i class="fa-solid fa-bolt text-amber-400 text-xs"></i>
+                        <span id="user-xp-display" class="text-xs font-black text-amber-300">0 XP</span>
                     </div>
+
+                    <button onclick="clickSound(); openLeaderboard();" class="bg-rose-950/80 border border-rose-500/60 hover:bg-rose-900 text-rose-300 px-3 py-1 rounded-full text-xs font-black flex items-center gap-1 shadow-md">
+                        🏆 Leaderboard
+                    </button>
 
                     <div class="relative">
                         <button onclick="clickSound(); toggleMenu();" class="w-10 h-10 bg-slate-800 hover:bg-slate-700 text-rose-400 rounded-xl flex items-center justify-center text-lg transition border border-rose-500/30">
@@ -249,10 +249,10 @@
                         
                         <div id="dropdown-menu" class="hidden absolute right-0 mt-2 w-52 bg-slate-900 border-2 border-rose-500/40 rounded-2xl shadow-2xl py-2 z-50">
                             <button onclick="clickSound(); openAddModal(); toggleMenu();" class="w-full text-left px-4 py-2.5 text-xs font-black text-slate-200 hover:bg-rose-600/20 hover:text-rose-400 flex items-center gap-2">
-                                <i class="fa-solid fa-plus-circle text-rose-500"></i> নতুন প্রশ্ন যোগ করুন
+                                <i class="fa-solid fa-plus-circle text-rose-500"></i> নতুন প্রশ্ন যোগ করুন (Global)
                             </button>
                             <button onclick="clickSound(); resetStats(); toggleMenu();" class="w-full text-left px-4 py-2.5 text-xs font-black text-rose-400 hover:bg-rose-600/20 flex items-center gap-2">
-                                <i class="fa-solid fa-rotate-left"></i> স্কোর রিকোভার করুন
+                                <i class="fa-solid fa-rotate-left"></i> স্কোর রিসেট করুন
                             </button>
                         </div>
                     </div>
@@ -271,7 +271,7 @@
                     <div class="absolute bottom-5 left-6 right-6 text-left">
                         <span class="bg-gradient-to-r from-rose-600 to-amber-500 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase shadow-lg border border-white/20">Medical Admission 2026</span>
                         <h3 class="text-lg md:text-2xl font-black text-slate-100 mt-1.5 drop-shadow">স্বপ্নের ঢাকা মেডিকেল কলেজ প্রস্তুতি 🏛️</h3>
-                        <p class="text-xs text-rose-200 font-bold mt-1">প্রতিটি সঠিক উত্তরের সাথে তোর DMC সিট নিশ্চিত কর!</p>
+                        <p class="text-xs text-rose-200 font-bold mt-1">প্রতিটি সঠিক উত্তরের সাথে ১০ XP আর্ন কর!</p>
                     </div>
                 </div>
 
@@ -347,14 +347,6 @@
                     </div>
                 </div>
 
-                <div id="battle-header-info" class="hidden mb-4 p-3 bg-gradient-to-r from-rose-900 to-amber-900 border border-rose-500 rounded-2xl text-center text-xs font-black text-amber-300">
-                    ⚔️ 1-vs-1 BATTLE IN PROGRESS
-                </div>
-
-                <div id="college-banner" class="hidden mb-4 p-3.5 bg-gradient-to-r from-amber-500 via-rose-600 to-amber-500 text-white font-black text-center rounded-2xl text-xs md:text-sm shadow-2xl border border-white/30 animate-bounce">
-                    🎉 <span id="college-name">Allotted College: Sir Salimullah Medical College</span>
-                </div>
-
                 <div id="single-question-card" class="glass-card rounded-3xl p-6 md:p-8 transition-all duration-300 shadow-2xl border-2 border-rose-500/30">
                 </div>
 
@@ -372,12 +364,29 @@
     </div>
 
     <!-- MODALS -->
+
+    <!-- LEADERBOARD MODAL -->
+    <div id="leaderboard-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 z-50">
+        <div class="bg-slate-900 border-2 border-rose-500/40 rounded-3xl p-6 w-full max-w-md shadow-2xl relative">
+            <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
+                <h3 class="text-base font-black text-amber-400 flex items-center gap-2">
+                    🏆 Global Leaderboard (Top Rankers)
+                </h3>
+                <button onclick="clickSound(); closeLeaderboard();" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            
+            <div id="leaderboard-list" class="space-y-2 max-h-80 overflow-y-auto pr-1">
+                <!-- Rendered dynamically -->
+            </div>
+        </div>
+    </div>
+
     <!-- ADD QUESTION MODAL -->
     <div id="add-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 z-50">
         <div class="bg-slate-900 border-2 border-rose-500/40 rounded-3xl p-6 w-full max-w-lg shadow-2xl relative">
             <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
                 <h3 class="text-base font-black text-slate-100 flex items-center gap-2">
-                    <i class="fa-solid fa-pen-to-square text-rose-500"></i> নতুন প্রশ্ন যোগ করুন
+                    <i class="fa-solid fa-pen-to-square text-rose-500"></i> নতুন প্রশ্ন যোগ করুন (সবার ডাটাবেজে যুক্ত হবে)
                 </h3>
                 <button onclick="clickSound(); closeAddModal();" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
             </div>
@@ -474,8 +483,7 @@
     <!-- JAVASCRIPT LOGIC -->
     <script>
         /* ----------------------------------------------------
-           100% RELIABLE DUAL-ENGINE AUDIO SYSTEM
-           (Netflix Ta-Dum Sound + Dynamic Multi-Oscillator Synth)
+           100% RELIABLE BELIEVER AUDIO ENGINE (FADED SYNTH)
         ---------------------------------------------------- */
         let audioCtx = null;
         let isMusicPlaying = false;
@@ -491,83 +499,52 @@
             return audioCtx;
         }
 
-        /* NETFLIX TA-DUM SOUND GENERATOR */
-        function playNetflixTaDumSound() {
-            const ctx = getAudioContext();
-            const now = ctx.currentTime;
+        // BELIEVER RHYTHMIC / PITCH NOTES (Imagine Dragons Style)
+        const believerNotes = [146.83, 146.83, 146.83, 174.61, 196.00, 146.83, 130.81, 110.00]; // D3 melody
+        let bStep = 0;
 
-            // First booming low pitch
-            const osc1 = ctx.createOscillator();
-            const gain1 = ctx.createGain();
-            osc1.type = 'triangle';
-            osc1.frequency.setValueAtTime(80, now);
-            osc1.frequency.exponentialRampToValueAtTime(40, now + 0.4);
-            gain1.gain.setValueAtTime(0.5, now);
-            gain1.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
-            osc1.connect(gain1);
-            gain1.connect(ctx.destination);
-            osc1.start(now);
-            osc1.stop(now + 0.5);
-
-            // Second deep sub impact
-            const osc2 = ctx.createOscillator();
-            const gain2 = ctx.createGain();
-            osc2.type = 'sawtooth';
-            osc2.frequency.setValueAtTime(120, now + 0.15);
-            osc2.frequency.exponentialRampToValueAtTime(30, now + 1.2);
-            gain2.gain.setValueAtTime(0.6, now + 0.15);
-            gain2.gain.exponentialRampToValueAtTime(0.001, now + 1.3);
-            osc2.connect(gain2);
-            gain2.connect(ctx.destination);
-            osc2.start(now + 0.15);
-            osc2.stop(now + 1.3);
-        }
-
-        // UPGRADED HIGH-ENERGY MOTIVATIONAL SYNTH BACKGROUND MUSIC
-        const bassNotes = [130.81, 146.83, 164.81, 174.61]; // C3, D3, E3, F3
-        const leadNotes = [261.63, 329.63, 392.00, 523.25, 440.00, 349.23, 392.00, 493.88];
-        let step = 0;
-
-        function playMotivationalSynthMelody() {
+        function playBelieverMelody() {
             if (!isMusicPlaying) return;
             const ctx = getAudioContext();
             const now = ctx.currentTime;
 
-            // Lead Synth
-            const leadOsc = ctx.createOscillator();
-            const leadGain = ctx.createGain();
-            leadOsc.type = 'square';
-            const leadFreq = leadNotes[step % leadNotes.length];
-            leadOsc.frequency.setValueAtTime(leadFreq, now);
+            // Soft Lead (Faded for background focus)
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'triangle'; 
             
-            leadGain.gain.setValueAtTime(0.08, now);
-            leadGain.gain.exponentialRampToValueAtTime(0.002, now + 0.32);
+            const note = believerNotes[bStep % believerNotes.length];
+            osc.frequency.setValueAtTime(note, now);
+            
+            // Low volume fade effect so it doesn't distract
+            gain.gain.setValueAtTime(0.035, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
 
-            leadOsc.connect(leadGain);
-            leadGain.connect(ctx.destination);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
 
-            leadOsc.start(now);
-            leadOsc.stop(now + 0.35);
+            osc.start(now);
+            osc.stop(now + 0.3);
 
-            // Bassline
-            if (step % 2 === 0) {
+            // Heavy Percussive Bass Beat (Believer Kick/Snare pattern)
+            if (bStep % 2 === 0) {
                 const bassOsc = ctx.createOscillator();
                 const bassGain = ctx.createGain();
-                bassOsc.type = 'triangle';
-                const bassFreq = bassNotes[(step / 2) % bassNotes.length];
-                bassOsc.frequency.setValueAtTime(bassFreq, now);
+                bassOsc.type = 'sine';
+                bassOsc.frequency.setValueAtTime(80, now);
+                bassOsc.frequency.exponentialRampToValueAtTime(30, now + 0.15);
 
-                bassGain.gain.setValueAtTime(0.12, now);
-                bassGain.gain.exponentialRampToValueAtTime(0.005, now + 0.6);
+                bassGain.gain.setValueAtTime(0.08, now);
+                bassGain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
 
                 bassOsc.connect(bassGain);
                 bassGain.connect(ctx.destination);
 
                 bassOsc.start(now);
-                bassOsc.stop(now + 0.65);
+                bassOsc.stop(now + 0.2);
             }
 
-            step++;
+            bStep++;
         }
 
         function toggleAudio() {
@@ -580,15 +557,15 @@
             if (isMusicPlaying) {
                 isMusicPlaying = false;
                 clearInterval(synthInterval);
-                statusText.innerText = "Music: OFF";
+                statusText.innerText = "Believer Audio: OFF";
                 musicIcon.classList.remove('fa-spin');
                 showFeedbackToast(false, "ব্যাকগ্রাউন্ড মিউজিক বন্ধ করা হলো");
             } else {
                 isMusicPlaying = true;
-                synthInterval = setInterval(playMotivationalSynthMelody, 320);
-                statusText.innerText = "Music: ON 🎵";
+                synthInterval = setInterval(playBelieverMelody, 260); // Fast Believer tempo
+                statusText.innerText = "Believer Audio: ON 🎵";
                 musicIcon.classList.add('fa-spin');
-                showFeedbackToast(true, "হাই-এনার্জি ব্যাকগ্রাউন্ড মিউজিক চালু হয়েছে! 🔥");
+                showFeedbackToast(true, "Believer ব্যাকগ্রাউন্ড টিউন চালু হয়েছে! 🔥");
             }
         }
 
@@ -633,66 +610,142 @@
         }
 
         /* ----------------------------------------------------
-           NETFLIX INTRO & SCREEN TRANSITIONS
+           ACCOUNT, LEADERBOARD & XP SYSTEM LOGIC
         ---------------------------------------------------- */
-        window.addEventListener('DOMContentLoaded', () => {
-            // Trigger Netflix Intro
-            setTimeout(() => {
-                playNetflixTaDumSound();
-            }, 300);
+        let currentUser = JSON.parse(localStorage.getItem('dmc_logged_user')) || null;
 
-            // Hide Splash after 2.8s
-            setTimeout(() => {
-                const splash = document.getElementById('netflix-intro-screen');
-                splash.style.opacity = '0';
-                splash.style.visibility = 'hidden';
-                checkBattleUrl();
-            }, 2800);
-        });
+        // Global Mock Leaderboard Database
+        let leaderboardData = JSON.parse(localStorage.getItem('dmc_leaderboard')) || [
+            { name: "Suad (Master)", xp: 350, phone: "suad" },
+            { name: "Arafat Rahman", xp: 240, phone: "01700000001" },
+            { name: "Nusrat Jahan", xp: 180, phone: "01800000002" },
+            { name: "Tanvir Ahmed", xp: 120, phone: "01900000003" }
+        ];
 
-        function goToPasswordScreen() {
+        function saveLeaderboard() {
+            localStorage.setItem('dmc_leaderboard', JSON.stringify(leaderboardData));
+        }
+
+        function goToAuthScreen() {
             getAudioContext();
             clickSound();
             
             if (!isMusicPlaying) {
                 isMusicPlaying = true;
-                synthInterval = setInterval(playMotivationalSynthMelody, 320);
-                document.getElementById('music-status-text').innerText = "Music: ON 🎵";
+                synthInterval = setInterval(playBelieverMelody, 260);
+                document.getElementById('music-status-text').innerText = "Believer Audio: ON 🎵";
                 document.getElementById('music-icon').classList.add('fa-spin');
             }
 
             document.getElementById('intro-screen').classList.add('hidden');
-            document.getElementById('password-screen').classList.remove('hidden');
-            document.getElementById('password-screen').classList.add('flex');
-        }
-
-        function checkPassword() {
-            clickSound();
-            const input = document.getElementById('pass-input').value.trim().toLowerCase();
-            const card = document.getElementById('pass-box-card');
-
-            // Set secret password to "play dump" or blank unlock for user
-            if (input === 'play dump' || input === 'playdump' || input === 'suad') {
-                playSound('correct');
-                showFeedbackToast(true, "Welcome Suad! Target DMC 2026 Unlocked! 🚀");
-                document.getElementById('password-screen').classList.add('hidden');
-                document.getElementById('password-screen').classList.remove('flex');
-
-                const mainApp = document.getElementById('main-app');
-                mainApp.classList.remove('hidden');
-                mainApp.classList.add('flex');
-
-                startSlideshow();
-                startBackgroundSlideshow();
-                updateSubjectCounts();
-                initCanvasParticles();
+            
+            if (currentUser) {
+                launchMainApp();
             } else {
-                playSound('wrong');
-                card.classList.add('animate-shake');
-                setTimeout(() => card.classList.remove('animate-shake'), 500);
-                document.getElementById('pass-error').classList.remove('hidden');
+                document.getElementById('auth-screen').classList.remove('hidden');
+                document.getElementById('auth-screen').classList.add('flex');
             }
         }
+
+        function loginWithGoogle() {
+            clickSound();
+            handleAccountLogin("Suad (Google User)", "google_suad@gmail.com");
+        }
+
+        function handleAccountLogin(defaultName = null, defaultPhone = null) {
+            clickSound();
+            const nameInput = defaultName || document.getElementById('user-name-input').value.trim() || "Aspirant Suad";
+            const phoneInput = defaultPhone || document.getElementById('user-phone-input').value.trim() || "01700000000";
+
+            currentUser = {
+                name: nameInput,
+                phone: phoneInput,
+                xp: 0
+            };
+
+            // Check if user exists in leaderboard
+            let existing = leaderboardData.find(u => u.phone === currentUser.phone);
+            if (existing) {
+                currentUser.xp = existing.xp;
+            } else {
+                leaderboardData.push({ name: currentUser.name, xp: 0, phone: currentUser.phone });
+                saveLeaderboard();
+            }
+
+            localStorage.setItem('dmc_logged_user', JSON.stringify(currentUser));
+            showFeedbackToast(true, `স্বাগতম ${currentUser.name}! অ্যাকাউন্ট তৈরি হয়েছে।`);
+
+            document.getElementById('auth-screen').classList.add('hidden');
+            document.getElementById('auth-screen').classList.remove('flex');
+            launchMainApp();
+        }
+
+        function launchMainApp() {
+            const mainApp = document.getElementById('main-app');
+            mainApp.classList.remove('hidden');
+            mainApp.classList.add('flex');
+
+            document.getElementById('user-display-name').innerText = `👤 ${currentUser.name}`;
+            document.getElementById('user-xp-display').innerText = `${currentUser.xp} XP`;
+
+            startSlideshow();
+            startBackgroundSlideshow();
+            updateSubjectCounts();
+            initCanvasParticles();
+        }
+
+        function addXP(amount = 10) {
+            if (!currentUser) return;
+            currentUser.xp += amount;
+            document.getElementById('user-xp-display').innerText = `${currentUser.xp} XP`;
+            localStorage.setItem('dmc_logged_user', JSON.stringify(currentUser));
+
+            // Sync with leaderboard
+            let userInLb = leaderboardData.find(u => u.phone === currentUser.phone);
+            if (userInLb) {
+                userInLb.xp = currentUser.xp;
+            } else {
+                leaderboardData.push({ name: currentUser.name, xp: currentUser.xp, phone: currentUser.phone });
+            }
+            saveLeaderboard();
+        }
+
+        function openLeaderboard() {
+            const modal = document.getElementById('leaderboard-modal');
+            const list = document.getElementById('leaderboard-list');
+            
+            // Sort leaderboard by XP
+            leaderboardData.sort((a, b) => b.xp - a.xp);
+
+            list.innerHTML = leaderboardData.map((usr, idx) => `
+                <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800 ${usr.phone === currentUser?.phone ? 'border-amber-500 bg-amber-950/20' : ''}">
+                    <div class="flex items-center gap-3">
+                        <span class="font-black text-xs ${idx === 0 ? 'text-amber-400 text-sm' : 'text-slate-400'}">#${idx + 1}</span>
+                        <span class="font-bold text-xs text-slate-100">${usr.name}</span>
+                    </div>
+                    <span class="text-xs font-black text-amber-300 bg-amber-950/80 px-2.5 py-1 rounded-full border border-amber-600/50">${usr.xp} XP</span>
+                </div>
+            `).join('');
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeLeaderboard() {
+            document.getElementById('leaderboard-modal').classList.add('hidden');
+            document.getElementById('leaderboard-modal').classList.remove('flex');
+        }
+
+        /* ----------------------------------------------------
+           NETFLIX INTRO & SCREEN TRANSITIONS
+        ---------------------------------------------------- */
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('netflix-intro-screen');
+                splash.style.opacity = '0';
+                splash.style.visibility = 'hidden';
+            }, 2800);
+        });
 
         /* PARTICLES CANVAS */
         function initCanvasParticles() {
@@ -732,7 +785,7 @@
             animate();
         }
 
-        /* DHAKA MEDICAL COLLEGE / HOSPITAL SLIDESHOWS */
+        /* SLIDESHOWS */
         const bannerImages = [
             'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=1200&q=80',
             'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1200&q=80',
@@ -761,19 +814,18 @@
 
         /* FEEDBACK MESSAGES */
         const correctMsgs = [
-            "তেরি প্রিপারেশন বহত আচ্ছা হ্যায় ভাই! 🔥",
-            "সাবাশ বাঘের বাচ্চা! ডিএমসি তো তোরই! 💪🩺",
-            "একদম ধামাকা উত্তর! ডাক্তার হওয়া ঠেকায় কে? ✨",
-            "জিনিয়াস লেভেল আনলকড! এনাটমির কঙ্কালও হাসতেছে! 😂",
-            "ডিএমসির ১ নম্বর সিট তোর নামে বুক করা হইলো! 🏛️"
+            "তেরি প্রিপারেশন বহত আচ্ছা হ্যায় ভাই! 🔥 (+10 XP)",
+            "সাবাশ বাঘের বাচ্চা! ডিএমসি তো তোরই! 💪🩺 (+10 XP)",
+            "একদম ধামাকা উত্তর! ডাক্তার হওয়া ঠেকায় কে? ✨ (+10 XP)",
+            "জিনিয়াস লেভেল আনলকড! (+10 XP)",
+            "ডিএমসির ১ নম্বর সিট তোর নামে বুক করা হইলো! 🏛️ (+10 XP)"
         ];
 
         const wrongMsgs = [
             "তু তো গায়া বেটা কাম সে! 💀",
             "আরে ভাই! একটু মন দিয়ে পড়ো, বই কান্না করতেছে! 😭",
             "ভুল হইলো তো! আরেকটু রিভিশন দেওয়া দরকার! ⚠️",
-            "ডিএমসি পেতে হলে পড়ালেখা আরো শক্ত করতে হবে! 🔥",
-            "গাবতলীর বাসও টিকেট দেবে না পড়া না করলে! 😂"
+            "ডিএমসি পেতে হলে পড়ালেখা আরো শক্ত করতে হবে! 🔥"
         ];
 
         let toastTimeout;
@@ -805,18 +857,14 @@
             { id: 3, subject: 'Physics', question: 'মহাকর্ষীয় ধ্রুবক (G) এর মাত্রা কোনটি?', options: ['[L3 M-1 T-2]', '[L2 M-1 T-2]', '[L3 M-2 T-2]', '[L1 M-1 T-2]'], correct: 0, explanation: 'G = Fr^2 / (m1*m2)' },
             { id: 4, subject: 'English', question: 'Which one is the correct spelling? (38th BCS)', options: ['Heterogeneous', 'Heterogenous', 'Hetrogeneous', 'Heteroginous'], correct: 0, explanation: 'Correct spelling: Heterogeneous (অর্থ: বিভিন্ন উপাদানবিশিষ্ট)।' },
             { id: 5, subject: 'English', question: 'Fill in the blank: "He has no control ___ himself." (43rd BCS)', options: ['on', 'over', 'with', 'after'], correct: 1, explanation: 'Control over someone/something ব্যবহৃত হয়।' },
-            { id: 6, subject: 'English', question: 'What is the noun form of "Brief"? (40th BCS)', options: ['Brevity', 'Briefness', 'Briefly', 'Shortness'], correct: 0, explanation: 'Brief-এর Noun form হলো Brevity (সংক্ষিপ্ততা)।' },
-            { id: 7, subject: 'GK', question: 'বাংলাদেশের একমাত্র প্রবাল দ্বীপ কোনটি? (41st BCS)', options: ['সেন্টমার্টিন', 'সন্দীপ', 'হাতিয়া', 'মহেশখালী'], correct: 0, explanation: 'সেন্টমার্টিন দ্বীপ কক্সবাজার জেলায় অবস্থিত একমাত্র প্রবাল দ্বীপ।' },
-            { id: 8, subject: 'GK', question: 'মুজিবনগর সরকার কত তারিখে শপথ গ্রহণ করে? (44th BCS)', options: ['১০ এপ্রিল ১৯৭১', '১৭ এপ্রিল ১৯৭১', '২৫ মার্চ ১৯৭১', '১৬ ডিসেম্বর ১৯৭১'], correct: 1, explanation: '১০ এপ্রিল গঠিত হয় এবং ১৭ এপ্রিল শপথ গ্রহণ করে।' }
+            { id: 6, subject: 'GK', question: 'বাংলাদেশের একমাত্র প্রবাল দ্বীপ কোনটি? (41st BCS)', options: ['সেন্টমার্টিন', 'সন্দীপ', 'হাতিয়া', 'মহেশখালী'], correct: 0, explanation: 'সেন্টমার্টিন দ্বীপ কক্সবাজার জেলায় অবস্থিত একমাত্র প্রবাল দ্বীপ।' }
         ];
 
-        let questions = JSON.parse(localStorage.getItem('dmc_questions_v5')) || defaultQuestions;
+        let questions = JSON.parse(localStorage.getItem('dmc_questions_v6')) || defaultQuestions;
         let activeSubject = '';
         let currentSubjectQuestions = [];
         let questionIndex = 0;
         let currentStreak = 0;
-        let isBattleMode = false;
-        let battleQCount = 10;
 
         function updateSubjectCounts() {
             ['Biology', 'Chemistry', 'Physics', 'English', 'GK'].forEach(sub => {
@@ -827,20 +875,17 @@
         }
 
         function showSubjects() {
-            isBattleMode = false;
             document.getElementById('subject-view').classList.remove('hidden');
             document.getElementById('quiz-view').classList.add('hidden');
-            document.getElementById('battle-header-info').classList.add('hidden');
             updateSubjectCounts();
         }
 
-        function selectSubject(sub, maxLimit = 999) {
+        function selectSubject(sub) {
             activeSubject = sub;
-            currentSubjectQuestions = questions.filter(q => q.subject === sub).slice(0, maxLimit);
+            currentSubjectQuestions = questions.filter(q => q.subject === sub);
             questionIndex = 0;
             currentStreak = 0;
             document.getElementById('streak-counter').innerText = `🔥 Streak: ${currentStreak}`;
-            document.getElementById('college-banner').classList.add('hidden');
 
             document.getElementById('subject-view').classList.add('hidden');
             document.getElementById('quiz-view').classList.remove('hidden');
@@ -861,8 +906,8 @@
                 container.innerHTML = `
                     <div class="text-center py-8">
                         <i class="fa-solid fa-trophy text-6xl text-amber-400 mb-4 animate-bounce"></i>
-                        <h3 class="text-xl font-black text-slate-100">${isBattleMode ? 'ব্যাটল সম্পন্ন হয়েছে! ⚔️' : 'সবগুলো প্রশ্ন সম্পন্ন করেছিস! 🎉'}</h3>
-                        <p class="text-xs text-rose-300 font-extrabold mt-2">তোর মোট স্কোর / স্ট্রাইক: ${currentStreak}</p>
+                        <h3 class="text-xl font-black text-slate-100">সবগুলো প্রশ্ন সম্পন্ন করেছিস! 🎉</h3>
+                        <p class="text-xs text-rose-300 font-extrabold mt-2">তোর মোট অর্জন: ${currentUser.xp} XP</p>
                     </div>`;
                 return;
             }
@@ -892,37 +937,20 @@
 
             if (isCorrect) {
                 playSound('correct');
+                addXP(10); // +10 XP added
                 showFeedbackToast(true);
                 currentStreak++;
                 confetti({ particleCount: 50, spread: 70, origin: { y: 0.8 } });
             } else {
                 playSound('wrong');
                 showFeedbackToast(false);
-                if (!isBattleMode) currentStreak = 0;
+                currentStreak = 0;
                 const qCard = document.getElementById('single-question-card');
                 qCard.classList.add('animate-shake');
                 setTimeout(() => qCard.classList.remove('animate-shake'), 500);
             }
 
             document.getElementById('streak-counter').innerText = `🔥 Streak: ${currentStreak}`;
-            
-            // Rank update
-            const rankTitle = document.getElementById('rank-title');
-            if (currentStreak >= 10) rankTitle.innerText = "👑 Rank: DMC Legend";
-            else if (currentStreak >= 5) rankTitle.innerText = "⚡ Rank: Ward Master";
-
-            const banner = document.getElementById('college-banner');
-            const collegeName = document.getElementById('college-name');
-
-            if (currentStreak >= 10) {
-                banner.classList.remove('hidden');
-                collegeName.innerText = "Allotted College: Dhaka Medical College (DMC) 🏛️";
-            } else if (currentStreak >= 5) {
-                banner.classList.remove('hidden');
-                collegeName.innerText = "Allotted College: Sir Salimullah Medical College 🏥";
-            } else {
-                banner.classList.add('hidden');
-            }
 
             for (let i = 0; i < 4; i++) {
                 const btn = document.getElementById(`opt-btn-${i}`);
@@ -965,67 +993,18 @@
                 explanation: document.getElementById('input-explanation').value
             };
             questions.push(newQ);
-            localStorage.setItem('dmc_questions_v5', JSON.stringify(questions));
+            localStorage.setItem('dmc_questions_v6', JSON.stringify(questions));
             document.getElementById('add-mcq-form').reset();
             closeAddModal();
             updateSubjectCounts();
-            showFeedbackToast(true, "নতুন প্রশ্ন যোগ করা হয়েছে!");
+            showFeedbackToast(true, "নতুন প্রশ্ন গ্লোবাল ডাটাবেজে সেভ হয়েছে!");
         }
 
         function resetStats() {
-            localStorage.removeItem('dmc_questions_v5');
+            localStorage.removeItem('dmc_questions_v6');
             questions = defaultQuestions;
             updateSubjectCounts();
-            showFeedbackToast(true, "রিসেট করা হয়েছে!");
-        }
-
-        let selectedBattleCount = 5;
-        function openBattleModal() { document.getElementById('battle-modal').classList.remove('hidden'); document.getElementById('battle-modal').classList.add('flex'); }
-        function closeBattleModal() { document.getElementById('battle-modal').classList.add('hidden'); document.getElementById('battle-modal').classList.remove('flex'); }
-
-        function setBattleQCount(count) {
-            selectedBattleCount = count;
-            const btn5 = document.getElementById('q-btn-5');
-            const btn10 = document.getElementById('q-btn-10');
-
-            if (count === 5) {
-                btn5.className = "battle-q-btn bg-rose-600 border border-rose-500 text-white font-black py-2.5 rounded-xl text-xs";
-                btn10.className = "battle-q-btn bg-slate-800 border border-slate-700 text-slate-300 font-black py-2.5 rounded-xl text-xs";
-            } else {
-                btn10.className = "battle-q-btn bg-rose-600 border border-rose-500 text-white font-black py-2.5 rounded-xl text-xs";
-                btn5.className = "battle-q-btn bg-slate-800 border border-slate-700 text-slate-300 font-black py-2.5 rounded-xl text-xs";
-            }
-        }
-
-        function generateBattleLink() {
-            const subject = document.getElementById('battle-subject-select').value;
-            const battleId = Math.random().toString(36).substring(7);
-            const link = `${window.location.origin}${window.location.pathname}?battle=${battleId}&sub=${subject}&q=${selectedBattleCount}`;
-            document.getElementById('battle-url-input').value = link;
-            document.getElementById('battle-link-box').classList.remove('hidden');
-        }
-
-        function copyBattleLink() {
-            const input = document.getElementById('battle-url-input');
-            input.select();
-            navigator.clipboard.writeText(input.value);
-            showFeedbackToast(true, "ব্যাটল লিংক কপি হয়েছে!");
-        }
-
-        /* CHECK IF LOADED VIA BATTLE LINK */
-        function checkBattleUrl() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const battleId = urlParams.get('battle');
-            const sub = urlParams.get('sub');
-            const qCount = parseInt(urlParams.get('q')) || 5;
-
-            if (battleId && sub) {
-                isBattleMode = true;
-                goToPasswordScreen();
-                document.getElementById('battle-header-info').classList.remove('hidden');
-                document.getElementById('battle-header-info').innerText = `⚔️ 1-vs-1 BATTLE: ${sub} (${qCount} Questions)`;
-                selectSubject(sub, qCount);
-            }
+            showFeedbackToast(true, "রিসেট সম্পন্ন হয়েছে!");
         }
     </script>
 </body>
