@@ -3,217 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedVibe & Anatomy Checker</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>✨ Pookie Crush Finder ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+        :root {
+            --pookie-pink: #ffb7c5;
+            --soft-pink: #ffe4e9;
+            --barbie-dark: #ff69b4;
+            --white: #ffffff;
         }
+
         body {
-            background: radial-gradient(circle at top left, #0f172a, #1e1b4b, #09090b);
+            background: linear-gradient(135deg, #fce4ec, #f8bbd0);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #f8fafc;
-            padding: 20px;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            overflow: hidden;
         }
+
         .container {
-            background: rgba(30, 41, 59, 0.6);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
             padding: 40px;
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            width: 100%;
-            max-width: 500px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .badge {
-            background: rgba(239, 68, 68, 0.15);
-            color: #f87171;
-            padding: 6px 14px;
             border-radius: 50px;
-            font-size: 12px;
-            font-weight: 600;
-            display: inline-block;
-            margin-bottom: 15px;
-            border: 1px solid rgba(239, 68, 68, 0.3);
+            box-shadow: 0 10px 40px rgba(255, 105, 180, 0.2);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            border: 5px solid var(--white);
+            position: relative;
         }
-        h2 {
-            margin-bottom: 10px;
-            font-size: 26px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            color: #ffffff;
-        }
-        .subtitle {
-            font-size: 14px;
-            color: #94a3b8;
-            margin-bottom: 25px;
-        }
-        .input-group {
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--barbie-dark);
+            font-size: 35px;
             margin-bottom: 20px;
-            text-align: left;
         }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 13px;
-            font-weight: 500;
-            color: #cbd5e1;
-        }
+
         input {
             width: 100%;
-            padding: 14px 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
+            padding: 15px;
+            border: 2px solid var(--pookie-pink);
+            border-radius: 25px;
+            background: white;
             outline: none;
-            background: rgba(15, 23, 42, 0.6);
-            color: #fff;
-            font-size: 15px;
-            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 20px;
         }
-        input:focus {
-            border-color: #38bdf8;
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
-        }
+
         button {
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            background: var(--barbie-dark);
             color: white;
             border: none;
-            padding: 15px;
-            border-radius: 12px;
-            font-size: 16px;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: 600;
             cursor: pointer;
-            width: 100%;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
-            margin-top: 10px;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
         }
+
         button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+            transform: scale(1.05);
+            background: #ff1493;
         }
-        .result-box {
+
+        #result {
             margin-top: 25px;
-            padding: 20px;
-            background: rgba(15, 23, 42, 0.7);
-            border-radius: 16px;
+            font-size: 20px;
+            font-weight: 600;
+            color: #d81b60;
             display: none;
-            text-align: left;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            animation: fadeIn 0.5s ease;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        /* Decorative sparkles */
+        .sparkle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ffeb3b;
+            border-radius: 50%;
+            animation: twinkle 1.5s infinite;
         }
-        .result-box h3 {
-            color: #38bdf8;
-            margin-bottom: 12px;
-            font-size: 17px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .result-item {
-            margin-bottom: 10px;
-            font-size: 14px;
-            color: #e2e8f0;
-            line-height: 1.5;
-        }
-        .highlight {
-            color: #facc15;
-            font-weight: 600;
-        }
-        .medical-fact {
-            color: #34d399;
-            font-style: italic;
-            font-size: 13px;
-            margin-top: 8px;
-            border-left: 3px solid #34d399;
-            padding-left: 10px;
-        }
+
+        @keyframes twinkle { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <span class="badge">🩺 NEET / MBBS Vibe Lab</span>
-        <h2>Medical & Brain Scanner</h2>
-        <p class="subtitle">আপনার বন্ধু বা ক্রাশের মেডিকেল কন্ডিশন ও ব্রেন সেল স্ট্যাটাস চেক করুন!</p>
-        
-        <div class="input-group">
-            <label>রোগীর (বন্ধুর) নাম:</label>
-            <input type="text" id="patientName" placeholder="যেমন: রাহিম / ফাহিম...">
-        </div>
-        
-        <div class="input-group">
-            <label>তার প্রধান সমস্যা কী?:</label>
-            <input type="text" id="patientSymptom" placeholder="যেমন: অতিরিক্ত ঘুম / সারাদিন ইনস্টাগ্রাম...">
-        </div>
-        
-        <button onclick="runMedicalScan()">স্ক্যান শুরু করুন 🔬</button>
-        
-        <div class="result-box" id="resultBox">
-            <h3 id="resTitle"></h3>
-            <div class="result-item" id="resDiagnosis"></div>
-            <div class="result-item" id="resPrescription"></div>
-            <div class="medical-fact" id="resFact"></div>
-        </div>
+        <h1>💖 Pookie Vibes 💖</h1>
+        <p>তোমার মনের মানুষটি কে?</p>
+        <input type="text" id="userName" placeholder="তোমার নাম লেখো... ✨">
+        <button onclick="findCrush()">Reveal Secret ✨</button>
+        <div id="result"></div>
     </div>
 
     <script>
-        const diagnoses = [
-            "ব্রেনের মধ্যে নিউরনের সংযোগ প্রায় বিচ্ছিন্ন, সারাক্ষণ শুধু রিলস আর ক্রাশের চিন্তা চলছে! 🧠💤",
-            "হৃদস্পন্দন স্বাভাবিকের চেয়ে বেশি, তবে সেটি বইয়ের পড়ার ভয়ে নাকি অন্য কারণে—তা নিশ্চিত নয়। ❤️‍🔥",
-            "বডি মেটাবলিজম অলস টাইপের, পড়ার টেব দেখলে ইমিউনিটি পাওয়ার একেবারে শূন্যে নেমে যায়! 📉",
-            "ব্লাডে ক্যাফেইন এবং পরীক্ষার আগের রাতের টেনশনের মাত্রা চরম পর্যায়ে পৌঁছে গেছে। ☕",
-            "ক্রনিক প্রোক্রাস্টিনেশন সিন্ড্রোম (Chronic Procrastination) ধরা পড়েছে, যা পুরোপুরি নিরাময় অসম্ভব!"
-        ];
-
-        const prescriptions = [
-            "প্রেসক্রিপশন: দিনে অন্তত ৩ পাতা বায়োলজি পড়া এবং ১ লিটার ঠান্ডা পানি খাওয়া বাধ্যতামূলক। 💧",
-            "প্রেসক্রিপশন: ফেসবুক ও টিকটক থেকে দুই গজ দূরে থাকা এবং ফিজিক্সের ম্যাথ দিয়ে ব্রেন এক্সারসাইজ করা। 📚",
-            "প্রেসক্রিপশন: সপ্তাহে ৭ দিনই একটানা রিভিশন থেরাপি নিতে হবে, কোনো ছাড় নেই! 💊",
-            "প্রেসক্রিপশন: রাতে ৮ ঘণ্টা ঘুমানোর চেষ্টা করা হলেও শেষ পর্যন্ত শুধু ডেডলাইন নিয়ে চিন্তা করার পরামর্শ দেওয়া হলো। 🌙"
-        ];
-
-        const medFacts = [
-            "⚕️ মেডিকেল ফ্যাক্ট: মানুষের শরীরের সবচেয়ে শক্তিশালী পেশী হলো জিভ (Tongue)!",
-            "⚕️ মেডিকেল ফ্যাক্ট: আমাদের ক্ষুদ্রান্ত্রটি লম্বায় প্রায় ২০ ফুটেরও বেশি হয়, যা ছোট একটা রুমের সমান!",
-            "⚕️ মেডিকেল ফ্যাক্ট: লিভার হলো শরীরের একমাত্র অঙ্গ যা নিজেই নিজের ক্ষতি পুষিয়ে পুরোপুরি regenerate করতে পারে।",
-            "⚕️ মেডিকেল ফ্যাক্ট: প্রতি মিনিটে আমাদের হৃদপিণ্ড প্রায় ৭২ বার স্পন্দিত হয় এবং সারাদিনে প্রায় ১ লক্ষ বার পাম্প করে।"
-        ];
-
-        function runMedicalScan() {
-            const name = document.getElementById('patientName').value.trim();
-            const symptom = document.getElementById('patientSymptom').value.trim();
+        function findCrush() {
+            const name = document.getElementById('userName').value.trim();
+            const resultDiv = document.getElementById('result');
             
-            if(name === "" || symptom === "") {
-                alert("দয়া করে রোগীর নাম এবং লক্ষণ দুটোই লিখুন!");
+            if (!name) {
+                alert("আগে নিজের নাম তো লেখো, পুকি! 🎀");
                 return;
             }
 
-            const randomDiag = diagnoses[Math.floor(Math.random() * diagnoses.length)];
-            const randomPres = prescriptions[Math.floor(Math.random() * prescriptions.length)];
-            const randomFact = medFacts[Math.floor(Math.random() * medFacts.length)];
-            const randomHeartRate = Math.floor(Math.random() * 40) + 70; // 70 to 110 bpm
+            const boys = ["রাহাত", "আয়ান", "আরিয়ান", "ফাহিম", "সিয়াম", "সাদ"];
+            const girls = ["মাইশা", "ঐশী", "সারা", "দিয়া", "তানিশা", "মেহজাবিন"];
+            
+            let crushName = "";
+            const lowerName = name.toLowerCase();
 
-            document.getElementById('resTitle').innerHTML = `🩺 ডায়াগনোসিস রিপোর্ট: <span class="highlight">${name}</span>`;
-            document.getElementById('resDiagnosis').innerHTML = `<strong>রিপোর্ট:</strong> ${randomDiag} <br><small style="color:#94a3b8">লক্ষণ: "${symptom}" | হার্ট রেট: ${randomHeartRate} BPM</small>`;
-            document.getElementById('resPrescription').innerHTML = `<strong>ডাক্তারি পরামর্শ:</strong> ${randomPres}`;
-            document.getElementById('resFact').innerHTML = randomFact;
+            // Special logic for Maisha/Oishi
+            if (lowerName.includes("মাইশা") || lowerName.includes("ঐশী")) {
+                crushName = "রাহাত";
+            } else {
+                // Random logic
+                const isBoy = Math.random() > 0.5;
+                if (isBoy) {
+                    crushName = girls[Math.floor(Math.random() * girls.length)];
+                } else {
+                    crushName = boys[Math.floor(Math.random() * boys.length)];
+                }
+            }
 
-            document.getElementById('resultBox').style.display = "block";
+            resultDiv.style.display = "block";
+            resultDiv.innerHTML = `✨ ${name}, তোমার ক্রাশ হলো <span style="font-size: 28px;">${crushName}</span>! 🎀`;
         }
     </script>
-
 </body>
 </html>
