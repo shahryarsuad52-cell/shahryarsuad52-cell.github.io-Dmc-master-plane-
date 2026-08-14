@@ -2,159 +2,215 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name-="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fun & Learn Vibe Checker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedVibe & Anatomy Checker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            height: 100vh;
+            background: radial-gradient(circle at top left, #0f172a, #1e1b4b, #09090b);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #fff;
+            color: #f8fafc;
+            padding: 20px;
         }
         .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            width: 90%;
-            max-width: 450px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .badge {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 15px;
+            border: 1px solid rgba(239, 68, 68, 0.3);
         }
         h2 {
-            margin-bottom: 20px;
-            font-size: 24px;
-            color: #ffd700;
+            margin-bottom: 10px;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+        }
+        .subtitle {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 25px;
         }
         .input-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             text-align: left;
         }
         label {
             display: block;
-            margin-bottom: 5px;
-            font-size: 14px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #cbd5e1;
         }
         input {
             width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
+            padding: 14px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
             outline: none;
-            background: rgba(255, 255, 255, 0.8);
-            color: #333;
-            font-size: 16px;
+            background: rgba(15, 23, 42, 0.6);
+            color: #fff;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+        input:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
         }
         button {
-            background: #ff4757;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
+            padding: 15px;
+            border-radius: 12px;
             font-size: 16px;
             cursor: pointer;
             width: 100%;
-            font-weight: bold;
-            transition: 0.3s;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
             margin-top: 10px;
         }
         button:hover {
-            background: #ff6b81;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
         }
         .result-box {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 16px;
             display: none;
             text-align: left;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .result-box h3 {
-            color: #00ffcc;
-            margin-bottom: 8px;
-            font-size: 18px;
+            color: #38bdf8;
+            margin-bottom: 12px;
+            font-size: 17px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .result-box p {
-            margin-bottom: 8px;
+        .result-item {
+            margin-bottom: 10px;
             font-size: 14px;
-            line-height: 1.4;
+            color: #e2e8f0;
+            line-height: 1.5;
         }
-        .fact-text {
-            color: #fffa65;
+        .highlight {
+            color: #facc15;
+            font-weight: 600;
+        }
+        .medical-fact {
+            color: #34d399;
             font-style: italic;
+            font-size: 13px;
+            margin-top: 8px;
+            border-left: 3px solid #34d399;
+            padding-left: 10px;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h2>🔥 Ultimate Vibe & Science Checker 🔥</h2>
+        <span class="badge">🩺 NEET / MBBS Vibe Lab</span>
+        <h2>Medical & Brain Scanner</h2>
+        <p class="subtitle">আপনার বন্ধু বা ক্রাশের মেডিকেল কন্ডিশন ও ব্রেন সেল স্ট্যাটাস চেক করুন!</p>
         
         <div class="input-group">
-            <label>আপনার নাম:</label>
-            <input type="text" id="name1" placeholder="এখানে নাম লিখুন...">
+            <label>রোগীর (বন্ধুর) নাম:</label>
+            <input type="text" id="patientName" placeholder="যেমন: রাহিম / ফাহিম...">
         </div>
         
         <div class="input-group">
-            <label>বন্ধুর / ক্রাশের নাম:</label>
-            <input type="text" id="name2" placeholder="তার নাম লিখুন...">
+            <label>তার প্রধান সমস্যা কী?:</label>
+            <input type="text" id="patientSymptom" placeholder="যেমন: অতিরিক্ত ঘুম / সারাদিন ইনস্টাগ্রাম...">
         </div>
         
-        <button onclick="calculateVibe()">ম্যাজিক দেখুন ✨</button>
+        <button onclick="runMedicalScan()">স্ক্যান শুরু করুন 🔬</button>
         
         <div class="result-box" id="resultBox">
             <h3 id="resTitle"></h3>
-            <p id="resComment"></p>
-            <p><strong>🧠 শিক্ষণীয় ফান ফ্যাক্ট:</strong> <span class="fact-text" id="resFact"></span></p>
+            <div class="result-item" id="resDiagnosis"></div>
+            <div class="result-item" id="resPrescription"></div>
+            <div class="medical-fact" id="resFact"></div>
         </div>
     </div>
 
     <script>
-        const funnyComments = [
-            "তোদের বন্ধুত্ব দেখে মার্ক জাকারবার্গও কান্নাকাটি করছে! পাক্কা ফ্রেন্ডশিপ গোলস। 🐒",
-            "বিপদের সময় এই বন্ধু সবার আগে হাওয়া হয়ে যাবে, সাবধান! 🏃‍♂️💨",
-            "সারাদিন শুধু পড়ালেখার নাম করে আড্ডা আর ফুচকা খাওয়ার পারফেক্ট জুটি! ☕",
-            "তোদের ব্রেন সেলগুলো প্রায় একই রকম অলস! দারুণ ম্যাচিং। 😂",
-            "পৃথিবী উল্টে গেলেও তোদের এই জগাখিচুড়ি বন্ধুত্ব ভাঙবে না!"
+        const diagnoses = [
+            "ব্রেনের মধ্যে নিউরনের সংযোগ প্রায় বিচ্ছিন্ন, সারাক্ষণ শুধু রিলস আর ক্রাশের চিন্তা চলছে! 🧠💤",
+            "হৃদস্পন্দন স্বাভাবিকের চেয়ে বেশি, তবে সেটি বইয়ের পড়ার ভয়ে নাকি অন্য কারণে—তা নিশ্চিত নয়। ❤️‍🔥",
+            "বডি মেটাবলিজম অলস টাইপের, পড়ার টেব দেখলে ইমিউনিটি পাওয়ার একেবারে শূন্যে নেমে যায়! 📉",
+            "ব্লাডে ক্যাফেইন এবং পরীক্ষার আগের রাতের টেনশনের মাত্রা চরম পর্যায়ে পৌঁছে গেছে। ☕",
+            "ক্রনিক প্রোক্রাস্টিনেশন সিন্ড্রোম (Chronic Procrastination) ধরা পড়েছে, যা পুরোপুরি নিরাময় অসম্ভব!"
         ];
 
-        const scienceFacts = [
-            "মানব মস্তিষ্কের প্রায় ৬০% চর্বি দিয়ে তৈরি, যা একে শরীরের সবচেয়ে চর্বিযুক্ত অঙ্গ বানায়!",
-            "আলোর গতি প্রতি সেকেন্ডে প্রায় ৩ লক্ষ কিলোমিটার, যা দিয়ে পৃথিবী সেকেন্ডে ৭ বার ঘুরে ফেলা সম্ভব।",
-            "পানির একটি অণুতে দুটি হাইড্রোজেন এবং একটি অক্সিজেন পরমাণু থাকে ($H_2O$)।",
-            "আমাদের শরীরের রক্তনালীগুলোর মোট দৈর্ঘ্য প্রায় ১ লক্ষ কিলোমিটার, যা দিয়ে পুরো পৃথিবীকে আড়াই বার পেঁচানো যাবে!",
-            "মহাবিশ্বের মোট পদার্থের মাত্র ৫% আমরা দেখতে পাই, বাকি ৯৫% হলো ডার্ক ম্যাটার এবং ডার্ক এনার্জি।"
+        const prescriptions = [
+            "প্রেসক্রিপশন: দিনে অন্তত ৩ পাতা বায়োলজি পড়া এবং ১ লিটার ঠান্ডা পানি খাওয়া বাধ্যতামূলক। 💧",
+            "প্রেসক্রিপশন: ফেসবুক ও টিকটক থেকে দুই গজ দূরে থাকা এবং ফিজিক্সের ম্যাথ দিয়ে ব্রেন এক্সারসাইজ করা। 📚",
+            "প্রেসক্রিপশন: সপ্তাহে ৭ দিনই একটানা রিভিশন থেরাপি নিতে হবে, কোনো ছাড় নেই! 💊",
+            "প্রেসক্রিপশন: রাতে ৮ ঘণ্টা ঘুমানোর চেষ্টা করা হলেও শেষ পর্যন্ত শুধু ডেডলাইন নিয়ে চিন্তা করার পরামর্শ দেওয়া হলো। 🌙"
         ];
 
-        function calculateVibe() {
-            const n1 = document.getElementById('name1').value.trim();
-            const n2 = document.getElementById('name2').value.trim();
+        const medFacts = [
+            "⚕️ মেডিকেল ফ্যাক্ট: মানুষের শরীরের সবচেয়ে শক্তিশালী পেশী হলো জিভ (Tongue)!",
+            "⚕️ মেডিকেল ফ্যাক্ট: আমাদের ক্ষুদ্রান্ত্রটি লম্বায় প্রায় ২০ ফুটেরও বেশি হয়, যা ছোট একটা রুমের সমান!",
+            "⚕️ মেডিকেল ফ্যাক্ট: লিভার হলো শরীরের একমাত্র অঙ্গ যা নিজেই নিজের ক্ষতি পুষিয়ে পুরোপুরি regenerate করতে পারে।",
+            "⚕️ মেডিকেল ফ্যাক্ট: প্রতি মিনিটে আমাদের হৃদপিণ্ড প্রায় ৭২ বার স্পন্দিত হয় এবং সারাদিনে প্রায় ১ লক্ষ বার পাম্প করে।"
+        ];
+
+        function runMedicalScan() {
+            const name = document.getElementById('patientName').value.trim();
+            const symptom = document.getElementById('patientSymptom').value.trim();
             
-            if(n1 === "" || n2 === "") {
-                alert("দয়া করে উভয় নামই লিখুন!");
+            if(name === "" || symptom === "") {
+                alert("দয়া করে রোগীর নাম এবং লক্ষণ দুটোই লিখুন!");
                 return;
             }
 
-            // রেন্ডম স্কোর এবং টেক্সট সিলেক্ট করা
-            const score = Math.floor(Math.random() * 41) + 60; // ৬০% থেকে ১০০% এর মধ্যে
-            const randomComment = funnyComments[Math.floor(Math.random() * funnyComments.length)];
-            const randomFact = scienceFacts[Math.floor(Math.random() * scienceFacts.length)];
+            const randomDiag = diagnoses[Math.floor(Math.random() * diagnoses.length)];
+            const randomPres = prescriptions[Math.floor(Math.random() * prescriptions.length)];
+            const randomFact = medFacts[Math.floor(Math.random() * medFacts.length)];
+            const randomHeartRate = Math.floor(Math.random() * 40) + 70; // 70 to 110 bpm
 
-            // রেজাল্ট বক্সে ডেটা বসানো
-            document.getElementById('resTitle').innerText = `${n1} & ${n2} (ম্যাচিং স্কোর: ${score}%)`;
-            document.getElementById('resComment').innerText = randomComment;
-            document.getElementById('resFact').innerText = randomFact;
+            document.getElementById('resTitle').innerHTML = `🩺 ডায়াগনোসিস রিপোর্ট: <span class="highlight">${name}</span>`;
+            document.getElementById('resDiagnosis').innerHTML = `<strong>রিপোর্ট:</strong> ${randomDiag} <br><small style="color:#94a3b8">লক্ষণ: "${symptom}" | হার্ট রেট: ${randomHeartRate} BPM</small>`;
+            document.getElementById('resPrescription').innerHTML = `<strong>ডাক্তারি পরামর্শ:</strong> ${randomPres}`;
+            document.getElementById('resFact').innerHTML = randomFact;
 
-            // রেজাল্ট বক্স শো করা
             document.getElementById('resultBox').style.display = "block";
         }
     </script>
