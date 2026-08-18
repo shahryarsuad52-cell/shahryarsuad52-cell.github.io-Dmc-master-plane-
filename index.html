@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -18,7 +17,7 @@
       --primary-hover: #4f46e5;
       --accent: #ec4899;
       --text-main: #f8fafc;
-      --text-muted: #94a3b8;ll
+      --text-muted: #94a3b8;
       --success: #10b981;
       --danger: #ef4444;
     }
@@ -173,10 +172,6 @@
       box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
     }
 
-    .btn-submit:active {
-      transform: translateY(0);
-    }
-
     .result-card {
       display: none;
       margin-top: 28px;
@@ -196,13 +191,6 @@
       text-align: center;
       padding: 16px 0;
       border-bottom: 1px dashed var(--card-border);
-    }
-
-    .score-title {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
     }
 
     .final-score {
@@ -235,6 +223,20 @@
 
     .breakdown-item span.negative {
       color: var(--danger);
+    }
+
+    /* Signature Style */
+    .signature {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      opacity: 0.8;
     }
   </style>
 </head>
@@ -300,6 +302,11 @@
         </div>
       </div>
     </div>
+
+    <!-- Signature Section -->
+    <div class="signature">
+      Made by: RAUHA SHAHRYAR SUAD
+    </div>
   </div>
 
   <script>
@@ -332,4 +339,3 @@
   </script>
 </body>
 </html>
-
