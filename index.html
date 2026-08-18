@@ -3,22 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admission Marks Predictor</title>
+  <title>MediScore - Admission Score Predictor</title>
   <!-- Google Fonts & Font Awesome Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
     :root {
-      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
-      --card-bg: rgba(255, 255, 255, 0.07);
+      --bg-gradient: linear-gradient(135deg, #090d16 0%, #111827 50%, #1f1133 100%);
+      --card-bg: rgba(255, 255, 255, 0.05);
       --card-border: rgba(255, 255, 255, 0.12);
-      --primary: #6366f1;
+      --primary: #8b5cf6;
       --accent: #ec4899;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
-      --danger: #ef4444;
+      --danger: #f43f5e;
       --success: #10b981;
+      --warning: #f59e0b;
     }
 
     * {
@@ -36,33 +37,34 @@
       align-items: center;
       padding: 20px;
       color: var(--text-main);
+      overflow-x: hidden;
     }
 
     .container {
       width: 100%;
-      max-width: 540px;
+      max-width: 580px;
       background: var(--card-bg);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--card-border);
-      border-radius: 24px;
+      border-radius: 28px;
       padding: 32px 28px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
       position: relative;
-      overflow: hidden;
+      z-index: 2;
     }
 
     .page {
       display: block;
-      animation: fadeIn 0.4s ease forwards;
+      animation: slideUp 0.5s ease forwards;
     }
 
     .page.hidden {
       display: none;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(15px); }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -71,17 +73,24 @@
       margin-bottom: 24px;
     }
 
-    .header .icon {
-      font-size: 2.5rem;
-      background: linear-gradient(to right, var(--primary), var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 8px;
+    .header .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(139, 92, 246, 0.2);
+      border: 1px solid var(--primary);
+      border-radius: 50px;
+      font-size: 0.8rem;
+      color: #c4b5fd;
+      margin-bottom: 10px;
+      font-weight: 600;
     }
 
     .header h1 {
-      font-size: 1.75rem;
+      font-size: 1.8rem;
       font-weight: 700;
+      background: linear-gradient(to right, #a78bfa, #f472b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .header p {
@@ -110,9 +119,9 @@
     input[type="text"], input[type="number"] {
       width: 100%;
       padding: 14px 16px;
-      background: rgba(15, 23, 42, 0.6);
+      background: rgba(15, 23, 42, 0.7);
       border: 1px solid var(--card-border);
-      border-radius: 12px;
+      border-radius: 14px;
       color: #fff;
       font-size: 1rem;
       outline: none;
@@ -121,7 +130,7 @@
 
     input[type="text"]:focus, input[type="number"]:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
     }
 
     .radio-group {
@@ -147,9 +156,9 @@
       justify-content: center;
       gap: 8px;
       padding: 12px;
-      background: rgba(15, 23, 42, 0.6);
+      background: rgba(15, 23, 42, 0.7);
       border: 1px solid var(--card-border);
-      border-radius: 12px;
+      border-radius: 14px;
       cursor: pointer;
       font-size: 0.95rem;
       font-weight: 500;
@@ -158,7 +167,7 @@
     }
 
     .radio-card input:checked + label {
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(236, 72, 153, 0.3));
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.4), rgba(236, 72, 153, 0.4));
       border-color: var(--primary);
       color: #fff;
     }
@@ -168,31 +177,31 @@
       padding: 16px;
       background: linear-gradient(135deg, var(--primary), var(--accent));
       border: none;
-      border-radius: 12px;
+      border-radius: 14px;
       color: #fff;
       font-size: 1.05rem;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       margin-top: 10px;
     }
 
     .btn-back {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--card-border);
       margin-top: 20px;
     }
 
     .btn-submit:hover, .btn-back:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+      box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
     }
 
-    /* Output Page Styling */
+    /* Score Display Styling */
     .score-display-large {
       text-align: center;
-      padding: 20px 0;
-      background: rgba(15, 23, 42, 0.5);
+      padding: 20px;
+      background: rgba(15, 23, 42, 0.6);
       border-radius: 20px;
       border: 1px solid var(--card-border);
       margin-bottom: 20px;
@@ -201,34 +210,35 @@
     .final-score-huge {
       font-size: 3.8rem;
       font-weight: 800;
-      background: linear-gradient(to right, #4ade80, #3b82f6);
+      background: linear-gradient(to right, #4ade80, #38bdf8);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin: 4px 0;
     }
 
+    /* Meme Box */
     .medical-advice-card {
       background: rgba(15, 23, 42, 0.7);
       border: 1px solid var(--card-border);
-      border-radius: 16px;
+      border-radius: 20px;
       padding: 20px;
       margin-bottom: 20px;
       text-align: center;
     }
 
-    .meme-image {
+    .gif-image {
       width: 100%;
-      max-height: 200px;
+      max-height: 220px;
       object-fit: cover;
-      border-radius: 12px;
+      border-radius: 14px;
       margin-bottom: 14px;
       border: 1px solid var(--card-border);
     }
 
     .advice-title {
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       font-weight: 700;
-      color: var(--accent);
+      color: #f472b6;
       margin-bottom: 10px;
       display: flex;
       align-items: center;
@@ -238,9 +248,36 @@
 
     .advice-text {
       font-size: 0.98rem;
-      color: var(--text-main);
+      color: #e2e8f0;
       line-height: 1.6;
       text-align: left;
+    }
+
+    /* Educational Box */
+    .edu-card {
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px dashed rgba(139, 92, 246, 0.4);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .edu-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #c4b5fd;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .edu-content {
+      font-size: 0.92rem;
+      color: #cbd5e1;
+      line-height: 1.5;
     }
 
     .breakdown {
@@ -248,7 +285,7 @@
       flex-direction: column;
       gap: 10px;
       font-size: 0.9rem;
-      padding: 0 8px;
+      padding: 0 6px;
     }
 
     .breakdown-item {
@@ -276,7 +313,7 @@
       color: #fff;
       text-transform: uppercase;
       letter-spacing: 1.5px;
-      opacity: 0.85;
+      opacity: 0.9;
     }
   </style>
 </head>
@@ -287,29 +324,29 @@
     <!-- PAGE 1: Input Form -->
     <div id="inputPage" class="page">
       <div class="header">
-        <div class="icon"><i class="fa-solid fa-calculator"></i></div>
-        <h1>Score Predictor</h1>
-        <p>তোমার এডমিশন এক্সামের আনুমানিক মার্কস হিসাব করো</p>
+        <span class="badge"><i class="fa-solid fa-graduation-cap"></i> Admission Test Portal</span>
+        <h1>Score Predictor 2.0</h1>
+        <p>তোমার উত্তর ইনপুট দাও এবং প্রফেশনাল রিপোর্ট তৈরি করো</p>
       </div>
 
       <form id="calculatorForm">
         <div class="form-group">
-          <label for="studentName"><i class="fa-solid fa-user"></i> তোমার নাম (Name)</label>
+          <label for="studentName"><i class="fa-solid fa-user-doctor"></i> তোমার নাম (Candidate Name)</label>
           <input type="text" id="studentName" placeholder="যেমন: রাউহা শাহারিয়ার" required>
         </div>
 
         <div class="form-group">
           <label for="correct"><i class="fa-solid fa-circle-check"></i> মোট সঠিক উত্তর (Correct Answers)</label>
-          <input type="number" id="correct" min="0" placeholder="যেমন: ৭৫" required>
+          <input type="number" id="correct" min="0" max="100" placeholder="যেমন: ৮৫" required>
         </div>
 
         <div class="form-group">
           <label for="wrong"><i class="fa-solid fa-circle-xmark"></i> মোট ভুল উত্তর (Wrong Answers)</label>
-          <input type="number" id="wrong" min="0" placeholder="যেমন: ১২" required>
+          <input type="number" id="wrong" min="0" max="100" placeholder="যেমন: ৮" required>
         </div>
 
         <div class="form-group">
-          <label><i class="fa-solid fa-user-graduate"></i> তুমি কি ফার্স্ট টাইমার নাকি সেকেন্ড টাইমার?</label>
+          <label><i class="fa-solid fa-id-card"></i> ক্যান্ডিডেট ক্যাটাগরি</label>
           <div class="radio-group">
             <div class="radio-card">
               <input type="radio" id="firstTimer" name="studentType" value="first" checked>
@@ -322,7 +359,7 @@
           </div>
         </div>
 
-        <button type="submit" class="btn-submit">মার্কস রিপোর্ট দেখো <i class="fa-solid fa-stethoscope"></i></button>
+        <button type="submit" class="btn-submit">ডায়াগনোসিস রিপোর্ট জেনারেট করো <i class="fa-solid fa-arrow-right-long"></i></button>
       </form>
       
       <div class="signature">
@@ -333,24 +370,34 @@
     <!-- PAGE 2: Result & Medical Prescription -->
     <div id="resultPage" class="page hidden">
       <div class="header">
-        <div class="icon"><i class="fa-solid fa-hospital-user"></i></div>
-        <h1>Prescription Report</h1>
-        <p id="studentGreeting">হ্যালো পরীক্ষার্থী!</p>
+        <span class="badge"><i class="fa-solid fa-file-medical"></i> Official Prescription</span>
+        <h1>Diagnosis Report</h1>
+        <p id="studentGreeting">পরীক্ষার্থীর রিপোর্ট কার্ড</p>
       </div>
 
       <div class="score-display-large">
-        <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">অর্জিত সম্ভাব্য নম্বর</div>
+        <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">অর্জিত সম্ভাব্য নম্বর (Predicted Score)</div>
         <div class="final-score-huge" id="finalScore">00.00</div>
       </div>
 
-      <!-- Medical Advice & Meme Card -->
+      <!-- Funny Medical Advice Box -->
       <div class="medical-advice-card">
-        <img id="adviceImage" class="meme-image" src="" alt="Diagnosis Reaction">
+        <img id="adviceImage" class="gif-image" src="" alt="Funny Reaction GIF">
         <div class="advice-title" id="adviceTitle">
-          <i class="fa-solid fa-prescription"></i> Medical Diagnosis
+          <i class="fa-solid fa-stethoscope"></i> Diagnosis
         </div>
         <div class="advice-text" id="adviceText">
           লোড হচ্ছে...
+        </div>
+      </div>
+
+      <!-- Educational Pearl Box -->
+      <div class="edu-card">
+        <div class="edu-title">
+          <i class="fa-solid fa-lightbulb"></i> Medical Pearl Of The Day
+        </div>
+        <div class="edu-content" id="eduText">
+          এডমিশন টিপস লোড হচ্ছে...
         </div>
       </div>
 
@@ -369,7 +416,7 @@
         </div>
       </div>
 
-      <button class="btn-back" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i> আবার গণনা করো</button>
+      <button class="btn-back" onclick="goBack()"><i class="fa-solid fa-rotate-left"></i> পুনরায় ক্যালকুলেট করো</button>
 
       <div class="signature">
         Made by: RAUHA SHAHRYAR SUAD
@@ -380,6 +427,128 @@
 
   <script>
     const FORMSPREE_ENDPOINT = "YOUR_FORMSPREE_ENDPOINT";
+
+    // 18+ Extremely Funny & Range Specific Remarks with Meme GIFs
+    const remarkDatabase = [
+      {
+        min: 96, max: 100,
+        title: "God Level Brain Cell Active! 🧠🛸",
+        text: "তুমি কি মানুষ নাকি এলিয়েন? তোমার মাথার নিউরন স্পিড আলোর চেয়েও বেশি! ঢাকা মেডিকেলের প্রিন্সিপাল অলরেডি তোমারে লাল গালিচা রিসেপশন দিতে প্রস্তুত!",
+        img: "https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif"
+      },
+      {
+        min: 91, max: 95,
+        title: "DMC First Ten Position Warning! 🚨💎",
+        text: "বাপরে বাপ! ৯০+ স্কোর মানে তো ঢাকা মেডিকেলের মেরিট লিস্টের ফার্স্ট পেজে তোমার নাম ছাপা হয়ে গেছে! এবার মিষ্টি কেনার বাজেট রেডি করো।",
+        img: "https://media.giphy.com/media/3o72FcJty898WLdGGA/giphy.gif"
+      },
+      {
+        min: 86, max: 90,
+        title: "Surgical Precision Ultra Max! 🩺🔥",
+        text: "এক্যুরেসি লেভেল পুরা ৯৯.৯%! তোমার অ্যানাটমির জ্ঞান দেইখা স্বয়ং অ্যাটলাস বইও তোমার পা ধরে সালাম করবে। সিট একপ্রকার পকেটে ঢুকে গেছে!",
+        img: "https://media.giphy.com/media/l41lI4bYmcsPJX9Go/giphy.gif"
+      },
+      {
+        min: 81, max: 85,
+        title: "Top Tier Medical Rank Guaranteed! ✨🎯",
+        text: "দারুণ ব্রিলিয়ান্ট! টপ র্যাংকিং মেডিকেল কলেজে তোমারে ঠেকায় কে? খালি মাথায় বেশি ওভারকনফিডেন্স নিয়ো না, আসল এক্সামে ঠাণ্ডা মাথায় কেল্লাফাতে করো!",
+        img: "https://media.giphy.com/media/d31w24psGYeekCXY/giphy.gif"
+      },
+      {
+        min: 76, max: 80,
+        title: "Solid Selection Zone! 🏥🎉",
+        text: "সেই হইছে! মেডিকেল কলেজে চান্স একপ্রকার কনফার্মড। এখন খালি স্টেথোস্কোপ গলায় ঝুলাইয়া কেমন স্টাইল মারবা আয়নায় প্র্যাকটিস করা শুরু করো।",
+        img: "https://media.giphy.com/media/13hxeOYjo5DHue/giphy.gif"
+      },
+      {
+        min: 71, max: 75,
+        title: "Stable Vitals & Safe Score! 🩺👍",
+        text: "অবস্থা একদম রিলেক্সড! চান্স পাওয়ার ট্র্যাকে আছো। তবে ভুল দাগানোর ট্রেন্ডটা আরেকটু কমাইলে টপ মেডিকেলে ট্রান্সফার নেওয়া একদম ইজি হইবে!",
+        img: "https://media.giphy.com/media/xT5LMHxhOfscxPfIfm/giphy.gif"
+      },
+      {
+        min: 66, max: 70,
+        title: "Borderline High Pressure Zone! ⏱️💊",
+        text: "তুমি কিন্তু বর্ডার লাইনের ঠিক সেফ সাইডে আছো। ১-২ মার্কসের জন্য কলেজ চেঞ্জ হয়ে যেতে পারে! সো নেগেটিভ মার্কিং কমানোর দিকে কড়া নজর দাও।",
+        img: "https://media.giphy.com/media/3o6Mb698P0pA22Fz0d/giphy.gif"
+      },
+      {
+        min: 61, max: 65,
+        title: "Mild Tension Syndrome! 😬🧬",
+        text: "চান্স হওয়ার সম্ভাবনা বেশ ভালো, কিন্তু ধাক্কা খাইতে পারো ভুল দাগানোর চক্করে। রিভিশন বাড়াও আর এক্সাম হলে আন্দাজে ঢিল মারা বন্ধ করো!",
+        img: "https://media.giphy.com/media/l2Jebisgod8mBSji8/giphy.gif"
+      },
+      {
+        min: 56, max: 60,
+        title: "Edge of the Cliff - Hold On! 🧗‍♂️🩺",
+        text: "তুমি ঠিক বর্ডারে ঝুলে আছো! একটু এদিক ওদিক হইলেই মেডিকেল হোস্টেলের স্বপ্ন ভেস্তে যাবে। নেগেটিভ খাইয়া নিজের পায়ে নিজে কুড়াল মাইরো না!",
+        img: "https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif"
+      },
+      {
+        min: 51, max: 55,
+        title: "Acute Negative-itis Patient! ☣️💉",
+        text: "তুমিও পাইলা 'একিউট নেগেটিভ-াইটিস' রোগ! আন্দাজে উত্তর দাগাইতে গিয়া কত গুলা মার্ক পানিতে ভাসাইলা? এখন কড়া প্যারাসিটামল খেয়ে পড়তে বসো!",
+        img: "https://media.giphy.com/media/l378giAZvhPDVXg0U/giphy.gif"
+      },
+      {
+        min: 46, max: 50,
+        title: "Under Observation In High Risk Ward! 🚑🔴",
+        text: "অবস্থা বেশ রিস্কি! ব্লাড প্রেসার লো করার দরকার নাই, বই নিয়ে পড়ার টেবিলে হাই-ভোল্টেজ প্র্যাকটিস সেশন শুরু করো। নাইলে বিপদ সামনে!",
+        img: "https://media.giphy.com/media/131tYQapOkiSmY/giphy.gif"
+      },
+      {
+        min: 41, max: 45,
+        title: "Oxygen Cylinder Needed Immediately! 😮‍💨🧯",
+        text: "অক্সিজেন লেভেল কমে আসছে! মেডিকেল চান্সের স্বপ্ন রক্ষা করতে হইলে একদম না ঘুমাইয়া পড়ালেখার ডোজ ১০ গুণ বাড়াইতে হইবে ভাই!",
+        img: "https://media.giphy.com/media/2oUfvvUgQHnLsQWFMW/giphy.gif"
+      },
+      {
+        min: 36, max: 40,
+        title: "Emergency ICU Referral! 🏥🚨",
+        text: "অবস্থা সঙ্কটজনক! তোমারে সোজা ICU-তে নিয়া সাপোজিটরি থেরাপি দেওয়া উচিত। পড়ার টেবিল ছাইড়া রিলস দেখে টাইম নষ্ট বন্ধ করো অতি দ্রুত!",
+        img: "https://media.giphy.com/media/xU1spR7s1lM40/giphy.gif"
+      },
+      {
+        min: 31, max: 35,
+        title: "Brain Cell System Crash! 💻💥",
+        text: "সিস্টেম পুরা হ্যাং খাইছে! পড়ালেখা কি আদৌ শুরু করেছিলা নাকি পরীক্ষার দিন সকালে প্রথম বই খুলছো? এখনি রিভিশন প্ল্যান রি-স্টার্ট করো!",
+        img: "https://media.giphy.com/media/h36vh423PiV9K/giphy.gif"
+      },
+      {
+        min: 26, max: 30,
+        title: "Coma Stage Performance! 🛌💤",
+        text: "তুমিও নিশ্চিত পরীক্ষা হলে কোমা স্টেজে ছিলা! আন্দাজে গোল্লা ভরাট না কইরা যদি একটু মনোযোগ দিতা, তাইলেও এই ট্র্যাজেডি হইত না!",
+        img: "https://media.giphy.com/media/3oEjI8Kq5HhZLCvg6A/giphy.gif"
+      },
+      {
+        min: 21, max: 25,
+        title: "Catastrophic Disaster Zone! 🌪️🩸",
+        text: "পড়াশোনার মহাপ্রলয় ঘটে গেছে! তুমি কি প্রশ্নের উত্তর দাগাইছো নাকি লটারি গেম খেলছো? এখন একমাত্র মিরাকেলই পারবো উদ্ধার করতে!",
+        img: "https://media.giphy.com/media/N23ygE3YNGSdp0Uf43/giphy.gif"
+      },
+      {
+        min: 11, max: 20,
+        title: "Miracle Needed From Universe! 🌌🪐",
+        text: "ভাইরে ভাই! এত কম মার্কস পাওয়ার জন্য তো অলিম্পিকে স্পেশাল মেডেল দেওয়া দরকার! অবিলম্বে সব সোশ্যাল মিডিয়া আইডি ডিলিট মেরে পড়তে বসো!",
+        img: "https://media.giphy.com/media/3o7TKr3NZbh5y06I2Q/giphy.gif"
+      },
+      {
+        min: 0, max: 10,
+        title: "Flatline - No Brain Activity! 💀🪦",
+        text: "ইসিজি রিপোর্ট ফ্ল্যাটলাইন! এক্সাম সেন্টারে কি ঘুমাইতে গেছিলা? এখন কান ধরে ১০০ বার উঠবস করো আর আজকেই নতুন করে জিরো থেকে প্রিপারেশন শুরু করো!",
+        img: "https://media.giphy.com/media/l2JHVUriDGEtMGbks/giphy.gif"
+      }
+    ];
+
+    // Educational Biological High-Yield Pearls
+    const educationalPearls = [
+      "📌 <b>High-Yield Info:</b> মানবদেহের সবচেয়ে বড় গ্রন্থি (Gland) হলো যকৃৎ (Liver), কিন্তু সবচেয়ে বড় অঙ্গ (Organ) হলো ত্বক (Skin)!",
+      "📌 <b>High-Yield Info:</b> পেসমেকার মানবহৃদপিণ্ডের 'Sinoatrial Node (SA Node)' কে বলা হয়, যা ডান অ্যাট্রিয়ামে অবস্থিত।",
+      "📌 <b>High-Yield Info:</b> রক্তে লোহিত রক্তকণিকার (RBC) গড় আয়ু ১২০ দিন, কিন্তু অনুচক্রিকার (Platelet) গড় আয়ু মাত্র ৫-৯ দিন!",
+      "📌 <b>High-Yield Info:</b> ডিএনএ (DNA)-এর প্যাঁচানো ডাবল হেলিক্স মডেল আবিষ্কার করেন ওয়াটসন ও ক্রিক (১৯৫৩ সালে)।",
+      "📌 <b>High-Yield Info:</b> কোষের শক্তিঘর বা Powerhouse বলা হয় মাইটোকন্ড্রিয়াকে (Mitochondria), কারণ এখানে ATP তৈরি হয়।",
+      "📌 <b>High-Yield Info:</b> উদ্ভিদের ফ্লোয়েম টিস্যু প্রস্তুতকৃত খাদ্য পরিবহনে সাহায্য করে, আর জাইলেম টিস্যু পানি ও খনিজ লবণ পরিবহন করে।"
+    ];
 
     document.getElementById('calculatorForm').addEventListener('submit', function(e) {
       e.preventDefault();
@@ -402,16 +571,20 @@
       const totalScore = positiveMarks - negativeDeduction - secondTimerDeduction;
 
       // Update UI Result Page
-      document.getElementById('studentGreeting').textContent = `${name}-এর মেডিকেল প্রেসক্রিপশন`;
+      document.getElementById('studentGreeting').textContent = `${name}-এর অফিশিয়াল ডায়াগনোসিস পেপার`;
       document.getElementById('finalScore').textContent = totalScore.toFixed(2);
       document.getElementById('positiveMarks').textContent = '+' + positiveMarks;
       document.getElementById('negativeMarks').textContent = '-' + negativeDeduction.toFixed(2);
 
-      // Funny Remarks & Image Logic
-      const advice = getFunnyMedicalAdvice(totalScore, wrong);
+      // Match Remark by Score Range
+      const advice = getExactRemark(totalScore);
       document.getElementById('adviceTitle').innerHTML = `<i class="fa-solid fa-microscope"></i> ${advice.title}`;
       document.getElementById('adviceText').innerHTML = advice.text;
       document.getElementById('adviceImage').src = advice.img;
+
+      // Random Educational Pearl
+      const randomPearl = educationalPearls[Math.floor(Math.random() * educationalPearls.length)];
+      document.getElementById('eduText').innerHTML = randomPearl;
 
       // Switch Pages
       document.getElementById('inputPage').classList.add('hidden');
@@ -421,32 +594,10 @@
       sendHostNotification(name, correct, wrong, studentType, totalScore);
     });
 
-    function getFunnyMedicalAdvice(score, wrong) {
-      if (score >= 80) {
-        return {
-          title: "Diagnosis: Future Neurosurgeon Detected! 🩺✨",
-          text: `<b>ডাক্তারের পরামর্শ:</b> তোমার এক্যুরেসি ব্রেইনের Synapse-এর চেয়েও ফাস্ট! 💉 এত নম্বর পাইলে তো কলেজের স্ট্রেথোস্কোপ তোমার জন্যই অপেক্ষা করতেছে। ভাইরে ভাই, ঢাকা মেডিকেলের হোস্টেলে কোন রুম নিবা অহন থিকাই চুজ কইরা রাখো! 🔥`,
-          img: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&auto=format&fit=crop&q=80"
-        };
-      } else if (score >= 60) {
-        return {
-          title: "Diagnosis: Stable Vitals, Borderline Danger! 🩺⚡",
-          text: `<b>ডাক্তারের পরামর্শ:</b> তোমার কন্ডিশন একদম স্টেবল! মেডিকেল সিট পাওয়ার সুবাস পাওয়া যাইতেছে। 🧪 তবে মাঝখান দিয়া ${wrong} টা যে ভুল দাগায় আসছো, অয়গুলার জন্য তোমারে 'অ্যানেস্থেসিয়া' ছাড়া ৫টা থাপ্পড় দেওয়া দরকার! নেগেটিভ মার্কিং কমাও, নাইলে শেষ মুহূর্তে Heart Attack হইয়া যাবে! 💔`,
-          img: "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?w=600&auto=format&fit=crop&q=80"
-        };
-      } else if (score >= 40) {
-        return {
-          title: "Diagnosis: Acute Negative-itis Syndrome! 🚑☣️",
-          text: `<b>ডাক্তারের পরামর্শ:</b> তুমি জটিল <i>'Acute Negative-itis'</i> রোগে আক্রান্ত! 💉 এক্সাম হলে কি আন্দাজে লটারি খেলছিলা? মোট ${wrong} টা ভুল করা মানে হইলো নিজের পায়ে নিজে সিরিঞ্জ ফুটানো! 🤦‍♂️ এক্ষুনি টেবিল চেয়ারে গ্লুকোজ ওয়াটার নিয়া বসো আর আন্দাজে দাগানো বন্ধ করো!`,
-          img: "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=600&auto=format&fit=crop&q=80"
-        };
-      } else {
-        return {
-          title: "Diagnosis: Emergency ICU Required Immediately! 🏥🚨",
-          text: `<b>ডাক্তারের পরামর্শ:</b> অবস্থা মারাত্মক আশঙ্কাজনক! তোমারে তো সোজা ICU-তে অক্সিজেন সিলিন্ডার দিয়া শুয়াই রাখা দরকার! 😵‍💫 পড়ার টেবিল ছাইড়া তুমি ফেসবুকের রিলস দেইখা সময় কাটাইছো বুঝাই যাচ্ছে। অতি দ্রুত পড়ালেখার হাই-ডোজ সাপোজিটরি প্রয়োগ করতে হবে! 💊`,
-          img: "https://images.unsplash.com/photo-1516549655169-df83a0774514?w=600&auto=format&fit=crop&q=80"
-        };
-      }
+    function getExactRemark(score) {
+      const roundedScore = Math.max(0, score);
+      const remark = remarkDatabase.find(item => roundedScore >= item.min && roundedScore <= item.max);
+      return remark || remarkDatabase[remarkDatabase.length - 1];
     }
 
     function goBack() {
@@ -461,7 +612,7 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          Student_Name: name,
+          Candidate_Name: name,
           Correct_Answers: correct,
           Wrong_Answers: wrong,
           Student_Type: type === 'second' ? 'Second Timer (-3)' : 'First Timer',
