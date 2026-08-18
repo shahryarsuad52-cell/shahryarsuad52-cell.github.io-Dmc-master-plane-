@@ -14,12 +14,11 @@
       --card-bg: rgba(255, 255, 255, 0.07);
       --card-border: rgba(255, 255, 255, 0.12);
       --primary: #6366f1;
-      --primary-hover: #4f46e5;
       --accent: #ec4899;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
-      --success: #10b981;
       --danger: #ef4444;
+      --success: #10b981;
     }
 
     * {
@@ -41,7 +40,7 @@
 
     .container {
       width: 100%;
-      max-width: 520px;
+      max-width: 540px;
       background: var(--card-bg);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
@@ -49,11 +48,27 @@
       border-radius: 24px;
       padding: 32px 28px;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page {
+      display: block;
+      animation: fadeIn 0.4s ease forwards;
+    }
+
+    .page.hidden {
+      display: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .header {
       text-align: center;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
 
     .header .icon {
@@ -67,7 +82,6 @@
     .header h1 {
       font-size: 1.75rem;
       font-weight: 700;
-      letter-spacing: -0.5px;
     }
 
     .header p {
@@ -77,7 +91,7 @@
     }
 
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     label {
@@ -93,11 +107,7 @@
       color: var(--primary);
     }
 
-    .input-wrapper {
-      position: relative;
-    }
-
-    input[type="number"] {
+    input[type="text"], input[type="number"] {
       width: 100%;
       padding: 14px 16px;
       background: rgba(15, 23, 42, 0.6);
@@ -109,7 +119,7 @@
       transition: all 0.3s ease;
     }
 
-    input[type="number"]:focus {
+    input[type="text"]:focus, input[type="number"]:focus {
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
     }
@@ -153,7 +163,7 @@
       color: #fff;
     }
 
-    .btn-submit {
+    .btn-submit, .btn-back {
       width: 100%;
       padding: 16px;
       background: linear-gradient(135deg, var(--primary), var(--accent));
@@ -167,47 +177,78 @@
       margin-top: 10px;
     }
 
-    .btn-submit:hover {
+    .btn-back {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--card-border);
+      margin-top: 20px;
+    }
+
+    .btn-submit:hover, .btn-back:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
     }
 
-    .result-card {
-      display: none;
-      margin-top: 28px;
-      padding: 20px;
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      animation: fadeIn 0.4s ease forwards;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .score-display {
+    /* Output Page Styling */
+    .score-display-large {
       text-align: center;
-      padding: 16px 0;
-      border-bottom: 1px dashed var(--card-border);
+      padding: 20px 0;
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 20px;
+      border: 1px solid var(--card-border);
+      margin-bottom: 20px;
     }
 
-    .final-score {
-      font-size: 3rem;
-      font-weight: 700;
+    .final-score-huge {
+      font-size: 3.8rem;
+      font-weight: 800;
       background: linear-gradient(to right, #4ade80, #3b82f6);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin: 4px 0;
     }
 
+    .medical-advice-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .meme-image {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 14px;
+      border: 1px solid var(--card-border);
+    }
+
+    .advice-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .advice-text {
+      font-size: 0.98rem;
+      color: var(--text-main);
+      line-height: 1.6;
+      text-align: left;
+    }
+
     .breakdown {
-      margin-top: 16px;
       display: flex;
       flex-direction: column;
       gap: 10px;
       font-size: 0.9rem;
+      padding: 0 8px;
     }
 
     .breakdown-item {
@@ -225,75 +266,101 @@
       color: var(--danger);
     }
 
-    /* Signature Style */
     .signature {
-      margin-top: 40px;
-      padding-top: 20px;
+      margin-top: 28px;
+      padding-top: 18px;
       border-top: 1px solid rgba(255,255,255,0.1);
       text-align: center;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 700;
       color: #fff;
       text-transform: uppercase;
       letter-spacing: 1.5px;
-      opacity: 0.8;
+      opacity: 0.85;
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <div class="header">
-      <div class="icon"><i class="fa-solid fa-calculator"></i></div>
-      <h1>Score Predictor</h1>
-      <p>তোমার এডমিশন এক্সামের আনুমানিক মার্কস হিসাব করো</p>
-    </div>
+    
+    <!-- PAGE 1: Input Form -->
+    <div id="inputPage" class="page">
+      <div class="header">
+        <div class="icon"><i class="fa-solid fa-calculator"></i></div>
+        <h1>Score Predictor</h1>
+        <p>তোমার এডমিশন এক্সামের আনুমানিক মার্কস হিসাব করো</p>
+      </div>
 
-    <form id="calculatorForm">
-      <div class="form-group">
-        <label for="correct"><i class="fa-solid fa-circle-check"></i> মোট সঠিক উত্তর (Correct Answers)</label>
-        <div class="input-wrapper">
+      <form id="calculatorForm">
+        <div class="form-group">
+          <label for="studentName"><i class="fa-solid fa-user"></i> তোমার নাম (Name)</label>
+          <input type="text" id="studentName" placeholder="যেমন: রাউহা শাহারিয়ার" required>
+        </div>
+
+        <div class="form-group">
+          <label for="correct"><i class="fa-solid fa-circle-check"></i> মোট সঠিক উত্তর (Correct Answers)</label>
           <input type="number" id="correct" min="0" placeholder="যেমন: ৭৫" required>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label for="wrong"><i class="fa-solid fa-circle-xmark"></i> মোট ভুল উত্তর (Wrong Answers)</label>
-        <div class="input-wrapper">
+        <div class="form-group">
+          <label for="wrong"><i class="fa-solid fa-circle-xmark"></i> মোট ভুল উত্তর (Wrong Answers)</label>
           <input type="number" id="wrong" min="0" placeholder="যেমন: ১২" required>
         </div>
+
+        <div class="form-group">
+          <label><i class="fa-solid fa-user-graduate"></i> তুমি কি ফার্স্ট টাইমার নাকি সেকেন্ড টাইমার?</label>
+          <div class="radio-group">
+            <div class="radio-card">
+              <input type="radio" id="firstTimer" name="studentType" value="first" checked>
+              <label for="firstTimer"><i class="fa-solid fa-1"></i> ফার্স্ট টাইমার</label>
+            </div>
+            <div class="radio-card">
+              <input type="radio" id="secondTimer" name="studentType" value="second">
+              <label for="secondTimer"><i class="fa-solid fa-2"></i> সেকেন্ড টাইমার (-৩)</label>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit">মার্কস রিপোর্ট দেখো <i class="fa-solid fa-stethoscope"></i></button>
+      </form>
+      
+      <div class="signature">
+        Made by: RAUHA SHAHRYAR SUAD
+      </div>
+    </div>
+
+    <!-- PAGE 2: Result & Medical Prescription -->
+    <div id="resultPage" class="page hidden">
+      <div class="header">
+        <div class="icon"><i class="fa-solid fa-hospital-user"></i></div>
+        <h1>Prescription Report</h1>
+        <p id="studentGreeting">হ্যালো পরীক্ষার্থী!</p>
       </div>
 
-      <div class="form-group">
-        <label><i class="fa-solid fa-user-graduate"></i> তুমি কি ফার্স্ট টাইমার নাকি সেকেন্ড টাইমার?</label>
-        <div class="radio-group">
-          <div class="radio-card">
-            <input type="radio" id="firstTimer" name="studentType" value="first" checked>
-            <label for="firstTimer"><i class="fa-solid fa-1"></i> ফার্স্ট টাইমার</label>
-          </div>
-          <div class="radio-card">
-            <input type="radio" id="secondTimer" name="studentType" value="second">
-            <label for="secondTimer"><i class="fa-solid fa-2"></i> সেকেন্ড টাইমার (-৩)</label>
-          </div>
+      <div class="score-display-large">
+        <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">অর্জিত সম্ভাব্য নম্বর</div>
+        <div class="final-score-huge" id="finalScore">00.00</div>
+      </div>
+
+      <!-- Medical Advice & Meme Card -->
+      <div class="medical-advice-card">
+        <img id="adviceImage" class="meme-image" src="" alt="Diagnosis Reaction">
+        <div class="advice-title" id="adviceTitle">
+          <i class="fa-solid fa-prescription"></i> Medical Diagnosis
+        </div>
+        <div class="advice-text" id="adviceText">
+          লোড হচ্ছে...
         </div>
       </div>
 
-      <button type="submit" class="btn-submit">মার্কস গণনা করো <i class="fa-solid fa-arrow-right"></i></button>
-    </form>
-
-    <div class="result-card" id="resultCard">
-      <div class="score-display">
-        <div class="score-title">অর্জিত সম্ভাব্য নম্বর (Predicted Score)</div>
-        <div class="final-score" id="finalScore">00.00</div>
-      </div>
-      
       <div class="breakdown">
         <div class="breakdown-item">
-          <span>সঠিক উত্তরের জন্য মার্কস:</span>
+          <span>সঠিক উত্তরের যোগফল:</span>
           <span class="value" id="positiveMarks">+0</span>
         </div>
         <div class="breakdown-item">
-          <span>ভুল উত্তরের জন্য কাটা মার্কস (0.25 × ভুল):</span>
+          <span>ভুল উত্তরের নেগেটিভ (0.25 × ভুল):</span>
           <span class="value negative" id="negativeMarks">-0.00</span>
         </div>
         <div class="breakdown-item" id="secondTimerDeductionRow" style="display: none;">
@@ -301,28 +368,32 @@
           <span class="value negative">-3.00</span>
         </div>
       </div>
+
+      <button class="btn-back" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i> আবার গণনা করো</button>
+
+      <div class="signature">
+        Made by: RAUHA SHAHRYAR SUAD
+      </div>
     </div>
 
-    <!-- Signature Section -->
-    <div class="signature">
-      Made by: RAUHA SHAHRYAR SUAD
-    </div>
   </div>
 
   <script>
+    const FORMSPREE_ENDPOINT = "YOUR_FORMSPREE_ENDPOINT";
+
     document.getElementById('calculatorForm').addEventListener('submit', function(e) {
       e.preventDefault();
 
+      const name = document.getElementById('studentName').value;
       const correct = parseFloat(document.getElementById('correct').value) || 0;
       const wrong = parseFloat(document.getElementById('wrong').value) || 0;
       const studentType = document.querySelector('input[name="studentType"]:checked').value;
 
       const positiveMarks = correct * 1;
       const negativeDeduction = wrong * 0.25;
-      let secondTimerDeduction = 0;
+      let secondTimerDeduction = studentType === 'second' ? 3.0 : 0;
 
       if (studentType === 'second') {
-        secondTimerDeduction = 3.0;
         document.getElementById('secondTimerDeductionRow').style.display = 'flex';
       } else {
         document.getElementById('secondTimerDeductionRow').style.display = 'none';
@@ -330,12 +401,74 @@
 
       const totalScore = positiveMarks - negativeDeduction - secondTimerDeduction;
 
+      // Update UI Result Page
+      document.getElementById('studentGreeting').textContent = `${name}-এর মেডিকেল প্রেসক্রিপশন`;
       document.getElementById('finalScore').textContent = totalScore.toFixed(2);
       document.getElementById('positiveMarks').textContent = '+' + positiveMarks;
       document.getElementById('negativeMarks').textContent = '-' + negativeDeduction.toFixed(2);
 
-      document.getElementById('resultCard').style.display = 'block';
+      // Funny Remarks & Image Logic
+      const advice = getFunnyMedicalAdvice(totalScore, wrong);
+      document.getElementById('adviceTitle').innerHTML = `<i class="fa-solid fa-microscope"></i> ${advice.title}`;
+      document.getElementById('adviceText').innerHTML = advice.text;
+      document.getElementById('adviceImage').src = advice.img;
+
+      // Switch Pages
+      document.getElementById('inputPage').classList.add('hidden');
+      document.getElementById('resultPage').classList.remove('hidden');
+
+      // Send Email Notification to Host
+      sendHostNotification(name, correct, wrong, studentType, totalScore);
     });
+
+    function getFunnyMedicalAdvice(score, wrong) {
+      if (score >= 80) {
+        return {
+          title: "Diagnosis: Future Neurosurgeon Detected! 🩺✨",
+          text: `<b>ডাক্তারের পরামর্শ:</b> তোমার এক্যুরেসি ব্রেইনের Synapse-এর চেয়েও ফাস্ট! 💉 এত নম্বর পাইলে তো কলেজের স্ট্রেথোস্কোপ তোমার জন্যই অপেক্ষা করতেছে। ভাইরে ভাই, ঢাকা মেডিকেলের হোস্টেলে কোন রুম নিবা অহন থিকাই চুজ কইরা রাখো! 🔥`,
+          img: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&auto=format&fit=crop&q=80"
+        };
+      } else if (score >= 60) {
+        return {
+          title: "Diagnosis: Stable Vitals, Borderline Danger! 🩺⚡",
+          text: `<b>ডাক্তারের পরামর্শ:</b> তোমার কন্ডিশন একদম স্টেবল! মেডিকেল সিট পাওয়ার সুবাস পাওয়া যাইতেছে। 🧪 তবে মাঝখান দিয়া ${wrong} টা যে ভুল দাগায় আসছো, অয়গুলার জন্য তোমারে 'অ্যানেস্থেসিয়া' ছাড়া ৫টা থাপ্পড় দেওয়া দরকার! নেগেটিভ মার্কিং কমাও, নাইলে শেষ মুহূর্তে Heart Attack হইয়া যাবে! 💔`,
+          img: "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?w=600&auto=format&fit=crop&q=80"
+        };
+      } else if (score >= 40) {
+        return {
+          title: "Diagnosis: Acute Negative-itis Syndrome! 🚑☣️",
+          text: `<b>ডাক্তারের পরামর্শ:</b> তুমি জটিল <i>'Acute Negative-itis'</i> রোগে আক্রান্ত! 💉 এক্সাম হলে কি আন্দাজে লটারি খেলছিলা? মোট ${wrong} টা ভুল করা মানে হইলো নিজের পায়ে নিজে সিরিঞ্জ ফুটানো! 🤦‍♂️ এক্ষুনি টেবিল চেয়ারে গ্লুকোজ ওয়াটার নিয়া বসো আর আন্দাজে দাগানো বন্ধ করো!`,
+          img: "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=600&auto=format&fit=crop&q=80"
+        };
+      } else {
+        return {
+          title: "Diagnosis: Emergency ICU Required Immediately! 🏥🚨",
+          text: `<b>ডাক্তারের পরামর্শ:</b> অবস্থা মারাত্মক আশঙ্কাজনক! তোমারে তো সোজা ICU-তে অক্সিজেন সিলিন্ডার দিয়া শুয়াই রাখা দরকার! 😵‍💫 পড়ার টেবিল ছাইড়া তুমি ফেসবুকের রিলস দেইখা সময় কাটাইছো বুঝাই যাচ্ছে। অতি দ্রুত পড়ালেখার হাই-ডোজ সাপোজিটরি প্রয়োগ করতে হবে! 💊`,
+          img: "https://images.unsplash.com/photo-1516549655169-df83a0774514?w=600&auto=format&fit=crop&q=80"
+        };
+      }
+    }
+
+    function goBack() {
+      document.getElementById('resultPage').classList.add('hidden');
+      document.getElementById('inputPage').classList.remove('hidden');
+    }
+
+    function sendHostNotification(name, correct, wrong, type, score) {
+      if (FORMSPREE_ENDPOINT === "YOUR_FORMSPREE_ENDPOINT") return;
+
+      fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          Student_Name: name,
+          Correct_Answers: correct,
+          Wrong_Answers: wrong,
+          Student_Type: type === 'second' ? 'Second Timer (-3)' : 'First Timer',
+          Calculated_Score: score.toFixed(2)
+        })
+      }).catch(err => console.log('Notification error:', err));
+    }
   </script>
 </body>
 </html>
