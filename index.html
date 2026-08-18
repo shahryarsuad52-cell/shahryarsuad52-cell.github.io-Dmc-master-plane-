@@ -1,3 +1,4 @@
+সমস্যাটি সমাধান করে পুরো কোডটি আবার একদম রেডি অবস্থায় নিচে দেওয়া হলো। এবার সরাসরি এই পুরো কোডটি কপি করে ব্যবহার করতে পারো:
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -17,7 +18,7 @@
       --primary-hover: #4f46e5;
       --accent: #ec4899;
       --text-main: #f8fafc;
-      --text-muted: #94a3b8;
+      --text-muted: #94a3b8;ll
       --success: #10b981;
       --danger: #ef4444;
     }
@@ -114,7 +115,6 @@
       box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
     }
 
-    /* Radio Custom Switch */
     .radio-group {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -177,7 +177,6 @@
       transform: translateY(0);
     }
 
-    /* Output Card */
     .result-card {
       display: none;
       margin-top: 28px;
@@ -249,7 +248,6 @@
     </div>
 
     <form id="calculatorForm">
-      <!-- Correct Answers Input -->
       <div class="form-group">
         <label for="correct"><i class="fa-solid fa-circle-check"></i> মোট সঠিক উত্তর (Correct Answers)</label>
         <div class="input-wrapper">
@@ -257,7 +255,6 @@
         </div>
       </div>
 
-      <!-- Wrong Answers Input -->
       <div class="form-group">
         <label for="wrong"><i class="fa-solid fa-circle-xmark"></i> মোট ভুল উত্তর (Wrong Answers)</label>
         <div class="input-wrapper">
@@ -265,7 +262,6 @@
         </div>
       </div>
 
-      <!-- Time Status (1st or 2nd Timer) -->
       <div class="form-group">
         <label><i class="fa-solid fa-user-graduate"></i> তুমি কি ফার্স্ট টাইমার নাকি সেকেন্ড টাইমার?</label>
         <div class="radio-group">
@@ -283,7 +279,6 @@
       <button type="submit" class="btn-submit">মার্কস গণনা করো <i class="fa-solid fa-arrow-right"></i></button>
     </form>
 
-    <!-- Result Display Section -->
     <div class="result-card" id="resultCard">
       <div class="score-display">
         <div class="score-title">অর্জিত সম্ভাব্য নম্বর (Predicted Score)</div>
@@ -311,14 +306,12 @@
     document.getElementById('calculatorForm').addEventListener('submit', function(e) {
       e.preventDefault();
 
-      // Get values
       const correct = parseFloat(document.getElementById('correct').value) || 0;
       const wrong = parseFloat(document.getElementById('wrong').value) || 0;
       const studentType = document.querySelector('input[name="studentType"]:checked').value;
 
-      // Logic calculations
-      const positiveMarks = correct * 1; // ধরে নেওয়া হয়েছে প্রতি প্রশ্নের মান ১
-      const negativeDeduction = wrong * 0.25; // প্রতি ভুল উত্তরের জন্য ০.২৫ কাটা
+      const positiveMarks = correct * 1;
+      const negativeDeduction = wrong * 0.25;
       let secondTimerDeduction = 0;
 
       if (studentType === 'second') {
@@ -328,17 +321,15 @@
         document.getElementById('secondTimerDeductionRow').style.display = 'none';
       }
 
-      // Calculate final score
-      const totalScore = positiveMarks - negativeDeduction - secondTimerDeductions;
+      const totalScore = positiveMarks - negativeDeduction - secondTimerDeduction;
 
-      // Format output
       document.getElementById('finalScore').textContent = totalScore.toFixed(2);
       document.getElementById('positiveMarks').textContent = '+' + positiveMarks;
       document.getElementById('negativeMarks').textContent = '-' + negativeDeduction.toFixed(2);
 
-      // Show result card
       document.getElementById('resultCard').style.display = 'block';
     });
   </script>
 </body>
 </html>
+
