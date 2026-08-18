@@ -1,141 +1,344 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✨ Pookie Crush Finder ✨</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --pookie-pink: #ffb7c5;
-            --soft-pink: #ffe4e9;
-            --barbie-dark: #ff69b4;
-            --white: #ffffff;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admission Marks Predictor</title>
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+      --card-bg: rgba(255, 255, 255, 0.07);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --accent: #ec4899;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --success: #10b981;
+      --danger: #ef4444;
+    }
 
-        body {
-            background: linear-gradient(135deg, #fce4ec, #f8bbd0);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            overflow: hidden;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Hind Siliguri', sans-serif;
+    }
 
-        .container {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px);
-            padding: 40px;
-            border-radius: 50px;
-            box-shadow: 0 10px 40px rgba(255, 105, 180, 0.2);
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            border: 5px solid var(--white);
-            position: relative;
-        }
+    body {
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: var(--text-main);
+    }
 
-        h1 {
-            font-family: 'Dancing Script', cursive;
-            color: var(--barbie-dark);
-            font-size: 35px;
-            margin-bottom: 20px;
-        }
+    .container {
+      width: 100%;
+      max-width: 520px;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 32px 28px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
 
-        input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid var(--pookie-pink);
-            border-radius: 25px;
-            background: white;
-            outline: none;
-            text-align: center;
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
+    .header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
 
-        button {
-            background: var(--barbie-dark);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
-        }
+    .header .icon {
+      font-size: 2.5rem;
+      background: linear-gradient(to right, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
 
-        button:hover {
-            transform: scale(1.05);
-            background: #ff1493;
-        }
+    .header h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
 
-        #result {
-            margin-top: 25px;
-            font-size: 20px;
-            font-weight: 600;
-            color: #d81b60;
-            display: none;
-        }
+    .header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-top: 4px;
+    }
 
-        /* Decorative sparkles */
-        .sparkle {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: #ffeb3b;
-            border-radius: 50%;
-            animation: twinkle 1.5s infinite;
-        }
+    .form-group {
+      margin-bottom: 20px;
+    }
 
-        @keyframes twinkle { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
-    </style>
+    label {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #e2e8f0;
+    }
+
+    label i {
+      margin-right: 6px;
+      color: var(--primary);
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    input[type="number"]:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+    }
+
+    /* Radio Custom Switch */
+    .radio-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .radio-card {
+      position: relative;
+    }
+
+    .radio-card input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .radio-card label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      margin-bottom: 0;
+    }
+
+    .radio-card input:checked + label {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(236, 72, 153, 0.3));
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      margin-top: 10px;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    /* Output Card */
+    .result-card {
+      display: none;
+      margin-top: 28px;
+      padding: 20px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      animation: fadeIn 0.4s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .score-display {
+      text-align: center;
+      padding: 16px 0;
+      border-bottom: 1px dashed var(--card-border);
+    }
+
+    .score-title {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .final-score {
+      font-size: 3rem;
+      font-weight: 700;
+      background: linear-gradient(to right, #4ade80, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 4px 0;
+    }
+
+    .breakdown {
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 0.9rem;
+    }
+
+    .breakdown-item {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-muted);
+    }
+
+    .breakdown-item span.value {
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .breakdown-item span.negative {
+      color: var(--danger);
+    }
+  </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>💖 Pookie Vibes 💖</h1>
-        <p>তোমার মনের মানুষটি কে?</p>
-        <input type="text" id="userName" placeholder="তোমার নাম লেখো... ✨">
-        <button onclick="findCrush()">Reveal Secret ✨</button>
-        <div id="result"></div>
+  <div class="container">
+    <div class="header">
+      <div class="icon"><i class="fa-solid fa-calculator"></i></div>
+      <h1>Score Predictor</h1>
+      <p>তোমার এডমিশন এক্সামের আনুমানিক মার্কস হিসাব করো</p>
     </div>
 
-    <script>
-        function findCrush() {
-            const name = document.getElementById('userName').value.trim();
-            const resultDiv = document.getElementById('result');
-            
-            if (!name) {
-                alert("আগে নিজের নাম তো লেখো, পুকি! 🎀");
-                return;
-            }
+    <form id="calculatorForm">
+      <!-- Correct Answers Input -->
+      <div class="form-group">
+        <label for="correct"><i class="fa-solid fa-circle-check"></i> মোট সঠিক উত্তর (Correct Answers)</label>
+        <div class="input-wrapper">
+          <input type="number" id="correct" min="0" placeholder="যেমন: ৭৫" required>
+        </div>
+      </div>
 
-            const boys = ["রাহাত", "আয়ান", "আরিয়ান", "ফাহিম", "সিয়াম", "সাদ"];
-            const girls = ["মাইশা", "ঐশী", "সারা", "দিয়া", "তানিশা", "মেহজাবিন"];
-            
-            let crushName = "";
-            const lowerName = name.toLowerCase();
+      <!-- Wrong Answers Input -->
+      <div class="form-group">
+        <label for="wrong"><i class="fa-solid fa-circle-xmark"></i> মোট ভুল উত্তর (Wrong Answers)</label>
+        <div class="input-wrapper">
+          <input type="number" id="wrong" min="0" placeholder="যেমন: ১২" required>
+        </div>
+      </div>
 
-            // Special logic for Maisha/Oishi
-            if (lowerName.includes("মাইশা") || lowerName.includes("ঐশী")) {
-                crushName = "রাহাত";
-            } else {
-                // Random logic
-                const isBoy = Math.random() > 0.5;
-                if (isBoy) {
-                    crushName = girls[Math.floor(Math.random() * girls.length)];
-                } else {
-                    crushName = boys[Math.floor(Math.random() * boys.length)];
-                }
-            }
+      <!-- Time Status (1st or 2nd Timer) -->
+      <div class="form-group">
+        <label><i class="fa-solid fa-user-graduate"></i> তুমি কি ফার্স্ট টাইমার নাকি সেকেন্ড টাইমার?</label>
+        <div class="radio-group">
+          <div class="radio-card">
+            <input type="radio" id="firstTimer" name="studentType" value="first" checked>
+            <label for="firstTimer"><i class="fa-solid fa-1"></i> ফার্স্ট টাইমার</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="secondTimer" name="studentType" value="second">
+            <label for="secondTimer"><i class="fa-solid fa-2"></i> সেকেন্ড টাইমার (-৩)</label>
+          </div>
+        </div>
+      </div>
 
-            resultDiv.style.display = "block";
-            resultDiv.innerHTML = `✨ ${name}, তোমার ক্রাশ হলো <span style="font-size: 28px;">${crushName}</span>! 🎀`;
-        }
-    </script>
+      <button type="submit" class="btn-submit">মার্কস গণনা করো <i class="fa-solid fa-arrow-right"></i></button>
+    </form>
+
+    <!-- Result Display Section -->
+    <div class="result-card" id="resultCard">
+      <div class="score-display">
+        <div class="score-title">অর্জিত সম্ভাব্য নম্বর (Predicted Score)</div>
+        <div class="final-score" id="finalScore">00.00</div>
+      </div>
+      
+      <div class="breakdown">
+        <div class="breakdown-item">
+          <span>সঠিক উত্তরের জন্য মার্কস:</span>
+          <span class="value" id="positiveMarks">+0</span>
+        </div>
+        <div class="breakdown-item">
+          <span>ভুল উত্তরের জন্য কাটা মার্কস (0.25 × ভুল):</span>
+          <span class="value negative" id="negativeMarks">-0.00</span>
+        </div>
+        <div class="breakdown-item" id="secondTimerDeductionRow" style="display: none;">
+          <span>সেকেন্ড টাইমার ডিডাকশন:</span>
+          <span class="value negative">-3.00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('calculatorForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Get values
+      const correct = parseFloat(document.getElementById('correct').value) || 0;
+      const wrong = parseFloat(document.getElementById('wrong').value) || 0;
+      const studentType = document.querySelector('input[name="studentType"]:checked').value;
+
+      // Logic calculations
+      const positiveMarks = correct * 1; // ধরে নেওয়া হয়েছে প্রতি প্রশ্নের মান ১
+      const negativeDeduction = wrong * 0.25; // প্রতি ভুল উত্তরের জন্য ০.২৫ কাটা
+      let secondTimerDeduction = 0;
+
+      if (studentType === 'second') {
+        secondTimerDeduction = 3.0;
+        document.getElementById('secondTimerDeductionRow').style.display = 'flex';
+      } else {
+        document.getElementById('secondTimerDeductionRow').style.display = 'none';
+      }
+
+      // Calculate final score
+      const totalScore = positiveMarks - negativeDeduction - secondTimerDeductions;
+
+      // Format output
+      document.getElementById('finalScore').textContent = totalScore.toFixed(2);
+      document.getElementById('positiveMarks').textContent = '+' + positiveMarks;
+      document.getElementById('negativeMarks').textContent = '-' + negativeDeduction.toFixed(2);
+
+      // Show result card
+      document.getElementById('resultCard').style.display = 'block';
+    });
+  </script>
 </body>
 </html>
