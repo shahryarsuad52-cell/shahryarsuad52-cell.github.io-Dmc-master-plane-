@@ -19,7 +19,6 @@
       --text-muted: #94a3b8;
       --danger: #f43f5e;
       --success: #10b981;
-      --warning: #f59e0b;
     }
 
     * {
@@ -54,9 +53,28 @@
       z-index: 2;
     }
 
+    /* Top Branding Badge */
+    .top-author-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: linear-gradient(90deg, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2));
+      border: 1px solid rgba(236, 72, 153, 0.4);
+      border-radius: 50px;
+      padding: 8px 18px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #f472b6;
+      letter-spacing: 0.5px;
+      margin: 0 auto 20px auto;
+      width: fit-content;
+      box-shadow: 0 4px 15px rgba(236, 72, 153, 0.15);
+    }
+
     .page {
       display: block;
-      animation: slideUp 0.5s ease forwards;
+      animation: slideUp 0.4s ease forwards;
     }
 
     .page.hidden {
@@ -64,7 +82,7 @@
     }
 
     @keyframes slideUp {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(15px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -197,7 +215,6 @@
       box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
     }
 
-    /* Score Display Styling */
     .score-display-large {
       text-align: center;
       padding: 20px;
@@ -216,7 +233,6 @@
       margin: 4px 0;
     }
 
-    /* Meme Box */
     .medical-advice-card {
       background: rgba(15, 23, 42, 0.7);
       border: 1px solid var(--card-border);
@@ -226,9 +242,9 @@
       text-align: center;
     }
 
-    .gif-image {
+    .static-image {
       width: 100%;
-      max-height: 220px;
+      height: 200px;
       object-fit: cover;
       border-radius: 14px;
       margin-bottom: 14px;
@@ -253,7 +269,6 @@
       text-align: left;
     }
 
-    /* Educational Box */
     .edu-card {
       background: rgba(139, 92, 246, 0.1);
       border: 1px dashed rgba(139, 92, 246, 0.4);
@@ -302,25 +317,17 @@
     .breakdown-item span.negative {
       color: var(--danger);
     }
-
-    .signature {
-      margin-top: 28px;
-      padding-top: 18px;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      text-align: center;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #fff;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      opacity: 0.9;
-    }
   </style>
 </head>
 <body>
 
   <div class="container">
     
+    <!-- TOP AUTHOR BRANDING -->
+    <div class="top-author-badge">
+      <i class="fa-solid fa-crown"></i> CREATED BY RAUHA SHAHRYAR SUAD
+    </div>
+
     <!-- PAGE 1: Input Form -->
     <div id="inputPage" class="page">
       <div class="header">
@@ -361,10 +368,6 @@
 
         <button type="submit" class="btn-submit">ডায়াগনোসিস রিপোর্ট জেনারেট করো <i class="fa-solid fa-arrow-right-long"></i></button>
       </form>
-      
-      <div class="signature">
-        Made by: RAUHA SHAHRYAR SUAD
-      </div>
     </div>
 
     <!-- PAGE 2: Result & Medical Prescription -->
@@ -376,15 +379,15 @@
       </div>
 
       <div class="score-display-large">
-        <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">অর্জিত সম্ভাব্য নম্বর (Predicted Score)</div>
+        <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">অর্জিত সম্ভাব্য নম্বর (PREDICTED SCORE)</div>
         <div class="final-score-huge" id="finalScore">00.00</div>
       </div>
 
       <!-- Funny Medical Advice Box -->
       <div class="medical-advice-card">
-        <img id="adviceImage" class="gif-image" src="" alt="Funny Reaction GIF">
+        <img id="adviceImage" class="static-image" src="" alt="Diagnosis Image">
         <div class="advice-title" id="adviceTitle">
-          <i class="fa-solid fa-stethoscope"></i> Diagnosis
+          <i class="fa-solid fa-stethoscope"></i> Medical Diagnosis
         </div>
         <div class="advice-text" id="adviceText">
           লোড হচ্ছে...
@@ -417,10 +420,6 @@
       </div>
 
       <button class="btn-back" onclick="goBack()"><i class="fa-solid fa-rotate-left"></i> পুনরায় ক্যালকুলেট করো</button>
-
-      <div class="signature">
-        Made by: RAUHA SHAHRYAR SUAD
-      </div>
     </div>
 
   </div>
@@ -428,126 +427,126 @@
   <script>
     const FORMSPREE_ENDPOINT = "YOUR_FORMSPREE_ENDPOINT";
 
-    // 18+ Extremely Funny & Range Specific Remarks with Meme GIFs
+    // 18+ Extremely Funny Medical-style Remarks (5 gap range) with Reliable High-Quality Images
     const remarkDatabase = [
       {
         min: 96, max: 100,
-        title: "God Level Brain Cell Active! 🧠🛸",
-        text: "তুমি কি মানুষ নাকি এলিয়েন? তোমার মাথার নিউরন স্পিড আলোর চেয়েও বেশি! ঢাকা মেডিকেলের প্রিন্সিপাল অলরেডি তোমারে লাল গালিচা রিসেপশন দিতে প্রস্তুত!",
-        img: "https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif"
+        title: "রোগ: Hyper-Brain Genius Syndrome 🛸🏆",
+        text: "<b>প্রেসক্রিপশন:</b> ভাইরে ভাই! তোমার মাথার নিউরন স্পিড আলোর চেয়েও বেশি। ঢাকা মেডিকেলের প্রিন্সিপাল অলরেডি লাল গালিচা রেডি রাখছে। তুমি জাস্ট গিয়ে চেয়ারে বইসা বড় ডাক্তার সাহেবের ভাব লওয়া শুরু করো!",
+        img: "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=600&auto=format&fit=crop"
       },
       {
         min: 91, max: 95,
-        title: "DMC First Ten Position Warning! 🚨💎",
-        text: "বাপরে বাপ! ৯০+ স্কোর মানে তো ঢাকা মেডিকেলের মেরিট লিস্টের ফার্স্ট পেজে তোমার নাম ছাপা হয়ে গেছে! এবার মিষ্টি কেনার বাজেট রেডি করো।",
-        img: "https://media.giphy.com/media/3o72FcJty898WLdGGA/giphy.gif"
+        title: "রোগ: DMC Rank 1 Fever 🩺🔥",
+        text: "<b>প্রেসক্রিপশন:</b> অবস্থা খুবই মারাত্মক! ঢাকা মেডিকেলের প্রথম সারির মেধা তালিকায় তোমার নাম ছাপা নিশ্চিত। মিষ্টি কেনার বাজেট বাড়াও আর সবাইকে সালাম দেওয়া শুরু করো।",
+        img: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&auto=format&fit=crop"
       },
       {
         min: 86, max: 90,
-        title: "Surgical Precision Ultra Max! 🩺🔥",
-        text: "এক্যুরেসি লেভেল পুরা ৯৯.৯%! তোমার অ্যানাটমির জ্ঞান দেইখা স্বয়ং অ্যাটলাস বইও তোমার পা ধরে সালাম করবে। সিট একপ্রকার পকেটে ঢুকে গেছে!",
-        img: "https://media.giphy.com/media/l41lI4bYmcsPJX9Go/giphy.gif"
+        title: "রোগ: Surgical Precision Max 🎯✨",
+        text: "<b>প্রেসক্রিপশন:</b> ৯৯% এক্যুরেসি! অ্যানাটমির অ্যাটলাস বইও তোমার পা ছুঁয়ে সালাম করবে। এখন খালি স্টেথোস্কোপ গলায় ঝুলাইয়া কেমন স্টাইল মারবা আয়নায় প্র্যাকটিস শুরু করো!",
+        img: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600&auto=format&fit=crop"
       },
       {
         min: 81, max: 85,
-        title: "Top Tier Medical Rank Guaranteed! ✨🎯",
-        text: "দারুণ ব্রিলিয়ান্ট! টপ র্যাংকিং মেডিকেল কলেজে তোমারে ঠেকায় কে? খালি মাথায় বেশি ওভারকনফিডেন্স নিয়ো না, আসল এক্সামে ঠাণ্ডা মাথায় কেল্লাফাতে করো!",
-        img: "https://media.giphy.com/media/d31w24psGYeekCXY/giphy.gif"
+        title: "রোগ: Top Medical College Addiction 🏥💪",
+        text: "<b>প্রেসক্রিপশন:</b> টপ ফাইভ মেডিকেলে চান্স প্রায় কনফার্ম! তবে বেশি ওভারকনফিডেন্সে আবার বই পড়া বন্ধ কইরো না, পরীক্ষার দিন শান্ত মাথায় কেল্লাফাতে করো।",
+        img: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=600&auto=format&fit=crop"
       },
       {
         min: 76, max: 80,
-        title: "Solid Selection Zone! 🏥🎉",
-        text: "সেই হইছে! মেডিকেল কলেজে চান্স একপ্রকার কনফার্মড। এখন খালি স্টেথোস্কোপ গলায় ঝুলাইয়া কেমন স্টাইল মারবা আয়নায় প্র্যাকটিস করা শুরু করো।",
-        img: "https://media.giphy.com/media/13hxeOYjo5DHue/giphy.gif"
+        title: "রোগ: Safe Selection Syndrome 👍💉",
+        text: "<b>প্রেসক্রিপশন:</b> রক্তচাপ একদম নরমাল! সরকারী মেডিকেলে সিট নিশ্চিত বলা যায়। এখন খালি বন্ধুদের থেকে ট্রিট খাওয়ার বন্দোবস্ত করো।",
+        img: "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?w=600&auto=format&fit=crop"
       },
       {
         min: 71, max: 75,
-        title: "Stable Vitals & Safe Score! 🩺👍",
-        text: "অবস্থা একদম রিলেক্সড! চান্স পাওয়ার ট্র্যাকে আছো। তবে ভুল দাগানোর ট্রেন্ডটা আরেকটু কমাইলে টপ মেডিকেলে ট্রান্সফার নেওয়া একদম ইজি হইবে!",
-        img: "https://media.giphy.com/media/xT5LMHxhOfscxPfIfm/giphy.gif"
+        title: "রোগ: Mild Over-Dagdangitis 😬💊",
+        text: "<b>প্রেসক্রিপশন:</b> চান্স পাওয়ার ট্র্যাকে আছো! তবে আন্দাজে দাগানোর কুঅভ্যাসটা আরেকটু কমাইলে পছন্দসই ভালো মেডিকেলে সিট পাকা হয়ে যাবে।",
+        img: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=600&auto=format&fit=crop"
       },
       {
         min: 66, max: 70,
-        title: "Borderline High Pressure Zone! ⏱️💊",
-        text: "তুমি কিন্তু বর্ডার লাইনের ঠিক সেফ সাইডে আছো। ১-২ মার্কসের জন্য কলেজ চেঞ্জ হয়ে যেতে পারে! সো নেগেটিভ মার্কিং কমানোর দিকে কড়া নজর দাও।",
-        img: "https://media.giphy.com/media/3o6Mb698P0pA22Fz0d/giphy.gif"
+        title: "রোগ: Borderline High Tension ⏱️⚠️",
+        text: "<b>প্রেসক্রিপশন:</b> তুমি একদম বর্ডার লাইনে আছো! ১-২ মার্কসের জন্য কিন্তু চান্স আর ওয়েটিংয়ের মধ্যে পার্থক্য হয়ে যাবে। ভুল দাগানো একদম বন্ধ করো!",
+        img: "https://images.unsplash.com/photo-1516549655169-df83a0774514?w=600&auto=format&fit=crop"
       },
       {
         min: 61, max: 65,
-        title: "Mild Tension Syndrome! 😬🧬",
-        text: "চান্স হওয়ার সম্ভাবনা বেশ ভালো, কিন্তু ধাক্কা খাইতে পারো ভুল দাগানোর চক্করে। রিভিশন বাড়াও আর এক্সাম হলে আন্দাজে ঢিল মারা বন্ধ করো!",
-        img: "https://media.giphy.com/media/l2Jebisgod8mBSji8/giphy.gif"
+        title: "রোগ: Negative Marking Toxicity ☣️💉",
+        text: "<b>প্রেসক্রিপশন:</b> সঠিকভাবে দাগাইছো ভালোই, কিন্তু অতিরিক্ত বুন্ধি খাটায়া ভুল দাগাতে গিয়া মার্কস পানিতে ভাসাইছো! থাপ্পড় থেরাপি দরকার!",
+        img: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600&auto=format&fit=crop"
       },
       {
         min: 56, max: 60,
-        title: "Edge of the Cliff - Hold On! 🧗‍♂️🩺",
-        text: "তুমি ঠিক বর্ডারে ঝুলে আছো! একটু এদিক ওদিক হইলেই মেডিকেল হোস্টেলের স্বপ্ন ভেস্তে যাবে। নেগেটিভ খাইয়া নিজের পায়ে নিজে কুড়াল মাইরো না!",
-        img: "https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif"
+        title: "রোগ: Edge of Medical Cliff 🧗‍♂️🩹",
+        text: "<b>প্রেসক্রিপশন:</b> ঝুলে আছো পাহাড়ে! একটু অসাবধান হলেই সোজা প্রাইভেট মেডিকেল বা অন্য সাবজেক্ট। আজ রাত থেকেই ফোন অফ করে পড়ার ডোজ বাড়াও!",
+        img: "https://images.unsplash.com/photo-1530497610245-94d3c16cda28?w=600&auto=format&fit=crop"
       },
       {
         min: 51, max: 55,
-        title: "Acute Negative-itis Patient! ☣️💉",
-        text: "তুমিও পাইলা 'একিউট নেগেটিভ-াইটিস' রোগ! আন্দাজে উত্তর দাগাইতে গিয়া কত গুলা মার্ক পানিতে ভাসাইলা? এখন কড়া প্যারাসিটামল খেয়ে পড়তে বসো!",
-        img: "https://media.giphy.com/media/l378giAZvhPDVXg0U/giphy.gif"
+        title: "রোগ: Acute Over-Confidence-itis 🤦‍♂️💊",
+        text: "<b>প্রেসক্রিপশন:</b> ভাবছিলা অনেক পাইবা, কিন্তু নেগেটিভ মার্কিং এসে গাল লাল করে থাপ্পড় দিয়া গেছে! দিনে ৩ বার কড়া প্যারাসিটামল আর ১০ ঘণ্টা রিভিশন শুরু করো।",
+        img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&auto=format&fit=crop"
       },
       {
         min: 46, max: 50,
-        title: "Under Observation In High Risk Ward! 🚑🔴",
-        text: "অবস্থা বেশ রিস্কি! ব্লাড প্রেসার লো করার দরকার নাই, বই নিয়ে পড়ার টেবিলে হাই-ভোল্টেজ প্র্যাকটিস সেশন শুরু করো। নাইলে বিপদ সামনে!",
-        img: "https://media.giphy.com/media/131tYQapOkiSmY/giphy.gif"
+        title: "রোগ: High Risk Ward Admission 🚑🔴",
+        text: "<b>প্রেসক্রিপশন:</b> অবস্থা সংকটাপন্ন! রিলস দেখা বন্ধ কইরা সোজা পড়ালেখার টেবিলে ডাইভ দাও। নাইলে এডমিশন টেস্টের দিন কাঁদতেও পারবা না!",
+        img: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600&auto=format&fit=crop"
       },
       {
         min: 41, max: 45,
-        title: "Oxygen Cylinder Needed Immediately! 😮‍💨🧯",
-        text: "অক্সিজেন লেভেল কমে আসছে! মেডিকেল চান্সের স্বপ্ন রক্ষা করতে হইলে একদম না ঘুমাইয়া পড়ালেখার ডোজ ১০ গুণ বাড়াইতে হইবে ভাই!",
-        img: "https://media.giphy.com/media/2oUfvvUgQHnLsQWFMW/giphy.gif"
+        title: "রোগ: Oxygen Deficiency Attack 😮‍💨🧯",
+        text: "<b>প্রেসক্রিপশন:</b> মেডিকেল স্বপ্নের অক্সিজেন লেভেল কমে আসছে! প্রতিদিন ১০০টা কইরা MCQ প্র্যাকটিস করো, নাইলে বাঁচানো সম্ভব না!",
+        img: "https://images.unsplash.com/photo-1512678080530-7760d81faba6?w=600&auto=format&fit=crop"
       },
       {
         min: 36, max: 40,
-        title: "Emergency ICU Referral! 🏥🚨",
-        text: "অবস্থা সঙ্কটজনক! তোমারে সোজা ICU-তে নিয়া সাপোজিটরি থেরাপি দেওয়া উচিত। পড়ার টেবিল ছাইড়া রিলস দেখে টাইম নষ্ট বন্ধ করো অতি দ্রুত!",
-        img: "https://media.giphy.com/media/xU1spR7s1lM40/giphy.gif"
+        title: "রোগ: Severe ICU Referral 🏥🚨",
+        text: "<b>প্রেসক্রিপশন:</b> তোমারে সোজা ICU-তে পাঠাইয়া কড়া থাপ্পড় থেরাপি দেওয়া উচিত! পড়ার টেবিলে না বইসা ঘুরে বেড়াইলে এমনই হবে!",
+        img: "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=600&auto=format&fit=crop"
       },
       {
         min: 31, max: 35,
-        title: "Brain Cell System Crash! 💻💥",
-        text: "সিস্টেম পুরা হ্যাং খাইছে! পড়ালেখা কি আদৌ শুরু করেছিলা নাকি পরীক্ষার দিন সকালে প্রথম বই খুলছো? এখনি রিভিশন প্ল্যান রি-স্টার্ট করো!",
-        img: "https://media.giphy.com/media/h36vh423PiV9K/giphy.gif"
+        title: "রোগ: Brain Fog & Memory Wipe 🤯💤",
+        text: "<b>প্রেসক্রিপশন:</b> পরীক্ষা হলে কি ঘুমাইতে গেছিলা? পড়ালেখা কি পরীক্ষার আগের দিন শুরু করছো? এখনই ঘুম থেকে জাইগা পড়ার রুটিন বদলাও!",
+        img: "https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&auto=format&fit=crop"
       },
       {
         min: 26, max: 30,
-        title: "Coma Stage Performance! 🛌💤",
-        text: "তুমিও নিশ্চিত পরীক্ষা হলে কোমা স্টেজে ছিলা! আন্দাজে গোল্লা ভরাট না কইরা যদি একটু মনোযোগ দিতা, তাইলেও এই ট্র্যাজেডি হইত না!",
-        img: "https://media.giphy.com/media/3oEjI8Kq5HhZLCvg6A/giphy.gif"
+        title: "রোগ: Coma Stage Performance 😴🪦",
+        text: "<b>প্রেসক্রিপশন:</b> তুমিও নিশ্চিত পরীক্ষা হলে কোমা স্টেজে ছিলা! আন্দাজে গোল্লা ভরাট না কইরা যদি একটু মনোযোগ দিতা, তাইলেও এই ট্র্যাজেডি হইত না!",
+        img: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?w=600&auto=format&fit=crop"
       },
       {
         min: 21, max: 25,
-        title: "Catastrophic Disaster Zone! 🌪️🩸",
-        text: "পড়াশোনার মহাপ্রলয় ঘটে গেছে! তুমি কি প্রশ্নের উত্তর দাগাইছো নাকি লটারি গেম খেলছো? এখন একমাত্র মিরাকেলই পারবো উদ্ধার করতে!",
-        img: "https://media.giphy.com/media/N23ygE3YNGSdp0Uf43/giphy.gif"
+        title: "রোগ: Catastrophic Exam Disaster 🌪️💥",
+        text: "<b>প্রেসক্রিপশন:</b> মহাপ্রলয় ঘটে গেছে! তুমি কি উত্তর দাগাইছো নাকি লটারি খেলছো? অবিলম্বে সব সোশ্যাল মিডিয়া আনইনস্টল মেরিয়া পড়তে বসো!",
+        img: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&auto=format&fit=crop"
       },
       {
         min: 11, max: 20,
-        title: "Miracle Needed From Universe! 🌌🪐",
-        text: "ভাইরে ভাই! এত কম মার্কস পাওয়ার জন্য তো অলিম্পিকে স্পেশাল মেডেল দেওয়া দরকার! অবিলম্বে সব সোশ্যাল মিডিয়া আইডি ডিলিট মেরে পড়তে বসো!",
-        img: "https://media.giphy.com/media/3o7TKr3NZbh5y06I2Q/giphy.gif"
+        title: "রোগ: Extreme Negative Phobia 😱💉",
+        text: "<b>প্রেসক্রিপশন:</b> এত কম মার্কস পাওয়ার জন্য তো গিনেস বুকে নাম ওঠা উচিত! কান ধরে ১০০ বার উঠবস করো আর নতুন করে প্রিপারেশন শুরু করো।",
+        img: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&auto=format&fit=crop"
       },
       {
         min: 0, max: 10,
-        title: "Flatline - No Brain Activity! 💀🪦",
-        text: "ইসিজি রিপোর্ট ফ্ল্যাটলাইন! এক্সাম সেন্টারে কি ঘুমাইতে গেছিলা? এখন কান ধরে ১০০ বার উঠবস করো আর আজকেই নতুন করে জিরো থেকে প্রিপারেশন শুরু করো!",
-        img: "https://media.giphy.com/media/l2JHVUriDGEtMGbks/giphy.gif"
+        title: "রোগ: Flatline Brain Activity 💀🖤",
+        text: "<b>প্রেসক্রিপশন:</b> ইসিজি রিপোর্ট ফ্ল্যাটলাইন! পরীক্ষার হলে শুধু নাম লিখে চলে আসছো নাকি? আজ থেকেই জিরো থেকে পড়ার মিশন চালু করো!",
+        img: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&auto=format&fit=crop"
       }
     ];
 
     // Educational Biological High-Yield Pearls
     const educationalPearls = [
-      "📌 <b>High-Yield Info:</b> মানবদেহের সবচেয়ে বড় গ্রন্থি (Gland) হলো যকৃৎ (Liver), কিন্তু সবচেয়ে বড় অঙ্গ (Organ) হলো ত্বক (Skin)!",
-      "📌 <b>High-Yield Info:</b> পেসমেকার মানবহৃদপিণ্ডের 'Sinoatrial Node (SA Node)' কে বলা হয়, যা ডান অ্যাট্রিয়ামে অবস্থিত।",
-      "📌 <b>High-Yield Info:</b> রক্তে লোহিত রক্তকণিকার (RBC) গড় আয়ু ১২০ দিন, কিন্তু অনুচক্রিকার (Platelet) গড় আয়ু মাত্র ৫-৯ দিন!",
-      "📌 <b>High-Yield Info:</b> ডিএনএ (DNA)-এর প্যাঁচানো ডাবল হেলিক্স মডেল আবিষ্কার করেন ওয়াটসন ও ক্রিক (১৯৫৩ সালে)।",
-      "📌 <b>High-Yield Info:</b> কোষের শক্তিঘর বা Powerhouse বলা হয় মাইটোকন্ড্রিয়াকে (Mitochondria), কারণ এখানে ATP তৈরি হয়।",
-      "📌 <b>High-Yield Info:</b> উদ্ভিদের ফ্লোয়েম টিস্যু প্রস্তুতকৃত খাদ্য পরিবহনে সাহায্য করে, আর জাইলেম টিস্যু পানি ও খনিজ লবণ পরিবহন করে।"
+      "📌 <b>High-Yield Pearl:</b> মানবদেহের সবচেয়ে বড় গ্রন্থি (Gland) হলো যকৃৎ (Liver), কিন্তু সবচেয়ে বড় অঙ্গ (Organ) হলো ত্বক (Skin)!",
+      "📌 <b>High-Yield Pearl:</b> পেসমেকার মানবহৃদপিণ্ডের 'Sinoatrial Node (SA Node)' কে বলা হয়, যা ডান অ্যাট্রিয়ামে অবস্থিত।",
+      "📌 <b>High-Yield Pearl:</b> রক্তে লোহিত রক্তকণিকার (RBC) গড় আয়ু ১২০ দিন, কিন্তু অনুচক্রিকার (Platelet) গড় আয়ু মাত্র ৫-৯ দিন!",
+      "📌 <b>High-Yield Pearl:</b> ডিএনএ (DNA)-এর প্যাঁচানো ডাবল হেলিক্স মডেল আবিষ্কার করেন ওয়াটসন ও ক্রিক (১৯৫৩ সালে)।",
+      "📌 <b>High-Yield Pearl:</b> কোষের শক্তিঘর বা Powerhouse বলা হয় মাইটোকন্ড্রিয়াকে (Mitochondria), কারণ এখানে ATP তৈরি হয়।",
+      "📌 <b>High-Yield Pearl:</b> উদ্ভিদের ফ্লোয়েম টিস্যু প্রস্তুতকৃত খাদ্য পরিবহনে সাহায্য করে, আর জাইলেম টিস্যু পানি ও খনিজ লবণ পরিবহন করে।"
     ];
 
     document.getElementById('calculatorForm').addEventListener('submit', function(e) {
@@ -578,7 +577,7 @@
 
       // Match Remark by Score Range
       const advice = getExactRemark(totalScore);
-      document.getElementById('adviceTitle').innerHTML = `<i class="fa-solid fa-microscope"></i> ${advice.title}`;
+      document.getElementById('adviceTitle').innerHTML = `<i class="fa-solid fa-stethoscope"></i> ${advice.title}`;
       document.getElementById('adviceText').innerHTML = advice.text;
       document.getElementById('adviceImage').src = advice.img;
 
